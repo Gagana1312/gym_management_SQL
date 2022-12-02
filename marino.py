@@ -11,7 +11,7 @@ def admin_session():
         print("1. Register new staff")
         print("2. Register new user")
         print("3. Delete existing staff")
-        print("4. Register existing user")
+        print("4. Delete existing user")
         print("5. Logout")
 
         user_option = input(str("Option : "))
@@ -43,6 +43,36 @@ def admin_session():
             command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
             db.commit()
             print(first_name + " has been registered as a User")
+        
+        elif user_option == "3":
+            print("")
+            print("Delete Existing Staff Account")
+            emailid = input(str("Email ID: "))
+            password = input(str("Password: "))
+            query_vals = (emailid,password)
+            command_handler.execute("DELETE FROM staff WHERE emailid = %s AND password = %s",query_vals)
+            db.commit()
+            if command_handler.rowcount < 1: 
+                print("Staff not found")
+            else:
+                print(emailid + " has been deleted!")
+        
+        elif user_option == "4":
+            print("")
+            print("Delete Existing User Account")
+            emailid = input(str("Email ID: "))
+            password = input(str("Password: "))
+            query_vals = (emailid,password)
+            command_handler.execute("DELETE FROM user WHERE emailid = %s AND password = %s",query_vals)
+            db.commit()
+            if command_handler.rowcount < 1: 
+                print("User not found")
+            else:
+                print(emailid + " has been deleted!")
+        elif user_option == "5":
+            break
+        else:
+            print("Invalid option Selected!")
     
 
 
