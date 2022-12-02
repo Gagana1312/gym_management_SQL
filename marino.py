@@ -12,7 +12,11 @@ def admin_session():
         print("2. Register new user")
         print("3. Delete existing staff")
         print("4. Delete existing user")
-        print("5. Logout")
+        print("5. Read existing staff")
+        print("6. Read existing user")
+        print("7. Update existing staff")
+        print("8. Update existing user")
+        print("9. Logout")
 
         user_option = input(str("Option : "))
         if user_option == "1":
@@ -69,7 +73,59 @@ def admin_session():
                 print("User not found")
             else:
                 print(emailid + " has been deleted!")
+
         elif user_option == "5":
+            print("")
+            print("All Existing Staff Details")
+            # emailid = input(str("Email ID: "))
+            # query_vals = (emailid)
+            command_handler.execute("Select * from staff")
+            # fetch all the matching rows 
+            result = command_handler.fetchall()
+  
+            # loop through the rows
+            for row in result:
+                print(row)
+                print("\n")
+            db.commit()
+            if command_handler.rowcount < 1: 
+                print("No Staff found")
+
+        elif user_option == "6":
+            print("")
+            print("All Existing User Details")
+            # emailid = input(str("Email ID: "))
+            # query_vals = (emailid)
+            command_handler.execute("Select * from user")
+            # fetch all the matching rows 
+            result = command_handler.fetchall()
+  
+            # loop through the rows
+            for row in result:
+                print(row)
+                print("\n")
+            db.commit()
+            if command_handler.rowcount < 1: 
+                print("No User found")
+
+        elif user_option == "6":
+            print("")
+            print("All Existing User Details")
+            # emailid = input(str("Email ID: "))
+            # query_vals = (emailid)
+            command_handler.execute("Select * from user")
+            # fetch all the matching rows 
+            result = command_handler.fetchall()
+  
+            # loop through the rows
+            for row in result:
+                print(row)
+                print("\n")
+            db.commit()
+            if command_handler.rowcount < 1: 
+                print("No User found")
+        
+        elif user_option == "9":
             break
         else:
             print("Invalid option Selected!")
@@ -107,7 +163,8 @@ def main():
         elif user_option == "2":
             print("User Login")
         elif user_option == "3":
-            print("Staff Login")
+            # print("Staff Login")
+            auth_staff()
         # elif user_option == "4":
         #     print("Trainer Login")
         elif user_option == "4":
