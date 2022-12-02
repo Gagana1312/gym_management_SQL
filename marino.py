@@ -97,6 +97,7 @@ def main():
         print("1. Login as admin")
         print("2. Login as user")
         print("3. Login as staff")
+        print("4. Quit")
         # print("2. Login as user")
 
         user_option = input(str("Option : "))
@@ -109,6 +110,8 @@ def main():
             print("Staff Login")
         # elif user_option == "4":
         #     print("Trainer Login")
+        elif user_option == "4":
+            break
         else:
             print("No valid options")
 
