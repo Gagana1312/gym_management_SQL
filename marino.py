@@ -136,6 +136,10 @@ def staff_session():
         print("2. Delete existing user")
         print("3. Read existing user")
         print("4. Update existing user")
+        print("5. Create new locker")
+        print("6. Delete locker")
+        print("7. Assign a locker")
+        print("8. View a locker")
         print("9. Logout")
 
         user_option = input(str("Option : "))
@@ -173,9 +177,9 @@ def staff_session():
         elif user_option == "3":
             print("")
             print("All Existing User Details")
-            # emailid = input(str("Email ID: "))
-            # query_vals = (emailid)
+
             command_handler.execute("Select * from user")
+
             # fetch all the matching rows 
             result = command_handler.fetchall()
   
@@ -186,7 +190,22 @@ def staff_session():
             db.commit()
             if command_handler.rowcount < 1: 
                 print("No User found")
-                
+        
+        elif user_option == "5":
+            print("")
+            print("Create a new locker")
+
+            type_of_locker = input(str("Enter the type of Locker (Personal/Standard): "))
+            idstaff = input(str("Enter the staff ID : "))
+            userid = input(str("Enter the user ID : "))
+            query_vals = (type_of_locker,idstaff,userid)
+            command_handler.execute("Insert into marino.locker(type_of_locker,idstaff,userid) values(%s,%s,%s)",query_vals)
+            db.commit()
+            print("New locker has been created!")
+        # elif user_option == "6":
+        # elif user_option == "7":
+        # elif user_option == "8":
+
         elif user_option == "9":
             break
         else:
