@@ -193,6 +193,78 @@ def staff_session():
             print("Invaliid Selection!")
 
 
+   
+def user_session():
+    while 1:
+        print(" ")
+        print("Welcome to User Panel")
+        print(" ")
+        print("1. Register new Activity")     
+        print("2. Delete existing activity")
+        print("3. View your locker")
+        print("4. View Bill")
+        print("5. Update User details")
+        print("9. Logout")
+
+        user_option = input(str("Option : "))
+       
+        if user_option == "1":
+            print("")
+            print("Register New Activity")
+            # idstaff = input(str("ID: "))
+            emailid = input(str("user emailid: "))
+            password = input(str("user password: "))
+            first_name = input(str("First Name: "))
+            last_name = input(str("Last Name: "))
+            age = input(str("user Age: "))
+            phone_number = input(str("user Phone Number: "))
+            query_vals = (first_name,last_name,age,phone_number,emailid,password)
+            command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
+            db.commit()
+            print(first_name + " has been registered as a User")
+        
+       
+        
+        elif user_option == "2":
+            print("")
+            print("Delete existing activity")
+            emailid = input(str("Email ID: "))
+            password = input(str("Password: "))
+            query_vals = (emailid,password)
+            command_handler.execute("DELETE FROM user WHERE emailid = %s AND password = %s",query_vals)
+            db.commit()
+            if command_handler.rowcount < 1: 
+                print("User not found")
+            else:
+                print(emailid + " has been deleted!")
+
+        elif user_option == "3":
+            print("")
+            print("View your locker")
+            # emailid = input(str("Email ID: "))
+            # query_vals = (emailid)
+            command_handler.execute("Select * from user")
+            # fetch all the matching rows 
+            result = command_handler.fetchall()
+  
+            # loop through the rows
+            for row in result:
+                print(row)
+                print("\n")
+            db.commit()
+            if command_handler.rowcount < 1: 
+                print("No User found")
+        elif user_option == "4":
+            print("")
+            print("Viewing Bill")
+                
+        elif user_option == "9":
+            break
+        else:
+            print("Invaliid Selection!")
+
+
+
 #Admin Authorization
 def auth_admin():
     print("")
@@ -224,14 +296,42 @@ def auth_staff():
     else:
         print("Welcome " + emailid)
         staff_session()
+
+#User Authorization
+def auth_user():
+    print("")
+    print("User Login")
+    print("")
+    emailid = input(str("Email ID: "))
+    password = input(str("Password: "))
+    query_vals = (emailid,password)
+    command_handler.execute("Select * from marino.user where emailid = %s AND password = %s",query_vals)
+
+    if command_handler.rowcount<=0:
+        print ("Login not recognized")
+    else:
+        print("Welcome " + emailid)
+        user_session()
+#New User Authorization
+def auth_new_user():
+    print("")
+    print("New User Registration")
+    print("")
+    emailid = input(str("user emailid: "))
+    password = input(str("user password: "))
+    first_name = input(str("First Name: "))
+    last_name = input(str("Last Name: "))
+    age = input(str("user Age: "))
+    phone_number = input(str("user Phone Number: "))
+    query_vals = (first_name,last_name,age,phone_number,emailid,password)
+    command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
+    db.commit()
+    print(first_name + " has been registered as a User")
     
-    # if emailid == "arpa@gmail.com":
-    #     if password == "arpa":
-    #         staff_session()
-    #     else:
-    #         print("Incorrect Password!")
-    # else:
-    #     print("Login Details not recognized!")
+    print("")
+    
+   
+
 
 
 def main():
@@ -241,7 +341,8 @@ def main():
         print("1. Login as admin")
         print("2. Login as user")
         print("3. Login as staff")
-        print("4. Quit")
+        print("4. Register as user")
+        print("5. Quit")
         # print("2. Login as user")
 
         user_option = input(str("Option : "))
@@ -249,13 +350,16 @@ def main():
             # print("Admin Login")
             auth_admin()
         elif user_option == "2":
-            print("User Login")
+            # print("User Login")
+            auth_user()
         elif user_option == "3":
             # print("Staff Login")
             auth_staff()
         # elif user_option == "4":
         #     print("Trainer Login")
         elif user_option == "4":
+            auth_new_user()
+        elif user_option == "5":
             break
         else:
             print("No valid options")
