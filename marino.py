@@ -129,6 +129,7 @@ def admin_session():
     
 def staff_session():
     while 1:
+        print(" ")
         print("Welcome to Staff Panel")
         print(" ")
         print("1. Register new user")     
@@ -199,13 +200,14 @@ def auth_admin():
     print("")
     emailid = input(str("Email ID: "))
     password = input(str("Password: "))
-    if emailid == "arpan@gmail.com":
-        if password == "arpan":
-            admin_session()
-        else:
-            print("Incorrect Password!")
+    query_vals = (emailid,password)
+    command_handler.execute("Select * from marino.admin where emailid = %s AND password = %s",query_vals)
+
+    if command_handler.rowcount<=0:
+        print ("Login not recognized")
     else:
-        print("Login Details not recognized!")
+        print("Welcome " + emailid)
+        admin_session()
 
 #Staff Authorization
 def auth_staff():
@@ -214,13 +216,22 @@ def auth_staff():
     print("")
     emailid = input(str("Email ID: "))
     password = input(str("Password: "))
-    if emailid == "arpa@gmail.com":
-        if password == "arpa":
-            staff_session()
-        else:
-            print("Incorrect Password!")
+    query_vals = (emailid,password)
+    command_handler.execute("Select * from marino.staff where emailid = %s AND password = %s",query_vals)
+
+    if command_handler.rowcount<=0:
+        print ("Login not recognized")
     else:
-        print("Login Details not recognized!")
+        print("Welcome " + emailid)
+        staff_session()
+    
+    # if emailid == "arpa@gmail.com":
+    #     if password == "arpa":
+    #         staff_session()
+    #     else:
+    #         print("Incorrect Password!")
+    # else:
+    #     print("Login Details not recognized!")
 
 
 def main():
