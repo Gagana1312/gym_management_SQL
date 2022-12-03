@@ -308,6 +308,19 @@ def staff_session():
             else:
                 print("Activity has been deleted successfully!")
 
+        elif user_option == "15":
+            print("")
+            print("View all activity")
+
+            command_handler.execute("SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;")
+            result = command_handler.fetchall()
+
+            for row in result:
+                print (row)
+            db.commit()
+
+            if command_handler.rowcount <1:
+                print("No details found")
 
 
         elif user_option == "17":
