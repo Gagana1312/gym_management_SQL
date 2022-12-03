@@ -264,9 +264,9 @@ def staff_session():
         # elif user_option == "11":
         elif user_option == "12":
             print("")
-            print("Viewing a Locker")
+            print("Viewing all Equipments")
                 
-            command_handler.execute ("Select * from locker")
+            command_handler.execute ("Select * from equipment")
             result = command_handler.fetchall()
 
             for row in result: 
@@ -275,7 +275,7 @@ def staff_session():
             db.commit()
 
             if command_handler.rowcount < 1:
-                print("Lockers not found!")
+                print("Equipments not found!")
 
         elif user_option == "13":
             break
