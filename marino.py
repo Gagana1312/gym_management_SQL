@@ -1,4 +1,5 @@
 import mysql.connector as mysql 
+from colored import fg, bg, attr
 
 db = mysql.connect(host ="localhost",user = "root", password="arps@1899",database="marino")
 command_handler = db.cursor(buffered=True)
@@ -476,16 +477,16 @@ def auth_new_user():
 
 def main():
     while 1:
-        print("Welcome to Marino Center Database Sytsem")
+        print(f"{fg(73)}Welcome to Marino Center Database Sytsem")
         print(" ")
-        print("1. Login as admin")
-        print("2. Login as user")
-        print("3. Login as staff")
-        print("4. Register as user")
-        print("5. Quit")
+        print(f"{fg(148)}1. Login as admin")
+        print(f"{fg(148)}2. Login as user")
+        print(f"{fg(148)}3. Login as staff")
+        print(f"{fg(148)}4. Register as user")
+        print(f"{fg(148)}5. Quit")
         # print("2. Login as user")
 
-        user_option = input(str("Option : "))
+        user_option = input(str(f"{fg(99)}Option : "))
         if user_option == "1":
             # print("Admin Login")
             auth_admin()

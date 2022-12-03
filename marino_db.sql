@@ -17,17 +17,16 @@ CREATE TABLE user (
 );
 
 
-
--- DROP TABLE IF EXISTS trainer;
--- CREATE TABLE trainer (
---   idtrainer int NOT NULL auto_increment,
---   Name varchar(45) NOT NULL,
---   age int NOT NULL,
---   phone_number int NOT NULL,
---   emailid varchar(45) NOT NULL,
---   password varchar(45) NOT NULL,
---   PRIMARY KEY (idtrainer)
--- );
+DROP TABLE IF EXISTS trainer;
+CREATE TABLE trainer (
+  idtrainer int NOT NULL auto_increment,
+  Name varchar(45) NOT NULL,
+  age int NOT NULL,
+  phone_number int NOT NULL,
+  emailid varchar(45) NOT NULL,
+  password varchar(45) NOT NULL,
+  PRIMARY KEY (idtrainer)
+);
 
 
 
@@ -178,3 +177,14 @@ INSERT INTO marino.activity VALUES ('17001', 'Soccer', '41'),
   SET FOREIGN_KEY_CHECKS=0;
   SELECT @@GLOBAL.foreign_key_checks, @@SESSION.foreign_key_checks;
   -- SET VARIABLES LIKE 'FOREIGN_KEY_CHECKS';
+  
+  SELECT * FROM activity;
+  SELECT * from equipment;
+  
+  SELECT * from activity as a , equipment as e where a.idactivity=e.idactivity;
+  
+  SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;
+
+INSERT INTO marino.trainer VALUES ('301', 'Chris', '25', '784637380', 'chris@gmail.com', 'chris'),
+('302', 'Felix', '24', '23432546', 'felix@gmail.com', 'felix'),
+('303', 'Alex', '25', '33452878', 'alex@gmail.com', 'alex');
