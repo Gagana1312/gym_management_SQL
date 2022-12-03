@@ -250,16 +250,16 @@ def staff_session():
 
         elif user_option == "10":
             print("")
-            print("Delete a new locker")
+            print("Remove an equipment")
 
-            idlocker = input(str("Enter the locker ID : "))
-            query_vals = (idlocker,)
-            command_handler.execute("Delete from locker where idlocker = %s",query_vals)
+            idequipment = input(str("Enter the Equipment ID : "))
+            query_vals = (idequipment,)
+            command_handler.execute("Delete from equipment where idequipment = %s",query_vals)
             db.commit()
             if command_handler.rowcount < 1:
-                print("Locker Not found")
+                print("Equipment Not found")
             else:
-                print(idlocker + " locker has been deleted successfully")
+                print(idequipment + " equipment has been deleted successfully")
 
         # elif user_option == "11":
         elif user_option == "12":
