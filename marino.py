@@ -202,7 +202,20 @@ def staff_session():
             command_handler.execute("Insert into marino.locker(type_of_locker,idstaff,userid) values(%s,%s,%s)",query_vals)
             db.commit()
             print("New locker has been created!")
-        # elif user_option == "6":
+
+        elif user_option == "6":
+            print("")
+            print("Delete a new locker")
+
+            idlocker = input(str("Enter the locker ID : "))
+            query_vals = (idlocker,)
+            command_handler.execute("Delete from locker where idlocker = %s",query_vals)
+            db.commit()
+            if command_handler.rowcount < 1:
+                print("Locker Not found")
+            else:
+                print(idlocker + " locker has been deleted successfully")
+
         # elif user_option == "7":
         # elif user_option == "8":
 
