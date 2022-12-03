@@ -217,7 +217,20 @@ def staff_session():
                 print(idlocker + " locker has been deleted successfully")
 
         # elif user_option == "7":
-        # elif user_option == "8":
+        elif user_option == "8":
+            print("")
+            print("Viewing a Locker")
+                
+            command_handler.execute ("Select * from locker")
+            result = command_handler.fetchall()
+
+            for row in result: 
+                print(row)
+                print("\n")
+            db.commit()
+
+            if command_handler.rowcount < 1:
+                print("Lockers not found!")
 
         elif user_option == "9":
             break
