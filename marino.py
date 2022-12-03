@@ -139,8 +139,12 @@ def staff_session():
         print("5. Create new locker")
         print("6. Delete locker")
         print("7. Assign a locker")
-        print("8. View a locker")
-        print("9. Logout")
+        print("8. View all lockers")
+        print("9. Add an equipment")
+        print("10. Delete an equipment")
+        print("11. View all equipments")
+        print("12. Assign an equipment")
+        print("13. Logout")
 
         user_option = input(str("Option : "))
        
@@ -233,6 +237,47 @@ def staff_session():
                 print("Lockers not found!")
 
         elif user_option == "9":
+            print("")
+            print("Add a new Equipment")
+
+            name = input(str("Name of the equipment: "))
+            idstaff = input(str("Enter the staff ID : "))
+            idactivity = input(str("Enter the activity ID : "))
+            query_vals = (name,idstaff,idactivity)
+            command_handler.execute("Insert into marino.equipment(name,idstaff,idactivity) values(%s,%s,%s)",query_vals)
+            db.commit()
+            print("New equipment has been added!")
+
+        elif user_option == "10":
+            print("")
+            print("Delete a new locker")
+
+            idlocker = input(str("Enter the locker ID : "))
+            query_vals = (idlocker,)
+            command_handler.execute("Delete from locker where idlocker = %s",query_vals)
+            db.commit()
+            if command_handler.rowcount < 1:
+                print("Locker Not found")
+            else:
+                print(idlocker + " locker has been deleted successfully")
+
+        # elif user_option == "11":
+        elif user_option == "12":
+            print("")
+            print("Viewing a Locker")
+                
+            command_handler.execute ("Select * from locker")
+            result = command_handler.fetchall()
+
+            for row in result: 
+                print(row)
+                print("\n")
+            db.commit()
+
+            if command_handler.rowcount < 1:
+                print("Lockers not found!")
+
+        elif user_option == "13":
             break
         else:
             print("Invaliid Selection!")
