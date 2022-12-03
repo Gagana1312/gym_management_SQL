@@ -7,22 +7,22 @@ command_handler = db.cursor(buffered=True)
 def admin_session():
     # print("Login successfully, Welcome Admin!")
  while 1:
-        print("Welcome to Admin Panel")
+        print(f"{fg(148)}Welcome to Admin Panel")
         print(" ")
-        print("1. Register new staff")
-        print("2. Register new user")
-        print("3. Delete existing staff")
-        print("4. Delete existing user")
-        print("5. Read existing staff")
-        print("6. Read existing user")
-        print("7. Update existing staff")
-        print("8. Update existing user")
-        print("9. Logout")
+        print(f"{fg(148)}1. Register new staff")
+        print(f"{fg(148)}2. Register new user")
+        print(f"{fg(148)}3. Delete existing staff")
+        print(f"{fg(148)}4. Delete existing user")
+        print(f"{fg(148)}5. Read existing staff")
+        print(f"{fg(148)}6. Read existing user")
+        print(f"{fg(148)}7. Update existing staff")
+        print(f"{fg(148)}8. Update existing user")
+        print(f"{fg(148)}9. Logout")
 
         user_option = input(str("Option : "))
         if user_option == "1":
             print("")
-            print("Register New Staff")
+            print(f"{fg(148)}Register New Staff")
             # idstaff = input(str("ID: "))
             emailid = input(str("Staff emailid: "))
             password = input(str("Staff password: "))
@@ -36,7 +36,7 @@ def admin_session():
 
         elif user_option == "2":
             print("")
-            print("Register New User")
+            print(f"{fg(148)}Register New User")
             # idstaff = input(str("ID: "))
             emailid = input(str("user emailid: "))
             password = input(str("user password: "))
@@ -51,7 +51,7 @@ def admin_session():
         
         elif user_option == "3":
             print("")
-            print("Delete Existing Staff Account")
+            print(f"{fg(148)}Delete Existing Staff Account")
             emailid = input(str("Email ID: "))
             password = input(str("Password: "))
             query_vals = (emailid,password)
@@ -64,7 +64,7 @@ def admin_session():
         
         elif user_option == "4":
             print("")
-            print("Delete Existing User Account")
+            print(f"{fg(148)}Delete Existing User Account")
             emailid = input(str("Email ID: "))
             password = input(str("Password: "))
             query_vals = (emailid,password)
@@ -77,7 +77,7 @@ def admin_session():
 
         elif user_option == "5":
             print("")
-            print("All Existing Staff Details")
+            print(f"{fg(148)}All Existing Staff Details")
             # emailid = input(str("Email ID: "))
             # query_vals = (emailid)
             command_handler.execute("Select * from staff")
@@ -94,7 +94,7 @@ def admin_session():
 
         elif user_option == "6":
             print("")
-            print("All Existing User Details")
+            print(f"{fg(148)}All Existing User Details")
             # emailid = input(str("Email ID: "))
             # query_vals = (emailid)
             command_handler.execute("Select * from user")
@@ -334,20 +334,20 @@ def staff_session():
 def user_session():
     while 1:
         print(" ")
-        print("Welcome to User Panel")
+        print(f"{fg(148)}Welcome to User Panel")
         print(" ")
-        print("1. Register new Activity")     
-        print("2. Delete existing activity")
-        print("3. View your locker")
-        print("4. View Bill")
-        print("5. Update User details")
-        print("9. Logout")
+        print(f"{fg(148)}1. Register new Activity")     
+        print(f"{fg(148)}2. Delete existing activity")
+        print(f"{fg(148)}3. View your locker")
+        print(f"{fg(148)}4. View Bill")
+        print(f"{fg(148)}5. Update User details")
+        print(f"{fg(148)}9. Logout")
 
         user_option = input(str("Option : "))
        
         if user_option == "1":
             print("")
-            print("Register New Activity")
+            print(f"{fg(148)}Register New Activity")
             # idstaff = input(str("ID: "))
             emailid = input(str("user emailid: "))
             password = input(str("user password: "))
@@ -364,7 +364,7 @@ def user_session():
         
         elif user_option == "2":
             print("")
-            print("Delete existing activity")
+            print(f"{fg(148)}Delete existing activity")
             emailid = input(str("Email ID: "))
             password = input(str("Password: "))
             query_vals = (emailid,password)
@@ -377,7 +377,7 @@ def user_session():
 
         elif user_option == "3":
             print("")
-            print("View your locker")
+            print(f"{fg(148)}View your locker")
             # emailid = input(str("Email ID: "))
             # query_vals = (emailid)
             userid = input(str("Enter user ID: "))
@@ -397,7 +397,7 @@ def user_session():
                 
         elif user_option == "4":
             print("")
-            print("Viewing Bill")
+            print(f"{fg(148)}Viewing Bill")
                 
         elif user_option == "9":
             break
@@ -409,7 +409,7 @@ def user_session():
 #Admin Authorization
 def auth_admin():
     print("")
-    print("Admin Login")
+    print(f"{fg(148)}Admin Login")
     print("")
     emailid = input(str("Email ID: "))
     password = input(str("Password: "))
@@ -417,7 +417,7 @@ def auth_admin():
     command_handler.execute("Select * from marino.admin where emailid = %s AND password = %s",query_vals)
 
     if command_handler.rowcount<=0:
-        print ("Login not recognized")
+        print (f"{fg(1)}Login not recognized")
     else:
         print("Welcome " + emailid)
         admin_session()
@@ -425,7 +425,7 @@ def auth_admin():
 #Staff Authorization
 def auth_staff():
     print("")
-    print("Staff Login")
+    print(f"{fg(148)}Staff Login")
     print("")
     emailid = input(str("Email ID: "))
     password = input(str("Password: "))
@@ -433,7 +433,7 @@ def auth_staff():
     command_handler.execute("Select * from marino.staff where emailid = %s AND password = %s",query_vals)
 
     if command_handler.rowcount<=0:
-        print ("Login not recognized")
+        print (f"{fg(1)}Login not recognized")
     else:
         print("Welcome " + emailid)
         staff_session()
@@ -441,7 +441,7 @@ def auth_staff():
 #User Authorization
 def auth_user():
     print("")
-    print("User Login")
+    print(f"{fg(148)}User Login")
     print("")
     emailid = input(str("Email ID: "))
     password = input(str("Password: "))
@@ -449,14 +449,14 @@ def auth_user():
     command_handler.execute("Select * from marino.user where emailid = %s AND password = %s",query_vals)
 
     if command_handler.rowcount<=0:
-        print ("Login not recognized")
+        print (f"{fg(1)}Login not recognized")
     else:
         print("Welcome " + emailid)
         user_session()
 #New User Authorization
 def auth_new_user():
     print("")
-    print("New User Registration")
+    print(f"{fg(148)}New User Registration")
     print("")
     emailid = input(str("user emailid: "))
     password = input(str("user password: "))
