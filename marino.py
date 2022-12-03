@@ -131,7 +131,7 @@ def admin_session():
 def staff_session():
     while 1:
         print(" ")
-        print("Welcome to Staff Panel")
+        print(f"{fg(73)}Welcome to Staff Panel")
         print(" ")
         print("1. Register new user")     
         print("2. Delete existing user")
@@ -155,7 +155,7 @@ def staff_session():
        
         if user_option == "1":
             print("")
-            print("Register New User")
+            print(f"{fg(73)}Register New User")
             # idstaff = input(str("ID: "))
             emailid = input(str("user emailid: "))
             password = input(str("user password: "))
@@ -172,7 +172,7 @@ def staff_session():
         
         elif user_option == "2":
             print("")
-            print("Delete Existing User Account")
+            print(f"{fg(73)}Delete Existing User Account")
             emailid = input(str("Email ID: "))
             password = input(str("Password: "))
             query_vals = (emailid,password)
@@ -185,7 +185,7 @@ def staff_session():
 
         elif user_option == "3":
             print("")
-            print("All Existing User Details")
+            print(f"{fg(73)}All Existing User Details")
 
             command_handler.execute("Select * from user")
 
@@ -202,7 +202,7 @@ def staff_session():
         
         elif user_option == "5":
             print("")
-            print("Create a new locker")
+            print(f"{fg(73)}Create a new locker")
 
             type_of_locker = input(str("Enter the type of Locker (Personal/Standard): "))
             idstaff = input(str("Enter the staff ID : "))
@@ -214,7 +214,7 @@ def staff_session():
 
         elif user_option == "6":
             print("")
-            print("Delete a new locker")
+            print(f"{fg(73)}Delete a new locker")
 
             idlocker = input(str("Enter the locker ID : "))
             query_vals = (idlocker,)
@@ -228,7 +228,7 @@ def staff_session():
         # elif user_option == "7":
         elif user_option == "8":
             print("")
-            print("Viewing a Locker")
+            print(f"{fg(73)}Viewing a Locker")
                 
             command_handler.execute ("Select * from locker")
             result = command_handler.fetchall()
@@ -243,7 +243,7 @@ def staff_session():
 
         elif user_option == "9":
             print("")
-            print("Add a new Equipment")
+            print(f"{fg(73)}Add a new Equipment")
 
             name = input(str("Name of the equipment: "))
             idstaff = input(str("Enter the staff ID : "))
@@ -255,7 +255,7 @@ def staff_session():
 
         elif user_option == "10":
             print("")
-            print("Remove an equipment")
+            print(f"{fg(73)}Remove an equipment")
 
             idequipment = input(str("Enter the Equipment ID : "))
             query_vals = (idequipment,)
@@ -269,7 +269,7 @@ def staff_session():
         # elif user_option == "11":
         elif user_option == "12":
             print("")
-            print("Viewing all Equipments")
+            print(f"{fg(73)}Viewing all Equipments")
                 
             command_handler.execute ("Select * from equipment")
             result = command_handler.fetchall()
@@ -284,7 +284,7 @@ def staff_session():
         
         elif user_option == "13":
             print("")
-            print("Create an activity")
+            print(f"{fg(73)}Create an activity")
 
             name = input(str("Enter the name of the activity: "))
             room_no = input(str("Enter the room number for the activity: "))
@@ -297,7 +297,7 @@ def staff_session():
 
         elif user_option == "14":
             print("")
-            print("Delete an activity")
+            print(f"{fg(73)}Delete an activity")
 
             idactivity = input(str("Enter the acitvity ID: "))
             query_vals = (idactivity,)
@@ -311,7 +311,7 @@ def staff_session():
 
         elif user_option == "15":
             print("")
-            print("View all activity")
+            print(f"{fg(73)}View all activity")
 
             command_handler.execute("SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;")
             result = command_handler.fetchall()
@@ -327,7 +327,7 @@ def staff_session():
         elif user_option == "17":
             break
         else:
-            print("Invaliid Selection!")
+            print(f"{fg(1)}Invaliid Selection!")
 
 
    
@@ -477,7 +477,8 @@ def auth_new_user():
 
 def main():
     while 1:
-        print(f"{fg(73)}Welcome to Marino Center Database Sytsem")
+        print("")
+        print(f"{fg(73)}Welcome to Marino Center Database System! ")
         print(" ")
         print(f"{fg(148)}1. Login as admin")
         print(f"{fg(148)}2. Login as user")
@@ -503,6 +504,7 @@ def main():
         elif user_option == "5":
             break
         else:
-            print("No valid options")
+            print(f"{fg(1)}Not a valid option!")
+            
 
 main()
