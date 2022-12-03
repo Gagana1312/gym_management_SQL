@@ -333,17 +333,21 @@ def user_session():
             print("View your locker")
             # emailid = input(str("Email ID: "))
             # query_vals = (emailid)
-            command_handler.execute("Select * from user")
+            userid = input(str("Enter user ID: "))
+            query_vals = (userid,)
+            command_handler.execute("Select * from locker where userid = %s",query_vals)
             # fetch all the matching rows 
             result = command_handler.fetchall()
   
             # loop through the rows
             for row in result:
                 print(row)
-                print("\n")
+                # print("\n")
             db.commit()
             if command_handler.rowcount < 1: 
-                print("No User found")
+                print("No Locker found")
+
+                
         elif user_option == "4":
             print("")
             print("Viewing Bill")
