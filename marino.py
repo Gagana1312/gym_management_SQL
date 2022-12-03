@@ -16,10 +16,7 @@ def admin_session():
         print("6. Read existing user")
         print("7. Update existing staff")
         print("8. Update existing user")
-        print("9. Create an activity")
-        print("10. Delete an activity")
-        print("11. View all activities")
-        print("12. Logout")
+        print("9. Logout")
 
         user_option = input(str("Option : "))
         if user_option == "1":
@@ -124,20 +121,8 @@ def admin_session():
         #     command_handler.execute("Update INTO marino.staff (staff_name,staff_age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s)",query_vals)
         #     db.commit()
         #     print(emailid + " has been updated in staff")
-
+        
         elif user_option == "9":
-            print("")
-            print("Create a new Activity")
-
-            name = input(str("Name of the activity: "))
-            room_no = input(str("Enter Room Number: "))
-            query_vals = (name,room_no)
-            command_handler.execute("Insert into marino.activity(name,room_no) values(%s,%s)",query_vals)
-            db.commit()
-            print("New activity has been added!")
-
-
-        elif user_option == "12":
             break
         else:
             print("Invalid option Selected!")
@@ -159,7 +144,11 @@ def staff_session():
         print("10. Delete an equipment")
         print("11. View all equipments")
         print("12. Assign an equipment")
-        print("13. Logout")
+        print("13. Create an activity")
+        print("14. Delete an activity")
+        print("15. View all activity")
+        print("16. Update an activity")
+        print("17. Logout")
 
         user_option = input(str("Option : "))
        
@@ -291,8 +280,37 @@ def staff_session():
 
             if command_handler.rowcount < 1:
                 print("Equipments not found!")
-
+        
         elif user_option == "13":
+            print("")
+            print("Create an activity")
+
+            name = input(str("Enter the name of the activity: "))
+            room_no = input(str("Enter the room number for the activity: "))
+            
+            query_vals = (name,room_no)
+            command_handler.execute("Insert into marino.activity (name,room_no) values (%s,%s)",query_vals)
+            db.commit()
+
+            print("New Activity has been created!")
+
+        elif user_option == "14":
+            print("")
+            print("Delete an activity")
+
+            idactivity = input(str("Enter the acitvity ID: "))
+            query_vals = (idactivity,)
+            command_handler.execute("Delete from activity where idactivity = %s", query_vals)
+            db.commit()
+
+            if command_handler.rowcount < 1:
+                print("Activity doesn't exist")
+            else:
+                print("Activity has been deleted successfully!")
+
+
+
+        elif user_option == "17":
             break
         else:
             print("Invaliid Selection!")
