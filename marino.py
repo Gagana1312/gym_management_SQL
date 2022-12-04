@@ -209,26 +209,6 @@ def admin_session():
         #     print("Invalid option Selected!")
         # print(f"{fg(148)}9. Logout")
 
-        
-        
-
-       
-        # if user_option == "7":
-        #     print("")
-        #     print("Update exisitng Staff")
-        #     # idstaff = input(str("ID: "))
-        #     emailid = input(str("Staff emailid: "))
-        #     password = input(str("Staff password: "))
-        #     staff_name = input(str("Staff Name: "))
-        #     staff_age = input(str("Staff Age: "))
-        #     phone_number = input(str("Staff Phone Number: "))
-        #     query_vals = (staff_name,staff_age,phone_number,emailid,password)
-        #     command_handler.execute("Update INTO marino.staff (staff_name,staff_age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s)",query_vals)
-        #     db.commit()
-        #     print(emailid + " has been updated in staff")
-        
-     
-    
 def staff_session():
     while 1:
         print(" ")
@@ -518,8 +498,7 @@ def staff_session():
         else:
             print(f"{fg(1)}Invaliid Selection!")
 
-
-   
+  
 def user_session():
     while 1:
         print(" ")
@@ -587,6 +566,31 @@ def user_session():
         elif user_option == "4":
             print("")
             print(f"{fg(148)}Viewing Bill")
+
+        elif user_option == "5":
+                    print("")
+                    print(f"{fg(148)}Update Existing User Details")
+                    print("")
+                    # emailid = input(str("Email ID: "))
+                    # query_vals = (emailid)
+                    update_iduser = input(str("User ID to be updated: "))
+                    first_name = input(str("User First Name: "))
+                    last_name = input(str("User Last Name: "))
+                    user_age = input(str("User Age: "))
+                    phone_number = input(str("Staff Phone Number: "))
+                    emailid = input(str("Email ID: "))
+                    password = input(str("Password: "))
+                    query_vals = (first_name,last_name,user_age,phone_number,emailid,password,update_iduser)
+                    command_handler.execute("Update user SET first_name = %s,last_name=%s,age=%s,phone_number=%s,emailid=%s,password=%s where userid=%s",query_vals)
+            
+                    db.commit()
+                
+                    if command_handler.rowcount < 1: 
+                        print("")
+                        print("No User found")
+                    else:
+                          print(f"{fg(2)}")
+                          print(first_name + " Updated Successfully!")
                 
         elif user_option == "9":
             break
