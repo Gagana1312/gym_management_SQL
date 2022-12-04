@@ -449,7 +449,8 @@ def staff_session():
             room_no = input(str("Enter the room number for the activity: "))
             
             query_vals = (name,room_no)
-            command_handler.execute("Insert into marino.activity (name,room_no) values (%s,%s)",query_vals)
+            # command_handler.execute("Insert into marino.activity (name,room_no) values (%s,%s)",query_vals)
+            command_handler.execute("call activity_reg(%s,%s)",query_vals)
             db.commit()
 
             print("New Activity has been created!")
@@ -460,7 +461,8 @@ def staff_session():
 
             idactivity = input(str("Enter the acitvity ID: "))
             query_vals = (idactivity,)
-            command_handler.execute("Delete from activity where idactivity = %s", query_vals)
+            # command_handler.execute("Delete from activity where idactivity = %s", query_vals)
+            command_handler.execute("call activity_del(%s)",query_vals)
             db.commit()
 
             if command_handler.rowcount < 1:
