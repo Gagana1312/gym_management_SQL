@@ -4,6 +4,8 @@ from colored import fg, bg, attr
 db = mysql.connect(host ="localhost",user = "root", password="arps@1899",database="marino")
 command_handler = db.cursor(buffered=True)
 
+
+#Admin Session 
 def admin_session():
     # print("Login successfully, Welcome Admin!")
  while 1:
@@ -38,7 +40,8 @@ def admin_session():
                     staff_age = input(str("Staff Age: "))
                     phone_number = input(str("Staff Phone Number: "))
                     query_vals = (staff_name,staff_age,phone_number,emailid,password)
-                    command_handler.execute("INSERT INTO marino.staff (staff_name,staff_age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s)",query_vals)
+                    # command_handler.execute("INSERT INTO marino.staff (staff_name,staff_age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s)",query_vals)
+                    command_handler.execute("call staff_reg(%s,%s,%s,%s,%s)",query_vals)
                     db.commit()
                     print(emailid + f"{fg(2)} has been registered as a staff")
 
@@ -209,6 +212,7 @@ def admin_session():
         #     print("Invalid option Selected!")
         # print(f"{fg(148)}9. Logout")
 
+#Staff Session
 def staff_session():
     while 1:
         print(" ")
@@ -498,7 +502,7 @@ def staff_session():
         else:
             print(f"{fg(1)}Invaliid Selection!")
 
-  
+#User session
 def user_session():
     while 1:
         print(" ")
