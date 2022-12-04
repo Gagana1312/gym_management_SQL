@@ -334,14 +334,14 @@ def staff_session():
 def user_session():
     while 1:
         print(" ")
-        print(f"{fg(148)}Welcome to User Panel")
+        print(f"{fg(73)}Welcome to User Panel")
         print(" ")
-        print(f"{fg(148)}1. Register new Activity")     
-        print(f"{fg(148)}2. Delete existing activity")
-        print(f"{fg(148)}3. View your locker")
-        print(f"{fg(148)}4. View Bill")
-        print(f"{fg(148)}5. Update User details")
-        print(f"{fg(148)}9. Logout")
+        print(f"{fg(208)}1. Register new Activity")     
+        print(f"{fg(208)}2. Delete existing activity")
+        print(f"{fg(208)}3. View your locker")
+        print(f"{fg(208)}4. View Bill")
+        print(f"{fg(208)}5. Update User details")
+        print(f"{fg(208)}9. Logout")
 
         user_option = input(str("Option : "))
        
@@ -472,7 +472,6 @@ def auth_new_user():
     print("")
     
    
-
 
 
 def main():
