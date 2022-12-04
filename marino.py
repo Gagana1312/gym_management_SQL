@@ -77,6 +77,26 @@ def admin_session():
                         print("")
                         print("No Staff found")
 
+                elif admin_user_option == "4":
+                    print("")
+                    print(f"{fg(148)}Update Existing Staff Details")
+                    print("")
+                    # emailid = input(str("Email ID: "))
+                    # query_vals = (emailid)
+                    update_idstaff = input(str("Staff ID to be updated: "))
+                    staff_name = input(str("Staff Name: "))
+                    staff_age = input(str("Staff Age: "))
+                    phone_number = input(str("Staff Phone Number: "))
+                    query_vals = (staff_name,staff_age,phone_number,update_idstaff)
+                    command_handler.execute("Update staff SET staff_name = %s,staff_age=%s,phone_number=%s where idstaff=%s",query_vals)
+            
+                    db.commit()
+                    print("Updated Successfully!")
+                    if command_handler.rowcount < 1: 
+                        print("")
+                        print("No Staff found")
+                
+
                 elif admin_user_option == "5":
                  break
                 else:
