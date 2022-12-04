@@ -95,6 +95,7 @@ def admin_session():
                     if command_handler.rowcount < 1: 
                         print("")
                         print("No Staff found")
+             
                 
 
                 elif admin_user_option == "5":
@@ -176,6 +177,27 @@ def admin_session():
                         print("No User found")
 
                 elif client_user_option == "4":
+                    print("")
+                    print(f"{fg(148)}Update Existing User Details")
+                    print("")
+                    # emailid = input(str("Email ID: "))
+                    # query_vals = (emailid)
+                    update_iduser = input(str("User ID to be updated: "))
+                    first_name = input(str("User First Name: "))
+                    last_name = input(str("User Last Name: "))
+                    user_age = input(str("User Age: "))
+                    phone_number = input(str("Staff Phone Number: "))
+                    query_vals = (first_name,last_name,user_age,phone_number,update_iduser)
+                    command_handler.execute("Update user SET first_name = %s,last_name=%s,age=%s,phone_number=%s where userid=%s",query_vals)
+            
+                    db.commit()
+                    print(f"{fg(2)}")
+                    print(first_name + " Updated Successfully!")
+                    if command_handler.rowcount < 1: 
+                        print("")
+                        print("No User found")
+
+                elif client_user_option == "5":
                     break
                 else:
                     print("")
