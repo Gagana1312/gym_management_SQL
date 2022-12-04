@@ -52,7 +52,8 @@ def admin_session():
                     emailid = input(str("Email ID: "))
                     password = input(str("Password: "))
                     query_vals = (emailid,password)
-                    command_handler.execute("DELETE FROM staff WHERE emailid = %s AND password = %s",query_vals)
+                    # command_handler.execute("DELETE FROM staff WHERE emailid = %s AND password = %s",query_vals)
+                    command_handler.execute("call staff_del(%s,%s)",query_vals)
                     db.commit()
                     if command_handler.rowcount < 1: 
                         print("Staff not found")
@@ -136,9 +137,10 @@ def admin_session():
                     age = input(str("user Age: "))
                     phone_number = input(str("user Phone Number: "))
                     query_vals = (first_name,last_name,age,phone_number,emailid,password)
-                    command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
+                    # command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
+                    command_handler.execute("call user_reg(%s,%s,%s,%s,%s,%s)",query_vals)
                     db.commit()
-                    print(first_name + f"fg{{2}} has been registered as a User")
+                    print(first_name + f"{fg(2)} has been registered as a User")
         
         
         
@@ -149,13 +151,14 @@ def admin_session():
                     emailid = input(str("Email ID: "))
                     password = input(str("Password: "))
                     query_vals = (emailid,password)
-                    command_handler.execute("DELETE FROM user WHERE emailid = %s AND password = %s",query_vals)
+                    # command_handler.execute("DELETE FROM user WHERE emailid = %s AND password = %s",query_vals)
+                    command_handler.execute("call user_del(%s,%s)",query_vals)
                     db.commit()
                     if command_handler.rowcount < 1: 
                         print("")
                         print("User not found")
                     else:
-                        print(emailid + f"fg{{1}} has been deleted!")
+                        print(emailid + f"{fg(1)} has been deleted!")
 
        
 
@@ -317,7 +320,8 @@ def staff_session():
             idstaff = input(str("Enter the staff ID : "))
             # userid = input(str("Enter the user ID : "))
             query_vals = (type_of_locker,idstaff)
-            command_handler.execute("Insert into marino.locker(type_of_locker,idstaff,userid) values(%s,%s,0)",query_vals)
+            # command_handler.execute("Insert into marino.locker(type_of_locker,idstaff,userid) values(%s,%s,0)",query_vals)
+            command_handler.execute("call locker_reg(%s,%s,0)",query_vals)
             db.commit()
             print("New locker has been created!")
 
@@ -327,7 +331,8 @@ def staff_session():
 
             idlocker = input(str("Enter the locker ID : "))
             query_vals = (idlocker,)
-            command_handler.execute("Delete from locker where idlocker = %s",query_vals)
+            # command_handler.execute("Delete from locker where idlocker = %s",query_vals)
+            command_handler.execute("call locker_del(%s)",query_vals)
             db.commit()
             if command_handler.rowcount < 1:
                 print("Locker Not found")
@@ -379,7 +384,8 @@ def staff_session():
             idstaff = input(str("Enter the staff ID : "))
             idactivity = input(str("Enter the activity ID : "))
             query_vals = (name,idstaff,idactivity)
-            command_handler.execute("Insert into marino.equipment(name,idstaff,idactivity) values(%s,%s,%s)",query_vals)
+            # command_handler.execute("Insert into marino.equipment(name,idstaff,idactivity) values(%s,%s,%s)",query_vals)
+            command_handler.execute("call equipment_reg(%s,%s,%s)",query_vals)
             db.commit()
             print("New equipment has been added!")
 
@@ -389,7 +395,8 @@ def staff_session():
 
             idequipment = input(str("Enter the Equipment ID : "))
             query_vals = (idequipment,)
-            command_handler.execute("Delete from equipment where idequipment = %s",query_vals)
+            # command_handler.execute("Delete from equipment where idequipment = %s",query_vals)
+            command_handler.execute("call equipment_del(%s)",query_vals)
             db.commit()
             if command_handler.rowcount < 1:
                 print("Equipment Not found")

@@ -155,6 +155,7 @@ DELETE FROM staff WHERE emailid = 'testing@gmail.com';
 
 
 select * from staff;
+select * from user;
 select * from admin;
 select * from locker;
 select * from equipment;
@@ -188,3 +189,54 @@ INSERT INTO marino.activity VALUES ('17001', 'Soccer', '41'),
 INSERT INTO marino.trainer VALUES ('301', 'Chris', '25', '784637380', 'chris@gmail.com', 'chris'),
 ('302', 'Felix', '24', '23432546', 'felix@gmail.com', 'felix'),
 ('303', 'Alex', '25', '33452878', 'alex@gmail.com', 'alex');
+
+delimiter //
+create procedure staff_reg(IN staff_name varchar(40),IN staff_age int, 
+IN phone_number VARCHAR(10),IN emailid varchar(46), IN password varchar(40) )
+begin
+insert into marino.staff(staff_name,staff_age,phone_number,emailid,password) 
+values(staff_name,staff_age,phone_number,emailid,password);
+end
+//
+   
+call staff_reg('Chris',24,675672876,'chris@gmail.com','chris');
+
+delimiter $$
+create procedure user_reg(IN first_name varchar(40),IN last_name varchar(40),IN age int, 
+IN phone_number VARCHAR(10),IN emailid varchar(46), IN password varchar(40) )
+begin
+insert into marino.user(first_name,last_name,age,phone_number,emailid,password) 
+ values(first_name,last_name,age,phone_number,emailid,password);
+end
+$$
+   
+call user_reg('Chris','Jane',24,675672876,'chris@gmail.com','chris');
+
+delimiter $$
+create procedure staff_del(IN email_id varchar(46), IN pwd varchar(40) )
+begin
+delete from staff WHERE emailid = email_id AND password = pwd;
+end
+$$
+
+-- SET SQL_SAFE_UPDATES = 0;
+
+call staff_del('chris@gmail.com','chris');
+
+delimiter $$
+create procedure user_del(IN email_id varchar(46), IN pwd varchar(40) )
+begin
+delete from user WHERE emailid = email_id AND password = pwd;
+end
+$$
+
+delimiter $$
+create procedure locker_reg(IN type_of_locker varchar(40),IN idstaff int )
+begin
+insert into marino.locker(type_of_locker,idstaff) 
+values(type_of_locker,idstaff);
+end
+$$
+--    
+call locker_reg('standard',604,4);
+
