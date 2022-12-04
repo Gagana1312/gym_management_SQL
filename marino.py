@@ -475,6 +475,8 @@ def staff_session():
             print(f"{fg(73)}View all activity")
 
             command_handler.execute("SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;")
+            # query_vals = ()
+            # command_handler.execute("call activity_Equip_table()",query_vals)
             result = command_handler.fetchall()
 
             for row in result:

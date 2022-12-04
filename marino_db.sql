@@ -231,12 +231,67 @@ end
 $$
 
 delimiter $$
-create procedure locker_reg(IN type_of_locker varchar(40),IN idstaff int )
+create procedure locker_reg(IN type_of_locker varchar(40),IN idstaff int, IN userid int )
 begin
-insert into marino.locker(type_of_locker,idstaff) 
-values(type_of_locker,idstaff);
+insert into marino.locker(type_of_locker,idstaff,userid) 
+values(type_of_locker,idstaff,0);
 end
 $$
 --    
-call locker_reg('standard',604,4);
+call locker_reg('standard',608,4);
+
+delimiter $$
+create procedure locker_del(IN id_locker INT )
+begin
+Delete from locker where idlocker = id_locker;
+end
+$$
+
+call locker_del(908);
+
+delimiter $$
+ create procedure equipment_reg(IN name varchar(40),IN idstaff int,IN idactivity INT )
+   begin
+   Insert into marino.equipment(name,idstaff,idactivity) values(name,idstaff,idactivity);
+   end
+   $$
+   
+call equipment_reg('hockey stick',604,17006);
+
+delimiter $$
+create procedure equipment_del(IN id_equipment INT )
+begin
+Delete from equipment where idequipment = id_equipment;
+end
+$$
+
+call equipment_del(904);
+
+delimiter $$
+create procedure activity_reg(IN name_ varchar(40),IN room_no_ int )
+begin
+Insert into marino.activity (name,room_no) values (name_,room_no_);
+end
+$$
+   
+call activity_reg('hockey',65);
+
+delimiter $$
+create procedure activity_del(IN id_activity INT )
+begin
+Delete from activity where idactivity = id_activity;
+end
+$$
+
+call activity_del(17006);
+
+-- delimiter $$
+-- create procedure activity_Equip_table()
+-- begin
+-- SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name 
+-- from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;
+-- end
+-- $$
+   
+-- call activity_Equip_table()
 
