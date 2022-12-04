@@ -300,6 +300,30 @@ def staff_session():
             db.commit()
             if command_handler.rowcount < 1: 
                 print("No User found")
+
+        elif user_option == "4":
+                    print("")
+                    print(f"{fg(148)}Update Existing User Details")
+                    print("")
+                    # emailid = input(str("Email ID: "))
+                    # query_vals = (emailid)
+                    update_iduser = input(str("User ID to be updated: "))
+                    first_name = input(str("User First Name: "))
+                    last_name = input(str("User Last Name: "))
+                    user_age = input(str("User Age: "))
+                    phone_number = input(str("Staff Phone Number: "))
+                    query_vals = (first_name,last_name,user_age,phone_number,update_iduser)
+                    command_handler.execute("Update user SET first_name = %s,last_name=%s,age=%s,phone_number=%s where userid=%s",query_vals)
+            
+                    db.commit()
+                
+                    if command_handler.rowcount < 1: 
+                        print("")
+                        print("No User found")
+                    else:
+                          print(f"{fg(2)}")
+                          print(first_name + " Updated Successfully!")
+
         
         elif user_option == "5":
             print("")
@@ -307,15 +331,15 @@ def staff_session():
 
             type_of_locker = input(str("Enter the type of Locker (Personal/Standard): "))
             idstaff = input(str("Enter the staff ID : "))
-            userid = input(str("Enter the user ID : "))
-            query_vals = (type_of_locker,idstaff,userid)
-            command_handler.execute("Insert into marino.locker(type_of_locker,idstaff,userid) values(%s,%s,%s)",query_vals)
+            # userid = input(str("Enter the user ID : "))
+            query_vals = (type_of_locker,idstaff)
+            command_handler.execute("Insert into marino.locker(type_of_locker,idstaff,userid) values(%s,%s,0)",query_vals)
             db.commit()
             print("New locker has been created!")
 
         elif user_option == "6":
             print("")
-            print(f"{fg(73)}Delete a new locker")
+            print(f"{fg(73)}Delete a locker")
 
             idlocker = input(str("Enter the locker ID : "))
             query_vals = (idlocker,)
@@ -326,7 +350,28 @@ def staff_session():
             else:
                 print(idlocker + " locker has been deleted successfully")
 
-        # elif user_option == "7":
+        elif user_option == "7":
+                    print("")
+                    print(f"{fg(148)}Assign locker to a User")
+                    print("")
+                    # emailid = input(str("Email ID: "))
+                    # query_vals = (emailid)
+                    update_iduser = input(str("User ID to be updated: "))
+                    idlocker = input(str("Enter Locker ID : "))
+                    query_vals = (update_iduser,idlocker)
+                    command_handler.execute("Update locker SET userid=%s where idlocker=%s",query_vals)
+            
+                    db.commit()
+                    print(idlocker + " Updated Successfully!")
+
+                    # todo add condition to handle incorrect value
+                    # if command_handler.rowcount < 1: 
+                    #     print("")
+                    #     print("No User found")
+                    # else:
+                    #       print(f"{fg(2)}")
+                    #       print(idlocker + " Updated Successfully!")
+
         elif user_option == "8":
             print("")
             print(f"{fg(73)}Viewing a Locker")
@@ -367,8 +412,8 @@ def staff_session():
             else:
                 print(idequipment + " equipment has been deleted successfully")
 
-        # elif user_option == "11":
-        elif user_option == "12":
+
+        elif user_option == "11":
             print("")
             print(f"{fg(73)}Viewing all Equipments")
                 
@@ -382,6 +427,28 @@ def staff_session():
 
             if command_handler.rowcount < 1:
                 print("Equipments not found!")
+
+        elif user_option == "12":
+                    print("")
+                    print(f"{fg(148)}Assign Equipment to a User")
+                    print("")
+                    # emailid = input(str("Email ID: "))
+                    # query_vals = (emailid)
+                    idactivity = input(str("Activity ID: "))
+                    idequipment = input(str("Enter Equipment ID : "))
+                    query_vals = (idactivity,idequipment)
+                    command_handler.execute("Update equipment SET idactivity=%s where idequipment=%s",query_vals)
+            
+                    db.commit()
+                    print(idequipment + " Updated Successfully!")
+                    
+                    # todo add condition to handle incorrect value
+                    # if command_handler.rowcount < 1: 
+                    #     print("")
+                    #     print("No User found")
+                    # else:
+                    #       print(f"{fg(2)}")
+                    #       print(idlocker + " Updated Successfully!")
         
         elif user_option == "13":
             print("")
@@ -424,7 +491,28 @@ def staff_session():
             if command_handler.rowcount <1:
                 print("No details found")
 
-
+        elif user_option == "16":
+                    print("")
+                    print(f"{fg(148)}Assign Activity to a User")
+                    print("")
+                    # emailid = input(str("Email ID: "))
+                    # query_vals = (emailid)
+                    idactivity = input(str("Activity ID: "))
+                    name = input(str("activity Name: "))
+                    room_no = input(str("Enter Room ID : "))
+                    query_vals = (room_no,name,idactivity)
+                    command_handler.execute("Update activity SET room_no=%s,name=%s where idactivity=%s",query_vals)
+            
+                    db.commit()
+                    print(name + " Updated Successfully!")
+                    
+                    # todo add condition to handle incorrect value
+                    # if command_handler.rowcount < 1: 
+                    #     print("")
+                    #     print("No User found")
+                    # else:
+                    #       print(f"{fg(2)}")
+                    #       print(idlocker + " Updated Successfully!")
         elif user_option == "17":
             break
         else:
