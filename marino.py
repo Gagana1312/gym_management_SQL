@@ -7,108 +7,170 @@ command_handler = db.cursor(buffered=True)
 def admin_session():
     # print("Login successfully, Welcome Admin!")
  while 1:
+        print("")
         print(f"{fg(148)}Welcome to Admin Panel")
-        print(" ")
-        print(f"{fg(148)}1. Register new staff")
-        print(f"{fg(148)}2. Register new user")
-        print(f"{fg(148)}3. Delete existing staff")
-        print(f"{fg(148)}4. Delete existing user")
-        print(f"{fg(148)}5. Read existing staff")
-        print(f"{fg(148)}6. Read existing user")
-        print(f"{fg(148)}7. Update existing staff")
-        print(f"{fg(148)}8. Update existing user")
-        print(f"{fg(148)}9. Logout")
+        print("")
+        print("1.Staff Panel")
+        print("2.Student Panel")
+        print("3.Back")
 
-        user_option = input(str("Option : "))
+        user_option = input(str(f"{fg(99)}Option : "))
         if user_option == "1":
-            print("")
-            print(f"{fg(148)}Register New Staff")
-            # idstaff = input(str("ID: "))
-            emailid = input(str("Staff emailid: "))
-            password = input(str("Staff password: "))
-            staff_name = input(str("Staff Name: "))
-            staff_age = input(str("Staff Age: "))
-            phone_number = input(str("Staff Phone Number: "))
-            query_vals = (staff_name,staff_age,phone_number,emailid,password)
-            command_handler.execute("INSERT INTO marino.staff (staff_name,staff_age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s)",query_vals)
-            db.commit()
-            print(emailid + " has been registered as a staff")
+            while 1:
+                print("")
+                print("Staff Panel")
+                print("")
+                print(f"{fg(148)}1. Register new staff")
+                print(f"{fg(148)}2. Delete existing staff")
+                print(f"{fg(148)}3. Read existing staff")
+                print(f"{fg(148)}4. Update existing staff")
+                print("5. Back")
+                admin_user_option = input(str(f"{fg(99)}Option : "))
 
-        elif user_option == "2":
-            print("")
-            print(f"{fg(148)}Register New User")
-            # idstaff = input(str("ID: "))
-            emailid = input(str("user emailid: "))
-            password = input(str("user password: "))
-            first_name = input(str("First Name: "))
-            last_name = input(str("Last Name: "))
-            age = input(str("user Age: "))
-            phone_number = input(str("user Phone Number: "))
-            query_vals = (first_name,last_name,age,phone_number,emailid,password)
-            command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
-            db.commit()
-            print(first_name + " has been registered as a User")
+                if admin_user_option == "1":
+                    print("")
+                    print(f"{fg(148)}Register New Staff")
+                    print("")
+                     # idstaff = input(str("ID: "))
+                    emailid = input(str("Staff emailid: "))
+                    password = input(str("Staff password: "))
+                    staff_name = input(str("Staff Name: "))
+                    staff_age = input(str("Staff Age: "))
+                    phone_number = input(str("Staff Phone Number: "))
+                    query_vals = (staff_name,staff_age,phone_number,emailid,password)
+                    command_handler.execute("INSERT INTO marino.staff (staff_name,staff_age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s)",query_vals)
+                    db.commit()
+                    print(emailid + f"{fg(2)} has been registered as a staff")
+
+                elif admin_user_option == "2":
+                    print("")
+                    print(f"{fg(148)}Delete Existing Staff Account")
+                    print("")
+                    emailid = input(str("Email ID: "))
+                    password = input(str("Password: "))
+                    query_vals = (emailid,password)
+                    command_handler.execute("DELETE FROM staff WHERE emailid = %s AND password = %s",query_vals)
+                    db.commit()
+                    if command_handler.rowcount < 1: 
+                        print("Staff not found")
+                    else:
+                        print("")
+                        print(emailid + f"{fg(1)} has been deleted!")
+
+                elif admin_user_option == "3":
+                    print("")
+                    print(f"{fg(148)}All Existing Staff Details")
+                    print("")
+                    # emailid = input(str("Email ID: "))
+                    # query_vals = (emailid)
+                    command_handler.execute("Select * from staff")
+                    # fetch all the matching rows 
+                    result = command_handler.fetchall()
+    
+                    # loop through the rows
+                    for row in result:
+                        print(f"{fg(5)}")
+                        print(row)
+                        print("\n")
+                    db.commit()
+                    if command_handler.rowcount < 1: 
+                        print("")
+                        print("No Staff found")
+
+                elif admin_user_option == "5":
+                 break
+                else:
+                    print("")
+                    print("Invalid option!")
+
+        if user_option == "2":
+            while 1:
+                print("")
+                print(f"{fg(148)}User Panel")
+                print("")
+                print(f"{fg(148)}1. Register new user")
+
+                print(f"{fg(148)}2. Delete existing user")
+
+                print(f"{fg(148)}3. Read existing user")
+
+                print(f"{fg(148)}4. Update existing user")
+
+                print("5. Back")
         
+                client_user_option = input(str(f"{fg(99)}Option : "))
+
+                if client_user_option == "1":
+                    print("")
+                    print(f"{fg(148)}Register New User")
+                    print("")
+                    # idstaff = input(str("ID: "))
+                    emailid = input(str("user emailid: "))
+                    password = input(str("user password: "))
+                    first_name = input(str("First Name: "))
+                    last_name = input(str("Last Name: "))
+                    age = input(str("user Age: "))
+                    phone_number = input(str("user Phone Number: "))
+                    query_vals = (first_name,last_name,age,phone_number,emailid,password)
+                    command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
+                    db.commit()
+                    print(first_name + f"fg{{2}} has been registered as a User")
+        
+        
+        
+                elif client_user_option == "2":
+                    print("")
+                    print(f"{fg(148)}Delete Existing User Account")
+                    print("")
+                    emailid = input(str("Email ID: "))
+                    password = input(str("Password: "))
+                    query_vals = (emailid,password)
+                    command_handler.execute("DELETE FROM user WHERE emailid = %s AND password = %s",query_vals)
+                    db.commit()
+                    if command_handler.rowcount < 1: 
+                        print("")
+                        print("User not found")
+                    else:
+                        print(emailid + f"fg{{1}} has been deleted!")
+
+       
+
+                elif client_user_option == "3":
+                    print("")
+                    print(f"{fg(148)}All Existing User Details")
+                    print("")
+                    # emailid = input(str("Email ID: "))
+                    # query_vals = (emailid)
+                    command_handler.execute("Select * from user")
+                    # fetch all the matching rows 
+                    result = command_handler.fetchall()
+
+                    # loop through the rows
+                    for row in result:
+                        print(f"{fg(5)}")
+                        print(row)
+                        print("\n")
+                    db.commit()
+                    if command_handler.rowcount < 1: 
+                        print("")
+                        print("No User found")
+
+                elif client_user_option == "4":
+                    break
+                else:
+                    print("")
+                    print(f"{fg(1)}Invalid Option!")
+            
         elif user_option == "3":
-            print("")
-            print(f"{fg(148)}Delete Existing Staff Account")
-            emailid = input(str("Email ID: "))
-            password = input(str("Password: "))
-            query_vals = (emailid,password)
-            command_handler.execute("DELETE FROM staff WHERE emailid = %s AND password = %s",query_vals)
-            db.commit()
-            if command_handler.rowcount < 1: 
-                print("Staff not found")
-            else:
-                print(emailid + " has been deleted!")
+            break
+        # else:
+        #     print("Invalid option Selected!")
+        # print(f"{fg(148)}9. Logout")
+
         
-        elif user_option == "4":
-            print("")
-            print(f"{fg(148)}Delete Existing User Account")
-            emailid = input(str("Email ID: "))
-            password = input(str("Password: "))
-            query_vals = (emailid,password)
-            command_handler.execute("DELETE FROM user WHERE emailid = %s AND password = %s",query_vals)
-            db.commit()
-            if command_handler.rowcount < 1: 
-                print("User not found")
-            else:
-                print(emailid + " has been deleted!")
+        
 
-        elif user_option == "5":
-            print("")
-            print(f"{fg(148)}All Existing Staff Details")
-            # emailid = input(str("Email ID: "))
-            # query_vals = (emailid)
-            command_handler.execute("Select * from staff")
-            # fetch all the matching rows 
-            result = command_handler.fetchall()
-  
-            # loop through the rows
-            for row in result:
-                print(row)
-                print("\n")
-            db.commit()
-            if command_handler.rowcount < 1: 
-                print("No Staff found")
-
-        elif user_option == "6":
-            print("")
-            print(f"{fg(148)}All Existing User Details")
-            # emailid = input(str("Email ID: "))
-            # query_vals = (emailid)
-            command_handler.execute("Select * from user")
-            # fetch all the matching rows 
-            result = command_handler.fetchall()
-  
-            # loop through the rows
-            for row in result:
-                print(row)
-                print("\n")
-            db.commit()
-            if command_handler.rowcount < 1: 
-                print("No User found")
-
+       
         # if user_option == "7":
         #     print("")
         #     print("Update exisitng Staff")
@@ -123,10 +185,7 @@ def admin_session():
         #     db.commit()
         #     print(emailid + " has been updated in staff")
         
-        elif user_option == "9":
-            break
-        else:
-            print("Invalid option Selected!")
+     
     
 def staff_session():
     while 1:
@@ -151,7 +210,7 @@ def staff_session():
         print("16. Update an activity")
         print("17. Logout")
 
-        user_option = input(str("Option : "))
+        user_option = input(str(f"{fg(99)}Option : "))
        
         if user_option == "1":
             print("")
@@ -419,7 +478,8 @@ def auth_admin():
     if command_handler.rowcount<=0:
         print (f"{fg(1)}Login not recognized")
     else:
-        print("Welcome " + emailid)
+        print("")
+        print(f"{fg(2)}Welcome " + emailid)
         admin_session()
 
 #Staff Authorization
@@ -435,7 +495,8 @@ def auth_staff():
     if command_handler.rowcount<=0:
         print (f"{fg(1)}Login not recognized")
     else:
-        print("Welcome " + emailid)
+        print("")
+        print(f"{fg(2)}Welcome " + emailid)
         staff_session()
 
 #User Authorization
@@ -451,7 +512,8 @@ def auth_user():
     if command_handler.rowcount<=0:
         print (f"{fg(1)}Login not recognized")
     else:
-        print("Welcome " + emailid)
+        print("")
+        print(f"{fg(2)}Welcome " + emailid)
         user_session()
 #New User Authorization
 def auth_new_user():
