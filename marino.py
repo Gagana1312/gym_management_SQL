@@ -72,7 +72,7 @@ def admin_session():
                     # fetch all the matching rows 
                     result = command_handler.fetchall()
                     columns = ['Staff ID', 'Staff name', 'Staff Age', 'Phone Number', "Email ID","Password"]
-                    print(tabulate(result,headers=columns))
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
     
                     # loop through the rows
                     # for row in result:
