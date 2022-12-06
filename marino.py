@@ -174,12 +174,15 @@ def admin_session():
                     command_handler.execute("Select * from user")
                     # fetch all the matching rows 
                     result = command_handler.fetchall()
+                    columns = ['User ID', 'First Name','Last Name', 'User Age', 'Phone Number', "Email ID","Password"]
+                    print(f"{fg(109)}")
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
 
                     # loop through the rows
-                    for row in result:
-                        print(f"{fg(5)}")
-                        print(row)
-                        print("\n")
+                    # for row in result:
+                    #     print(f"{fg(5)}")
+                    #     print(row)
+                    #     print("\n")
                     db.commit()
                     if command_handler.rowcount < 1: 
                         print("")
