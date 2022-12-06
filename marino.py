@@ -282,14 +282,16 @@ def staff_session():
             print(f"{fg(73)}All Existing User Details")
 
             command_handler.execute("Select * from user")
-
+            columns = ['User ID', 'First Name','Last Name', 'User Age', 'Phone Number', "Email ID","Password"]
             # fetch all the matching rows 
             result = command_handler.fetchall()
+            print(f"{fg(109)}")
+            print(tabulate(result,headers=columns,tablefmt="grid"))
   
             # loop through the rows
-            for row in result:
-                print(row)
-                print("\n")
+            # for row in result:
+            #     print(row)
+            #     print("\n")
             db.commit()
             if command_handler.rowcount < 1: 
                 print("No User found")
@@ -373,10 +375,12 @@ def staff_session():
                 
             command_handler.execute ("Select * from locker")
             result = command_handler.fetchall()
-
-            for row in result: 
-                print(row)
-                print("\n")
+            columns = ['Locker ID', 'Type of Locker','Staff ID', 'User ID']
+            print(f"{fg(109)}")
+            print(tabulate(result,headers=columns,tablefmt="grid"))
+            # for row in result: 
+            #     print(row)
+            #     print("\n")
             db.commit()
 
             if command_handler.rowcount < 1:
@@ -416,10 +420,13 @@ def staff_session():
                 
             command_handler.execute ("Select * from equipment")
             result = command_handler.fetchall()
+            columns = ['Equipment ID', 'Name of Equipment','Staff ID', 'Activity ID']
+            print(f"{fg(109)}")
+            print(tabulate(result,headers=columns,tablefmt="grid"))
 
-            for row in result: 
-                print(row)
-                print("\n")
+            # for row in result: 
+            #     print(row)
+            #     print("\n")
             db.commit()
 
             if command_handler.rowcount < 1:
@@ -480,13 +487,18 @@ def staff_session():
             print("")
             print(f"{fg(73)}View all activity")
 
-            command_handler.execute("SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;")
+            command_handler.execute("SELECT * from activity")
+            # command_handler.execute("SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;")
             # query_vals = ()
             # command_handler.execute("call activity_Equip_table()",query_vals)
             result = command_handler.fetchall()
+            columns = ['Activity ID', 'Activity Name','Room Number']
+            print(f"{fg(109)}")
+            print(tabulate(result,headers=columns,tablefmt="grid"))
 
-            for row in result:
-                print (row)
+
+            # for row in result:
+            #     print (row)
             db.commit()
 
             if command_handler.rowcount <1:
@@ -574,10 +586,13 @@ def user_session():
             command_handler.execute("Select * from locker where userid = %s",query_vals)
             # fetch all the matching rows 
             result = command_handler.fetchall()
+            columns = ['Locker ID', 'Type of Locker','Staff ID', 'User ID']
+            print(f"{fg(109)}")
+            print(tabulate(result,headers=columns,tablefmt="grid"))
   
             # loop through the rows
-            for row in result:
-                print(row)
+            # for row in result:
+            #     print(row)
                 # print("\n")
             db.commit()
             if command_handler.rowcount < 1: 
