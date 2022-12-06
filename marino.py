@@ -1,5 +1,6 @@
 import mysql.connector as mysql 
 from colored import fg, bg, attr
+from tabulate import tabulate
 
 db = mysql.connect(host ="localhost",user = "root", password="arps@1899",database="marino")
 command_handler = db.cursor(buffered=True)
@@ -70,12 +71,13 @@ def admin_session():
                     command_handler.execute("Select * from staff")
                     # fetch all the matching rows 
                     result = command_handler.fetchall()
+                    print(tabulate(result))
     
                     # loop through the rows
-                    for row in result:
-                        print(f"{fg(5)}")
-                        print(row)
-                        print("\n")
+                    # for row in result:
+                    #     print(f"{fg(5)}")
+                    #     print(row)
+                    #     print("\n")
                     db.commit()
                     if command_handler.rowcount < 1: 
                         print("")
