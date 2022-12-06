@@ -71,7 +71,8 @@ def admin_session():
                     command_handler.execute("Select * from staff")
                     # fetch all the matching rows 
                     result = command_handler.fetchall()
-                    print(tabulate(result))
+                    columns = ['Staff ID', 'Staff name', 'Staff Age', 'Phone Number', "Email ID","Password"]
+                    print(tabulate(result,headers=columns))
     
                     # loop through the rows
                     # for row in result:
