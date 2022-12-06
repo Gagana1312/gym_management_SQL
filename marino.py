@@ -1,6 +1,7 @@
 import mysql.connector as mysql 
 from colored import fg, bg, attr
 from tabulate import tabulate
+from pyfiglet import Figlet
 
 db = mysql.connect(host ="localhost",user = "root", password="arps@1899",database="marino")
 command_handler = db.cursor(buffered=True)
@@ -710,6 +711,9 @@ def main():
     while 1:
         print("")
         print(f"{fg(73)}Welcome to Marino Center Database System! ")
+        print(" ")
+        f = Figlet(font='slant')
+        print (f.renderText('MARINO DBMS'))
         print(" ")
         print(f"{fg(148)}1. Login as admin")
         print(f"{fg(148)}2. Login as user")
