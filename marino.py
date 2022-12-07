@@ -218,86 +218,82 @@ def admin_session():
             
         elif user_option == "3":
             break
-        # else:
-        #     print("Invalid option Selected!")
-        # print(f"{fg(148)}9. Logout")
-
+       
 #Staff Session
 def staff_session():
     while 1:
-        print(" ")
-        print(f"{fg(73)}Welcome to Staff Panel")
-        print(" ")
-        print("1. Register new user")     
-        print("2. Delete existing user")
-        print("3. Read existing user")
-        print("4. Update existing user")
-        print("5. Create new locker")
-        print("6. Delete locker")
-        print("7. Assign a locker")
-        print("8. View all lockers")
-        print("9. Add an equipment")
-        print("10. Delete an equipment")
-        print("11. View all equipments")
-        print("12. Assign an equipment")
-        print("13. Create an activity")
-        print("14. Delete an activity")
-        print("15. View all activity")
-        print("16. Update an activity")
-        print("17. Logout")
+        print("")
+        print(f"{fg(148)}Welcome to Staff Panel")
+        print("")
+        print("1.User Panel")
+        print("2.Locker Panel")
+        print("3.Equipment Panel")
+        print("4.Activity Panel")
+        print("5.Back")
 
         user_option = input(str(f"{fg(99)}Option : "))
-       
+
         if user_option == "1":
-            print("")
-            print(f"{fg(73)}Register New User")
-            # idstaff = input(str("ID: "))
-            emailid = input(str("user emailid: "))
-            password = input(str("user password: "))
-            first_name = input(str("First Name: "))
-            last_name = input(str("Last Name: "))
-            age = input(str("user Age: "))
-            phone_number = input(str("user Phone Number: "))
-            query_vals = (first_name,last_name,age,phone_number,emailid,password)
-            command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
-            db.commit()
-            print(first_name + " has been registered as a User")
-        
+            while 1:
+                print(" ")
+                print(f"{fg(73)}Welcome to User Panel")
+                print(" ")
+                print("1. Register new user")     
+                print("2. Delete existing user")
+                print("3. Read existing user")
+                print("4. Update existing user")
+                print("5. Back")
+                u_option = input(str(f"{fg(99)} Option :"))
+                if u_option == "1":
+                    print("")
+                    print(f"{fg(73)}Register New User")
+                    # idstaff = input(str("ID: "))
+                    emailid = input(str("user emailid: "))
+                    password = input(str("user password: "))
+                    first_name = input(str("First Name: "))
+                    last_name = input(str("Last Name: "))
+                    age = input(str("user Age: "))
+                    phone_number = input(str("user Phone Number: "))
+                    query_vals = (first_name,last_name,age,phone_number,emailid,password)
+                    command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
+                    db.commit()
+                    print(first_name + " has been registered as a User")
+            
        
         
-        elif user_option == "2":
-            print("")
-            print(f"{fg(73)}Delete Existing User Account")
-            emailid = input(str("Email ID: "))
-            password = input(str("Password: "))
-            query_vals = (emailid,password)
-            command_handler.execute("DELETE FROM user WHERE emailid = %s AND password = %s",query_vals)
-            db.commit()
-            if command_handler.rowcount < 1: 
-                print("User not found")
-            else:
-                print(emailid + " has been deleted!")
+                elif u_option == "2":
+                    print("")
+                    print(f"{fg(73)}Delete Existing User Account")
+                    emailid = input(str("Email ID: "))
+                    password = input(str("Password: "))
+                    query_vals = (emailid,password)
+                    command_handler.execute("DELETE FROM user WHERE emailid = %s AND password = %s",query_vals)
+                    db.commit()
+                    if command_handler.rowcount < 1: 
+                        print("User not found")
+                    else:
+                     print(emailid + " has been deleted!")
 
-        elif user_option == "3":
-            print("")
-            print(f"{fg(73)}All Existing User Details")
+                elif u_option == "3":
+                    print("")
+                    print(f"{fg(73)}All Existing User Details")
 
-            command_handler.execute("Select * from user")
-            columns = ['User ID', 'First Name','Last Name', 'User Age', 'Phone Number', "Email ID","Password"]
-            # fetch all the matching rows 
-            result = command_handler.fetchall()
-            print(f"{fg(109)}")
-            print(tabulate(result,headers=columns,tablefmt="grid"))
-  
-            # loop through the rows
-            # for row in result:
-            #     print(row)
-            #     print("\n")
-            db.commit()
-            if command_handler.rowcount < 1: 
-                print("No User found")
+                    command_handler.execute("Select * from user")
+                    columns = ['User ID', 'First Name','Last Name', 'User Age', 'Phone Number', "Email ID","Password"]
+                    # fetch all the matching rows 
+                    result = command_handler.fetchall()
+                    print(f"{fg(109)}")
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
+        
+                    # loop through the rows
+                    # for row in result:
+                    #     print(row)
+                    #     print("\n")
+                    db.commit()
+                    if command_handler.rowcount < 1: 
+                        print("No User found")
 
-        elif user_option == "4":
+                elif u_option == "4":
                     print("")
                     print(f"{fg(148)}Update Existing User Details")
                     print("")
@@ -319,36 +315,55 @@ def staff_session():
                     else:
                           print(f"{fg(2)}")
                           print(first_name + " Updated Successfully!")
+                elif u_option == "5":
+                   break
 
+                else: 
+                    print("")
+                    print(f"{fg(1)}Invaliid Selection!")
+            
+            
         
-        elif user_option == "5":
-            print("")
-            print(f"{fg(73)}Create a new locker")
+        
 
-            type_of_locker = input(str("Enter the type of Locker (Personal/Standard): "))
-            idstaff = input(str("Enter the staff ID : "))
-            # userid = input(str("Enter the user ID : "))
-            query_vals = (type_of_locker,idstaff)
-            # command_handler.execute("Insert into marino.locker(type_of_locker,idstaff,userid) values(%s,%s,0)",query_vals)
-            command_handler.execute("call locker_reg(%s,%s,0)",query_vals)
-            db.commit()
-            print("New locker has been created!")
+        elif user_option == "2":
+         while 1:
+            print(" ")
+            print(f"{fg(73)}Welcome to Locker Panel")
+            print("1. Create new locker")
+            print("2. Delete locker")
+            print("3. Assign a locker")
+            print("4. View all lockers")
+            print("5. Back")
+            l_option = input(str(f"{fg(99)}Option :"))
+            if l_option == "1":
+                print("")
+                print(f"{fg(73)}Create a new locker")
+    
+                type_of_locker = input(str("Enter the type of Locker (Personal/Standard): "))
+                idstaff = input(str("Enter the staff ID : "))
+                # userid = input(str("Enter the user ID : "))
+                query_vals = (type_of_locker,idstaff)
+                # command_handler.execute("Insert into marino.locker(type_of_locker,idstaff,userid) values(%s,%s,0)",query_vals)
+                command_handler.execute("call locker_reg(%s,%s,0)",query_vals)
+                db.commit()
+                print("New locker has been created!")
 
-        elif user_option == "6":
-            print("")
-            print(f"{fg(73)}Delete a locker")
+            elif l_option == "2":
+                print("")
+                print(f"{fg(73)}Delete a locker")
 
-            idlocker = input(str("Enter the locker ID : "))
-            query_vals = (idlocker,)
-            # command_handler.execute("Delete from locker where idlocker = %s",query_vals)
-            command_handler.execute("call locker_del(%s)",query_vals)
-            db.commit()
-            if command_handler.rowcount < 1:
-                print("Locker Not found")
-            else:
-                print(idlocker + " locker has been deleted successfully")
+                idlocker = input(str("Enter the locker ID : "))
+                query_vals = (idlocker,)
+                # command_handler.execute("Delete from locker where idlocker = %s",query_vals)
+                command_handler.execute("call locker_del(%s)",query_vals)
+                db.commit()
+                if command_handler.rowcount < 1:
+                    print("Locker Not found")
+                else:
+                    print(idlocker + " locker has been deleted successfully")
 
-        elif user_option == "7":
+            elif l_option == "3":
                     print("")
                     print(f"{fg(148)}Assign locker to a User")
                     print("")
@@ -370,70 +385,88 @@ def staff_session():
                     #       print(f"{fg(2)}")
                     #       print(idlocker + " Updated Successfully!")
 
-        elif user_option == "8":
-            print("")
-            print(f"{fg(73)}Viewing a Locker")
+            elif l_option == "4":
+                print("")
+                print(f"{fg(73)}Viewing a Locker")
+                command_handler.execute ("Select * from locker")
+                result = command_handler.fetchall()
+                columns = ['Locker ID', 'Type of Locker','Staff ID', 'User ID']
+                print(f"{fg(109)}")
+                print(tabulate(result,headers=columns,tablefmt="grid"))
+                # for row in result: 
+                #     print(row)
+                #     print("\n")
+                db.commit()
+
+                if command_handler.rowcount < 1:
+                    print("Lockers not found!")
+                else:
+                        print("Invalid option!")
                 
-            command_handler.execute ("Select * from locker")
-            result = command_handler.fetchall()
-            columns = ['Locker ID', 'Type of Locker','Staff ID', 'User ID']
-            print(f"{fg(109)}")
-            print(tabulate(result,headers=columns,tablefmt="grid"))
-            # for row in result: 
-            #     print(row)
-            #     print("\n")
-            db.commit()
-
-            if command_handler.rowcount < 1:
-                print("Lockers not found!")
-
-        elif user_option == "9":
-            print("")
-            print(f"{fg(73)}Add a new Equipment")
-
-            name = input(str("Name of the equipment: "))
-            idstaff = input(str("Enter the staff ID : "))
-            idactivity = input(str("Enter the activity ID : "))
-            query_vals = (name,idstaff,idactivity)
-            # command_handler.execute("Insert into marino.equipment(name,idstaff,idactivity) values(%s,%s,%s)",query_vals)
-            command_handler.execute("call equipment_reg(%s,%s,%s)",query_vals)
-            db.commit()
-            print("New equipment has been added!")
-
-        elif user_option == "10":
-            print("")
-            print(f"{fg(73)}Remove an equipment")
-
-            idequipment = input(str("Enter the Equipment ID : "))
-            query_vals = (idequipment,)
-            # command_handler.execute("Delete from equipment where idequipment = %s",query_vals)
-            command_handler.execute("call equipment_del(%s)",query_vals)
-            db.commit()
-            if command_handler.rowcount < 1:
-                print("Equipment Not found")
+            
+            elif l_option == "5":
+                break
             else:
-                print(idequipment + " equipment has been deleted successfully")
+                print(f"{fg(1)}Invaliid Selection!")
+
+        elif user_option == "3":
+         while 1:
+            print(" ")
+            print(f"{fg(73)}Welcome to Equipment Panel")
+            print("1. Add an equipment")
+            print("2. Delete an equipment")
+            print("3. View all equipments")
+            print("4. Assign an equipment")
+            print("5. Back")
+
+            e_option = input(str(f"{fg(99)}Option : "))
+            if e_option == "1":
+                print("")
+                print(f"{fg(73)}Add a new Equipment")
+    
+                name = input(str("Name of the equipment: "))
+                idstaff = input(str("Enter the staff ID : "))
+                idactivity = input(str("Enter the activity ID : "))
+                query_vals = (name,idstaff,idactivity)
+                # command_handler.execute("Insert into marino.equipment(name,idstaff,idactivity) values(%s,%s,%s)",query_vals)
+                command_handler.execute("call equipment_reg(%s,%s,%s)",query_vals)
+                db.commit()
+                print("New equipment has been added!")
+
+            elif e_option == "2":
+                print("")
+                print(f"{fg(73)}Remove an equipment")
+
+                idequipment = input(str("Enter the Equipment ID : "))
+                query_vals = (idequipment,)
+                # command_handler.execute("Delete from equipment where idequipment = %s",query_vals)
+                command_handler.execute("call equipment_del(%s)",query_vals)
+                db.commit()
+                if command_handler.rowcount < 1:
+                    print("Equipment Not found")
+                else:
+                    print(idequipment + " equipment has been deleted successfully")
 
 
-        elif user_option == "11":
-            print("")
-            print(f"{fg(73)}Viewing all Equipments")
-                
-            command_handler.execute ("Select * from equipment")
-            result = command_handler.fetchall()
-            columns = ['Equipment ID', 'Name of Equipment','Staff ID', 'Activity ID']
-            print(f"{fg(109)}")
-            print(tabulate(result,headers=columns,tablefmt="grid"))
+            elif e_option == "3":
+                print("")
+                print(f"{fg(73)}Viewing all Equipments")
 
-            # for row in result: 
-            #     print(row)
-            #     print("\n")
-            db.commit()
+                command_handler.execute ("Select * from equipment")
+                result = command_handler.fetchall()
+                columns = ['Equipment ID', 'Name of Equipment','Staff ID', 'Activity ID']
+                print(f"{fg(109)}")
+                print(tabulate(result,headers=columns,tablefmt="grid"))
 
-            if command_handler.rowcount < 1:
-                print("Equipments not found!")
+                # for row in result: 
+                #     print(row)
+                #     print("\n")
+                db.commit()
 
-        elif user_option == "12":
+                if command_handler.rowcount < 1:
+                    print("Equipments not found!")
+
+            elif e_option == "4":
                     print("")
                     print(f"{fg(148)}Assign Equipment to a User")
                     print("")
@@ -454,58 +487,74 @@ def staff_session():
                     # else:
                     #       print(f"{fg(2)}")
                     #       print(idlocker + " Updated Successfully!")
-        
-        elif user_option == "13":
-            print("")
-            print(f"{fg(73)}Create an activity")
-
-            name = input(str("Enter the name of the activity: "))
-            room_no = input(str("Enter the room number for the activity: "))
-            
-            query_vals = (name,room_no)
-            # command_handler.execute("Insert into marino.activity (name,room_no) values (%s,%s)",query_vals)
-            command_handler.execute("call activity_reg(%s,%s)",query_vals)
-            db.commit()
-
-            print("New Activity has been created!")
-
-        elif user_option == "14":
-            print("")
-            print(f"{fg(73)}Delete an activity")
-
-            idactivity = input(str("Enter the acitvity ID: "))
-            query_vals = (idactivity,)
-            # command_handler.execute("Delete from activity where idactivity = %s", query_vals)
-            command_handler.execute("call activity_del(%s)",query_vals)
-            db.commit()
-
-            if command_handler.rowcount < 1:
-                print("Activity doesn't exist")
+            elif e_option == "5":
+                break
             else:
-                print("Activity has been deleted successfully!")
+                print(f"{fg(1)}Invaliid Selection!")
+        
+       
 
-        elif user_option == "15":
-            print("")
-            print(f"{fg(73)}View all activity")
+        elif user_option == "4":
+         while 1:
+            print(" ")
+            print(f"{fg(73)}Welcome to Activity Panel")
+            print("1. Create an activity")
+            print("2. Delete an activity")
+            print("3. View all activity")
+            print("4. Update an activity")
+            print("5. Back")
 
-            command_handler.execute("SELECT * from activity")
-            # command_handler.execute("SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;")
-            # query_vals = ()
-            # command_handler.execute("call activity_Equip_table()",query_vals)
-            result = command_handler.fetchall()
-            columns = ['Activity ID', 'Activity Name','Room Number']
-            print(f"{fg(109)}")
-            print(tabulate(result,headers=columns,tablefmt="grid"))
+            a_option = input(str(f"{fg(99)}Option : "))
+            if a_option == "1":
+                print("")
+                print(f"{fg(73)}Create an activity")
+
+                name = input(str("Enter the name of the activity: "))
+                room_no = input(str("Enter the room number for the activity: "))
+
+                query_vals = (name,room_no)
+                # command_handler.execute("Insert into marino.activity (name,room_no) values (%s,%s)",query_vals)
+                command_handler.execute("call activity_reg(%s,%s)",query_vals)
+                db.commit()
+
+                print("New Activity has been created!")
+            elif a_option == "2":
+                print("")
+                print(f"{fg(73)}Delete an activity")
+
+                idactivity = input(str("Enter the acitvity ID: "))
+                query_vals = (idactivity,)
+                # command_handler.execute("Delete from activity where idactivity = %s", query_vals)
+                command_handler.execute("call activity_del(%s)",query_vals)
+                db.commit()
+
+                if command_handler.rowcount < 1:
+                    print("Activity doesn't exist")
+                else:
+                    print("Activity has been deleted successfully!")
+
+            elif a_option == "3":
+                print("")
+                print(f"{fg(73)}View all activity")
+
+                command_handler.execute("SELECT * from activity")
+                # command_handler.execute("SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;")
+                # query_vals = ()
+                # command_handler.execute("call activity_Equip_table()",query_vals)
+                result = command_handler.fetchall()
+                columns = ['Activity ID', 'Activity Name','Room Number']
+                print(f"{fg(109)}")
+                print(tabulate(result,headers=columns,tablefmt="grid"))
 
 
-            # for row in result:
-            #     print (row)
-            db.commit()
+                # for row in result:
+                #     print (row)
+                db.commit()
 
-            if command_handler.rowcount <1:
-                print("No details found")
+                if command_handler.rowcount <1:
+                    print("No details found")
 
-        elif user_option == "16":
+            elif a_option == "4":
                     print("")
                     print(f"{fg(148)}Assign Activity to a User")
                     print("")
@@ -527,10 +576,19 @@ def staff_session():
                     # else:
                     #       print(f"{fg(2)}")
                     #       print(idlocker + " Updated Successfully!")
-        elif user_option == "17":
+
+            elif a_option == "5":
+                 break
+            else:
+                print("")
+                print(f"{fg(1)}Invaliid Selection!")
+   
+        elif user_option == "5":
             break
+        
         else:
             print(f"{fg(1)}Invaliid Selection!")
+       
 
 #User session
 def user_session():
@@ -737,6 +795,9 @@ def main():
         elif user_option == "4":
             auth_new_user()
         elif user_option == "5":
+            print(" ")
+            f = Figlet(font='slant')
+            print (f.renderText('THANK YOU'))
             break
         else:
             print(f"{fg(1)}Not a valid option!")
