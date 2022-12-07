@@ -1,4 +1,5 @@
 import mysql.connector as mysql 
+import re
 from colored import fg, bg, attr
 from tabulate import tabulate
 from pyfiglet import Figlet
@@ -6,7 +7,7 @@ from pyfiglet import Figlet
 db = mysql.connect(host ="localhost",user = "root", password="arps@1899",database="marino")
 command_handler = db.cursor(buffered=True)
 
-
+regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 #Admin Session 
 def admin_session():
     # print("Login successfully, Welcome Admin!")
@@ -702,6 +703,9 @@ def auth_admin():
     emailid = input(str("Email ID: "))
     password = input(str("Password: "))
     query_vals = (emailid,password)
+
+    
+
     command_handler.execute("Select * from marino.admin where emailid = %s AND password = %s",query_vals)
 
     if command_handler.rowcount<=0:
