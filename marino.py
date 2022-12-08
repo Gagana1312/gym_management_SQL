@@ -1,4 +1,5 @@
 import mysql.connector as mysql 
+import re
 from colored import fg, bg, attr
 from tabulate import tabulate
 from pyfiglet import Figlet
@@ -6,7 +7,7 @@ from pyfiglet import Figlet
 db = mysql.connect(host ="localhost",user = "root", password="arps@1899",database="marino")
 command_handler = db.cursor(buffered=True)
 
-
+regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 #Admin Session 
 def admin_session():
     # print("Login successfully, Welcome Admin!")
@@ -37,15 +38,19 @@ def admin_session():
                     print("")
                      # idstaff = input(str("ID: "))
                     emailid = input(str("Staff emailid: "))
-                    password = input(str("Staff password: "))
-                    staff_name = input(str("Staff Name: "))
-                    staff_age = input(str("Staff Age: "))
-                    phone_number = input(str("Staff Phone Number: "))
-                    query_vals = (staff_name,staff_age,phone_number,emailid,password)
-                    # command_handler.execute("INSERT INTO marino.staff (staff_name,staff_age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s)",query_vals)
-                    command_handler.execute("call staff_reg(%s,%s,%s,%s,%s)",query_vals)
-                    db.commit()
-                    print(emailid + f"{fg(2)} has been registered as a staff")
+                    if(re.fullmatch(regex, emailid)):
+                        password = input(str("Staff password: "))
+                        staff_name = input(str("Staff Name: "))
+                        staff_age = input(str("Staff Age: "))
+                        phone_number = input(str("Staff Phone Number: "))
+                        query_vals = (staff_name,staff_age,phone_number,emailid,password)
+                        # command_handler.execute("INSERT INTO marino.staff (staff_name,staff_age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s)",query_vals)
+                        command_handler.execute("call staff_reg(%s,%s,%s,%s,%s)",query_vals)
+                        db.commit()
+                        print(emailid + f"{fg(2)} has been registered as a staff")
+                    else:
+                        print("Invalid Email format, Try again")
+                        break
 
                 elif admin_user_option == "2":
                     print("")
@@ -135,16 +140,20 @@ def admin_session():
                     print("")
                     # idstaff = input(str("ID: "))
                     emailid = input(str("user emailid: "))
-                    password = input(str("user password: "))
-                    first_name = input(str("First Name: "))
-                    last_name = input(str("Last Name: "))
-                    age = input(str("user Age: "))
-                    phone_number = input(str("user Phone Number: "))
-                    query_vals = (first_name,last_name,age,phone_number,emailid,password)
-                    # command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
-                    command_handler.execute("call user_reg(%s,%s,%s,%s,%s,%s)",query_vals)
-                    db.commit()
-                    print(first_name + f"{fg(2)} has been registered as a User")
+                    if(re.fullmatch(regex, emailid)):
+                        password = input(str("user password: "))
+                        first_name = input(str("First Name: "))
+                        last_name = input(str("Last Name: "))
+                        age = input(str("user Age: "))
+                        phone_number = input(str("user Phone Number: "))
+                        query_vals = (first_name,last_name,age,phone_number,emailid,password)
+                        # command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
+                        command_handler.execute("call user_reg(%s,%s,%s,%s,%s,%s)",query_vals)
+                        db.commit()
+                        print(first_name + f"{fg(2)} has been registered as a User")
+                    else:
+                        print("Invalid Email format, Try again")
+                        break
         
         
         
@@ -249,15 +258,19 @@ def staff_session():
                     print(f"{fg(73)}Register New User")
                     # idstaff = input(str("ID: "))
                     emailid = input(str("user emailid: "))
-                    password = input(str("user password: "))
-                    first_name = input(str("First Name: "))
-                    last_name = input(str("Last Name: "))
-                    age = input(str("user Age: "))
-                    phone_number = input(str("user Phone Number: "))
-                    query_vals = (first_name,last_name,age,phone_number,emailid,password)
-                    command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
-                    db.commit()
-                    print(first_name + " has been registered as a User")
+                    if(re.fullmatch(regex, emailid)):
+                        password = input(str("user password: "))
+                        first_name = input(str("First Name: "))
+                        last_name = input(str("Last Name: "))
+                        age = input(str("user Age: "))
+                        phone_number = input(str("user Phone Number: "))
+                        query_vals = (first_name,last_name,age,phone_number,emailid,password)
+                        command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
+                        db.commit()
+                        print(first_name + " has been registered as a User")
+                    else:
+                         print("Invalid Email format, Try again")
+                         break
             
        
         
@@ -668,24 +681,28 @@ def user_session():
                     print("")
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
-                    update_iduser = input(str("User ID to be updated: "))
-                    first_name = input(str("User First Name: "))
-                    last_name = input(str("User Last Name: "))
-                    user_age = input(str("User Age: "))
-                    phone_number = input(str("Staff Phone Number: "))
                     emailid = input(str("Email ID: "))
-                    password = input(str("Password: "))
-                    query_vals = (first_name,last_name,user_age,phone_number,emailid,password,update_iduser)
-                    command_handler.execute("Update user SET first_name = %s,last_name=%s,age=%s,phone_number=%s,emailid=%s,password=%s where userid=%s",query_vals)
-            
-                    db.commit()
-                
-                    if command_handler.rowcount < 1: 
-                        print("")
-                        print("No User found")
+                    if(re.fullmatch(regex, emailid)):
+                        update_iduser = input(str("User ID to be updated: "))
+                        first_name = input(str("User First Name: "))
+                        last_name = input(str("User Last Name: "))
+                        user_age = input(str("User Age: "))
+                        phone_number = input(str("Staff Phone Number: "))
+                        password = input(str("Password: "))
+                        query_vals = (first_name,last_name,user_age,phone_number,emailid,password,update_iduser)
+                        command_handler.execute("Update user SET first_name = %s,last_name=%s,age=%s,phone_number=%s,emailid=%s,password=%s where userid=%s",query_vals)
+
+                        db.commit()
+
+                        if command_handler.rowcount < 1: 
+                            print("")
+                            print("No User found")
+                        else:
+                              print(f"{fg(2)}")
+                              print(first_name + " Updated Successfully!")
                     else:
-                          print(f"{fg(2)}")
-                          print(first_name + " Updated Successfully!")
+                        print("Invalid Email format, Try again")
+                        break
                 
         elif user_option == "9":
             break
@@ -700,16 +717,30 @@ def auth_admin():
     print(f"{fg(148)}Admin Login")
     print("")
     emailid = input(str("Email ID: "))
-    password = input(str("Password: "))
-    query_vals = (emailid,password)
-    command_handler.execute("Select * from marino.admin where emailid = %s AND password = %s",query_vals)
+  
+    if(re.fullmatch(regex, emailid)):
+        print("Valid Email")
+        password = input(str("Password: "))
+        query_vals = (emailid,password)
+        command_handler.execute("Select * from marino.admin where emailid = %s AND password = %s",query_vals)
 
-    if command_handler.rowcount<=0:
-        print (f"{fg(1)}Login not recognized")
+        if command_handler.rowcount<=0:
+            print (f"{fg(1)}Login not recognized")
+        else:
+            print("")
+            print(f"{fg(2)}Welcome " + emailid)
+            admin_session()
+ 
     else:
-        print("")
-        print(f"{fg(2)}Welcome " + emailid)
-        admin_session()
+        print("Invalid Email format, Try again")
+        auth_admin()
+        
+
+    
+    
+    
+
+    
 
 #Staff Authorization
 def auth_staff():
@@ -717,16 +748,22 @@ def auth_staff():
     print(f"{fg(148)}Staff Login")
     print("")
     emailid = input(str("Email ID: "))
-    password = input(str("Password: "))
-    query_vals = (emailid,password)
-    command_handler.execute("Select * from marino.staff where emailid = %s AND password = %s",query_vals)
+    if(re.fullmatch(regex, emailid)):
+        print("Valid Email")
+        password = input(str("Password: "))
+        query_vals = (emailid,password)
+        command_handler.execute("Select * from marino.staff where emailid = %s AND password = %s",query_vals)
 
-    if command_handler.rowcount<=0:
-        print (f"{fg(1)}Login not recognized")
+        if command_handler.rowcount<=0:
+         print (f"{fg(1)}Login not recognized")
+        else:
+            print("")
+            print(f"{fg(2)}Welcome " + emailid)
+            staff_session()
     else:
-        print("")
-        print(f"{fg(2)}Welcome " + emailid)
-        staff_session()
+        print("Invalid Email format, Try again")
+        auth_staff()
+
 
 #User Authorization
 def auth_user():
@@ -734,34 +771,44 @@ def auth_user():
     print(f"{fg(148)}User Login")
     print("")
     emailid = input(str("Email ID: "))
-    password = input(str("Password: "))
-    query_vals = (emailid,password)
-    command_handler.execute("Select * from marino.user where emailid = %s AND password = %s",query_vals)
+    if(re.fullmatch(regex, emailid)):
+        password = input(str("Password: "))
+        query_vals = (emailid,password)
+        command_handler.execute("Select * from marino.user where emailid = %s AND password = %s",query_vals)
 
-    if command_handler.rowcount<=0:
-        print (f"{fg(1)}Login not recognized")
+        if command_handler.rowcount<=0:
+            print (f"{fg(1)}Login not recognized")
+        else:
+            print("")
+            print(f"{fg(2)}Welcome " + emailid)
+            user_session()
     else:
-        print("")
-        print(f"{fg(2)}Welcome " + emailid)
-        user_session()
+        print("Invalid Email format, Try again")
+        auth_user()
+
+
 #New User Authorization
 def auth_new_user():
     print("")
     print(f"{fg(148)}New User Registration")
     print("")
     emailid = input(str("user emailid: "))
-    password = input(str("user password: "))
-    first_name = input(str("First Name: "))
-    last_name = input(str("Last Name: "))
-    age = input(str("user Age: "))
-    phone_number = input(str("user Phone Number: "))
-    query_vals = (first_name,last_name,age,phone_number,emailid,password)
-    command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
-    db.commit()
-    print(first_name + " has been registered as a User")
-    
-    print("")
-    
+    if(re.fullmatch(regex, emailid)):
+        print("Valid Email")
+        password = input(str("user password: "))
+        first_name = input(str("First Name: "))
+        last_name = input(str("Last Name: "))
+        age = input(str("user Age: "))
+        phone_number = input(str("user Phone Number: "))
+        query_vals = (first_name,last_name,age,phone_number,emailid,password)
+        command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
+        db.commit()
+        print(first_name + " has been registered as a User")
+
+        print("")
+    else:
+        print("Invalid Email format, Try again")
+        auth_new_user()    
    
 
 
