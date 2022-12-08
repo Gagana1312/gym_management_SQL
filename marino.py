@@ -695,6 +695,22 @@ def user_session():
         elif user_option == "4":
             print("")
             print(f"{fg(148)}Viewing Bill")
+            print("")
+            command_handler.execute("SELECT * from payment")
+                # command_handler.execute("SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;")
+                # query_vals = ()
+                # command_handler.execute("call activity_Equip_table()",query_vals)
+            result = command_handler.fetchall()
+            columns = ['Activity ID','Rate' ,'Activity Name','Room Number']
+            print(f"{fg(109)}")
+            print(tabulate(result,headers=columns,tablefmt="grid"))
+            # for row in result:
+            #     print (row)
+            conn.commit()
+            if command_handler.rowcount <1:
+                print("No details found")
+
+
 
         elif user_option == "5":
                     print("")
@@ -728,9 +744,7 @@ def user_session():
         elif user_option == "9":
             break
         else:
-            print("Invaliid Selection!")
-
-
+            print("Invalid Selection!")
 
 #Admin Authorization
 def auth_admin():
@@ -741,7 +755,8 @@ def auth_admin():
   
     if(re.fullmatch(regex, emailid)):
         print("Valid Email")
-        password = input(str("Password: "))
+        # password = input(str("Password: "))
+        password = maskpass.askpass(mask="*") 
         query_vals = (emailid,password)
         command_handler.execute("Select * from marino.admin where emailid = %s AND password = %s",query_vals)
 
@@ -771,7 +786,8 @@ def auth_staff():
     emailid = input(str("Email ID: "))
     if(re.fullmatch(regex, emailid)):
         print("Valid Email")
-        password = input(str("Password: "))
+        # password = input(str("Password: "))
+        password = maskpass.askpass(mask="*") 
         query_vals = (emailid,password)
         command_handler.execute("Select * from marino.staff where emailid = %s AND password = %s",query_vals)
 
@@ -793,7 +809,8 @@ def auth_user():
     print("")
     emailid = input(str("Email ID: "))
     if(re.fullmatch(regex, emailid)):
-        password = input(str("Password: "))
+        # password = input(str("Password: "))
+        password = maskpass.askpass(mask="*") 
         query_vals = (emailid,password)
         command_handler.execute("Select * from marino.user where emailid = %s AND password = %s",query_vals)
 

@@ -130,6 +130,15 @@ CREATE TABLE Admin (
   PRIMARY KEY (emailid)
 );
 
+CREATE TABLE payment (
+  idpayment varchar(45) NOT NULL,
+  price varchar(45),
+  idactivity INT NOT NULL,
+  userid INT NOT NULL,
+  PRIMARY KEY (idpayment)
+);
+
+
 INSERT INTO Admin VALUES 
 ('Arpan@gmail.com','arpan'),
 ('gagana@gmail.com','gagana');
