@@ -820,6 +820,7 @@ def auth_user():
         print("")
         print(f"{fg(2)}Welcome " + emailid)
         user_session(id)
+        
 #New User Authorization
 def auth_new_user():
     print("")

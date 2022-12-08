@@ -378,7 +378,8 @@ def staff_session():
                 print(f"{fg(73)}Create a new locker")
     
                 type_of_locker = input(str("Enter the type of Locker (Personal/Standard): "))
-                idstaff = input(str("Enter the staff ID : "))
+                # idstaff = input(str("Enter the staff ID : "))
+                idstaff = id
                 # userid = input(str("Enter the user ID : "))
                 query_vals = (type_of_locker,idstaff)
                 # command_handler.execute("Insert into marino.locker(type_of_locker,idstaff,userid) values(%s,%s,0)",query_vals)
@@ -390,6 +391,11 @@ def staff_session():
                 print("")
                 print(f"{fg(73)}Delete a locker")
 
+                command_handler.execute ("Select idlocker,type_of_locker from locker")
+                result = command_handler.fetchall()
+                columns = ['Locker ID', 'Type of Locker']
+                print(f"{fg(109)}")
+                print(tabulate(result,headers=columns,tablefmt="grid"))
                 idlocker = input(str("Enter the locker ID : "))
                 query_vals = (idlocker,)
                 # command_handler.execute("Delete from locker where idlocker = %s",query_vals)
@@ -404,6 +410,12 @@ def staff_session():
                     print("")
                     print(f"{fg(148)}Assign locker to a User")
                     print("")
+                    print("Available Lockers")
+                    command_handler.execute ("Select idlocker,type_of_locker,userid from locker where userid=0 ")
+                    result = command_handler.fetchall()
+                    columns = ['Locker ID', 'Type of Locker','user_id']
+                    print(f"{fg(109)}")
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
                     update_iduser = input(str("User ID to be updated: "))
