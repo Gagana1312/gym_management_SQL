@@ -17,16 +17,16 @@ CREATE TABLE user (
 );
 
 
-DROP TABLE IF EXISTS trainer;
-CREATE TABLE trainer (
-  idtrainer int NOT NULL auto_increment,
-  Name varchar(45) NOT NULL,
-  age int NOT NULL,
-  phone_number int NOT NULL,
-  emailid varchar(45) NOT NULL,
-  password varchar(45) NOT NULL,
-  PRIMARY KEY (idtrainer)
-);
+-- DROP TABLE IF EXISTS trainer;
+-- CREATE TABLE trainer (
+--   idtrainer int NOT NULL auto_increment,
+--   Name varchar(45) NOT NULL,
+--   age int NOT NULL,
+--   phone_number int NOT NULL,
+--   emailid varchar(45) NOT NULL,
+--   password varchar(45) NOT NULL,
+--   PRIMARY KEY (idtrainer)
+-- );
 
 
 
@@ -85,6 +85,7 @@ CREATE TABLE activity (
   idactivity int NOT NULL auto_increment,
   name varchar(45) NOT NULL,
   room_no int NOT NULL,
+  price INT NOT NULL,
   -- duration time NOT NULL,
 --   date date NOT NULL,
   -- idtrainer int NOT NULL,
@@ -168,11 +169,11 @@ INSERT INTO marino.equipment VALUES ('1101', 'soccer ball.', '603', '17001'),
 ,('1104', 'Nets', '601', '17003'),('1105', 'Sticks', '602', '17006'),
 ('1106', 'Bats', '601', '17002');
 
-INSERT INTO marino.activity VALUES ('17001', 'Soccer', '41'),
-('17002', 'Cricket', '42'),
-('17003', 'Tennis', '43'),
-('17004', 'Squash', '44'),
- ('17005', 'disc golf', '46');
+INSERT INTO marino.activity VALUES ('17001', 'Soccer', '41',200),
+('17002', 'Cricket', '42',400),
+('17003', 'Tennis', '43',300),
+('17004', 'Squash', '44',250),
+ ('17005', 'disc golf', '46',430);
 
 -- Error Code: 1452. Cannot add or update a chxild row: a foreign key constraint fails (`marino`.`equiment`, CONSTRAINT `idactivity_fk_equipment` FOREIGN KEY (`idactivity`) REFERENCES `activity` (`idactivity`) ON DELETE CASCADE ON UPDATE RESTRICT)
   SET FOREIGN_KEY_CHECKS=0;
@@ -266,11 +267,13 @@ end
 $$
 
 call equipment_del(904);
+ 
+-- DROp procedure is exists activity_reg(name_,room_no,price_);
 
 delimiter $$
-create procedure activity_reg(IN name_ varchar(40),IN room_no_ int )
+create procedure activity_reg(IN name_ varchar(40),IN room_no_ int,IN price_ int )
 begin
-Insert into marino.activity (name,room_no) values (name_,room_no_);
+Insert into marino.activity (name,room_no,price) values (name_,room_no_,price_);
 end
 $$
    

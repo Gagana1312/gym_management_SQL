@@ -1,11 +1,30 @@
 import mysql.connector as mysql 
+import pymysql;
+import maskpass
 import re
 from colored import fg, bg, attr
 from tabulate import tabulate
 from pyfiglet import Figlet
+print(f"{fg(148)}Enter Username: " )
+username = input()
+# print( f"{fg(148)}Enter Password: " )   
+password = maskpass.askpass(mask="") 
 
-db = mysql.connect(host ="localhost",user = "root", password="arps@1899",database="marino")
-command_handler = db.cursor(buffered=True)
+try:
+    conn = pymysql.connect( host='localhost',
+                        user=username,
+                        password=password,
+                        db='marino' )
+except Exception as e:
+    print(f"{fg(1)} Invalid Credentials, Try again",e)
+    print("")
+    print("")
+
+
+    command_handler = conn.cursor()
+
+# db = mysql.connect(host ="localhost",user = lines[0], password=lines[1],database="marino")
+# command_handler = db.cursor(buffered=True)
 
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 #Admin Session 

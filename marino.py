@@ -577,10 +577,11 @@ def staff_session(id):
 
                 name = input(str("Enter the name of the activity: "))
                 room_no = input(str("Enter the room number for the activity: "))
+                price = input(str("Enter the Activity rate: "))
 
-                query_vals = (name,room_no)
+                query_vals = (name,room_no,price)
                 # command_handler.execute("Insert into marino.activity (name,room_no) values (%s,%s)",query_vals)
-                command_handler.execute("call activity_reg(%s,%s)",query_vals)
+                command_handler.execute("call activity_reg(%s,%s,%s)",query_vals)
                 db.commit()
 
                 print("New Activity has been created!")
@@ -589,7 +590,7 @@ def staff_session(id):
                 print(f"{fg(73)}Delete an activity")
                 command_handler.execute ("Select * from activity")
                 result_act = command_handler.fetchall()
-                columns = ['Activity ID', 'Name of Activity','Alloted Room']
+                columns = ['Activity ID', 'Name of Activity','Alloted Room','Rate']
                 print(f"{fg(109)}")
                 print(tabulate(result_act,headers=columns,tablefmt="grid"))
 
@@ -615,7 +616,7 @@ def staff_session(id):
                 # query_vals = ()
                 # command_handler.execute("call activity_Equip_table()",query_vals)
                 result = command_handler.fetchall()
-                columns = ['Activity ID', 'Activity Name','Room Number']
+                columns = ['Activity ID', 'Activity Name','Room Number','Rate']
                 print(f"{fg(109)}")
                 print(tabulate(result,headers=columns,tablefmt="grid"))
 
@@ -633,7 +634,7 @@ def staff_session(id):
                     print("")
                     command_handler.execute ("Select * from activity")
                     result_act = command_handler.fetchall()
-                    columns = ['Activity ID', 'Name of Activity','Alloted Room']
+                    columns = ['Activity ID', 'Name of Activity','Alloted Room','Rate']
                     print(f"{fg(109)}")
                     print(tabulate(result_act,headers=columns,tablefmt="grid"))
                     # emailid = input(str("Email ID: "))
@@ -686,7 +687,7 @@ def user_session(id):
        
         if user_option == "1":
             print("")
-            print(f"{fg(148)}Register New Activity")
+            print(f"{fg(148)}Register to New Activity")
             # idstaff = input(str("ID: "))
             emailid = input(str("user emailid: "))
             password = input(str("user password: "))
