@@ -243,7 +243,7 @@ def admin_session():
             break
        
 #Staff Session
-def staff_session():
+def staff_session(id):
     while 1:
         print("")
         print(f"{fg(148)}Welcome to Staff Panel")
@@ -670,7 +670,7 @@ def staff_session():
        
 
 #User session
-def user_session():
+def user_session(id):
     while 1:
         print(" ")
         print(f"{fg(73)}Welcome to User Panel")
