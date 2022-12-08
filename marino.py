@@ -56,6 +56,13 @@ def admin_session():
                     print("")
                     print(f"{fg(148)}Delete Existing Staff Account")
                     print("")
+                    command_handler.execute("Select idstaff,staff_name from staff")
+                    # fetch all the matching rows 
+                    result = command_handler.fetchall()
+                    columns = ['Staff ID', 'Staff name']
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
+    
+
                     emailid = input(str("Email ID: "))
                     password = input(str("Password: "))
                     query_vals = (emailid,password)
@@ -63,7 +70,7 @@ def admin_session():
                     command_handler.execute("call staff_del(%s,%s)",query_vals)
                     db.commit()
                     if command_handler.rowcount < 1: 
-                        print("Staff not found")
+                        print(f"{fg(1)}Staff not found")
                     else:
                         print("")
                         print(emailid + f"{fg(1)} has been deleted!")
@@ -88,7 +95,7 @@ def admin_session():
                     db.commit()
                     if command_handler.rowcount < 1: 
                         print("")
-                        print("No Staff found")
+                        print(f"{fg(1)}No Staff found")
 
                 elif admin_user_option == "4":
                     print("")
@@ -161,6 +168,13 @@ def admin_session():
                     print("")
                     print(f"{fg(148)}Delete Existing User Account")
                     print("")
+                    command_handler.execute("Select * from user")
+                    # fetch all the matching rows 
+                    result = command_handler.fetchall()
+                    columns = ['User ID', 'First Name','Last Name', 'User Age', 'Phone Number', "Email ID","Password"]
+                    print(f"{fg(109)}")
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
+
                     emailid = input(str("Email ID: "))
                     password = input(str("Password: "))
                     query_vals = (emailid,password)
@@ -277,15 +291,20 @@ def staff_session():
                 elif u_option == "2":
                     print("")
                     print(f"{fg(73)}Delete Existing User Account")
-                    emailid = input(str("Email ID: "))
-                    password = input(str("Password: "))
-                    query_vals = (emailid,password)
-                    command_handler.execute("DELETE FROM user WHERE emailid = %s AND password = %s",query_vals)
+                    print("")
+                    command_handler.execute ("Select userid, first_name,last_name,age,phone_number from user")
+                    result = command_handler.fetchall()
+                    columns = ['USER ID', 'First Name', 'Last Name','Age','Phone Number']
+                    print(f"{fg(109)}")
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
+                    userid = input(str("User ID: "))
+                    query_vals = (userid,)
+                    command_handler.execute("DELETE FROM user WHERE userid = %s",query_vals)
                     db.commit()
                     if command_handler.rowcount < 1: 
-                        print("User not found")
+                        print(f"{fg(1)}User not found")
                     else:
-                     print(emailid + " has been deleted!")
+                     print(userid + f"{fg(2)} has been deleted!")
 
                 elif u_option == "3":
                     print("")
@@ -734,12 +753,6 @@ def auth_admin():
     else:
         print("Invalid Email format, Try again")
         auth_admin()
-        
-
-    
-    
-    
-
     
 
 #Staff Authorization
@@ -752,14 +765,19 @@ def auth_staff():
         print("Valid Email")
         password = input(str("Password: "))
         query_vals = (emailid,password)
-        command_handler.execute("Select * from marino.staff where emailid = %s AND password = %s",query_vals)
-
+        command_handler.execute("Select idstaff from marino.staff where emailid = %s AND password = %s",query_vals)
+        result = command_handler.fetchall()
+        columns = ['Staff_id ID']
+        print(f"{fg(109)}")
+        print(tabulate(result,headers=columns,tablefmt="grid"))
+        res=", ".join(map(str,result))
+        id= res[1:4]
         if command_handler.rowcount<=0:
          print (f"{fg(1)}Login not recognized")
         else:
             print("")
             print(f"{fg(2)}Welcome " + emailid)
-            staff_session()
+            staff_session(id)
     else:
         print("Invalid Email format, Try again")
         auth_staff()
@@ -774,14 +792,20 @@ def auth_user():
     if(re.fullmatch(regex, emailid)):
         password = input(str("Password: "))
         query_vals = (emailid,password)
-        command_handler.execute("Select * from marino.user where emailid = %s AND password = %s",query_vals)
-
+        command_handler.execute("Select userid from marino.user where emailid = %s AND password = %s",query_vals)
+        result = command_handler.fetchall()
+        columns = ['User ID']
+        print(f"{fg(109)}")
+        print(tabulate(result,headers=columns,tablefmt="grid"))
+        res=", ".join(map(str,result))
+        id= res[1:-2]
+        print(id)
         if command_handler.rowcount<=0:
             print (f"{fg(1)}Login not recognized")
         else:
             print("")
             print(f"{fg(2)}Welcome " + emailid)
-            user_session()
+            user_session(id)
     else:
         print("Invalid Email format, Try again")
         auth_user()
