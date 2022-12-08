@@ -8,20 +8,22 @@ from pyfiglet import Figlet
 print(f"{fg(148)}Enter Username: " )
 username = input()
 # print( f"{fg(148)}Enter Password: " )   
-password = maskpass.askpass(mask="") 
+password = maskpass.askpass(mask="*") 
 
 try:
     conn = pymysql.connect( host='localhost',
                         user=username,
                         password=password,
                         db='marino' )
+    
 except Exception as e:
     print(f"{fg(1)} Invalid Credentials, Try again",e)
     print("")
     print("")
 
 
-    command_handler = conn.cursor()
+    
+command_handler = conn.cursor()
 
 # db = mysql.connect(host ="localhost",user = lines[0], password=lines[1],database="marino")
 # command_handler = db.cursor(buffered=True)
@@ -65,7 +67,7 @@ def admin_session():
                         query_vals = (staff_name,staff_age,phone_number,emailid,password)
                         # command_handler.execute("INSERT INTO marino.staff (staff_name,staff_age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s)",query_vals)
                         command_handler.execute("call staff_reg(%s,%s,%s,%s,%s)",query_vals)
-                        db.commit()
+                        conn.commit()
                         print(emailid + f"{fg(2)} has been registered as a staff")
                     else:
                         print("Invalid Email format, Try again")
@@ -80,7 +82,7 @@ def admin_session():
                     query_vals = (emailid,password)
                     # command_handler.execute("DELETE FROM staff WHERE emailid = %s AND password = %s",query_vals)
                     command_handler.execute("call staff_del(%s,%s)",query_vals)
-                    db.commit()
+                    conn.commit()
                     if command_handler.rowcount < 1: 
                         print("Staff not found")
                     else:
@@ -104,7 +106,7 @@ def admin_session():
                     #     print(f"{fg(5)}")
                     #     print(row)
                     #     print("\n")
-                    db.commit()
+                    conn.commit()
                     if command_handler.rowcount < 1: 
                         print("")
                         print("No Staff found")
@@ -122,7 +124,7 @@ def admin_session():
                     query_vals = (staff_name,staff_age,phone_number,update_idstaff)
                     command_handler.execute("Update staff SET staff_name = %s,staff_age=%s,phone_number=%s where idstaff=%s",query_vals)
             
-                    db.commit()
+                    conn.commit()
                     print("Updated Successfully!")
                     if command_handler.rowcount < 1: 
                         print("")
@@ -168,7 +170,7 @@ def admin_session():
                         query_vals = (first_name,last_name,age,phone_number,emailid,password)
                         # command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
                         command_handler.execute("call user_reg(%s,%s,%s,%s,%s,%s)",query_vals)
-                        db.commit()
+                        conn.commit()
                         print(first_name + f"{fg(2)} has been registered as a User")
                     else:
                         print("Invalid Email format, Try again")
@@ -185,7 +187,7 @@ def admin_session():
                     query_vals = (emailid,password)
                     # command_handler.execute("DELETE FROM user WHERE emailid = %s AND password = %s",query_vals)
                     command_handler.execute("call user_del(%s,%s)",query_vals)
-                    db.commit()
+                    conn.commit()
                     if command_handler.rowcount < 1: 
                         print("")
                         print("User not found")
@@ -212,7 +214,7 @@ def admin_session():
                     #     print(f"{fg(5)}")
                     #     print(row)
                     #     print("\n")
-                    db.commit()
+                    conn.commit()
                     if command_handler.rowcount < 1: 
                         print("")
                         print("No User found")
@@ -231,7 +233,7 @@ def admin_session():
                     query_vals = (first_name,last_name,user_age,phone_number,update_iduser)
                     command_handler.execute("Update user SET first_name = %s,last_name=%s,age=%s,phone_number=%s where userid=%s",query_vals)
             
-                    db.commit()
+                    conn.commit()
                     print(f"{fg(2)}")
                     print(first_name + " Updated Successfully!")
                     if command_handler.rowcount < 1: 
@@ -285,7 +287,7 @@ def staff_session():
                         phone_number = input(str("user Phone Number: "))
                         query_vals = (first_name,last_name,age,phone_number,emailid,password)
                         command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
-                        db.commit()
+                        conn.commit()
                         print(first_name + " has been registered as a User")
                     else:
                          print("Invalid Email format, Try again")
@@ -300,7 +302,7 @@ def staff_session():
                     password = input(str("Password: "))
                     query_vals = (emailid,password)
                     command_handler.execute("DELETE FROM user WHERE emailid = %s AND password = %s",query_vals)
-                    db.commit()
+                    conn.commit()
                     if command_handler.rowcount < 1: 
                         print("User not found")
                     else:
@@ -321,7 +323,7 @@ def staff_session():
                     # for row in result:
                     #     print(row)
                     #     print("\n")
-                    db.commit()
+                    conn.commit()
                     if command_handler.rowcount < 1: 
                         print("No User found")
 
@@ -339,7 +341,7 @@ def staff_session():
                     query_vals = (first_name,last_name,user_age,phone_number,update_iduser)
                     command_handler.execute("Update user SET first_name = %s,last_name=%s,age=%s,phone_number=%s where userid=%s",query_vals)
             
-                    db.commit()
+                    conn.commit()
                 
                     if command_handler.rowcount < 1: 
                         print("")
@@ -378,7 +380,7 @@ def staff_session():
                 query_vals = (type_of_locker,idstaff)
                 # command_handler.execute("Insert into marino.locker(type_of_locker,idstaff,userid) values(%s,%s,0)",query_vals)
                 command_handler.execute("call locker_reg(%s,%s,0)",query_vals)
-                db.commit()
+                conn.commit()
                 print("New locker has been created!")
 
             elif l_option == "2":
@@ -389,7 +391,7 @@ def staff_session():
                 query_vals = (idlocker,)
                 # command_handler.execute("Delete from locker where idlocker = %s",query_vals)
                 command_handler.execute("call locker_del(%s)",query_vals)
-                db.commit()
+                conn.commit()
                 if command_handler.rowcount < 1:
                     print("Locker Not found")
                 else:
@@ -406,7 +408,7 @@ def staff_session():
                     query_vals = (update_iduser,idlocker)
                     command_handler.execute("Update locker SET userid=%s where idlocker=%s",query_vals)
             
-                    db.commit()
+                    conn.commit()
                     print(idlocker + " Updated Successfully!")
 
                     # todo add condition to handle incorrect value
@@ -428,7 +430,7 @@ def staff_session():
                 # for row in result: 
                 #     print(row)
                 #     print("\n")
-                db.commit()
+                conn.commit()
 
                 if command_handler.rowcount < 1:
                     print("Lockers not found!")
@@ -462,7 +464,7 @@ def staff_session():
                 query_vals = (name,idstaff,idactivity)
                 # command_handler.execute("Insert into marino.equipment(name,idstaff,idactivity) values(%s,%s,%s)",query_vals)
                 command_handler.execute("call equipment_reg(%s,%s,%s)",query_vals)
-                db.commit()
+                conn.commit()
                 print("New equipment has been added!")
 
             elif e_option == "2":
@@ -473,7 +475,7 @@ def staff_session():
                 query_vals = (idequipment,)
                 # command_handler.execute("Delete from equipment where idequipment = %s",query_vals)
                 command_handler.execute("call equipment_del(%s)",query_vals)
-                db.commit()
+                conn.commit()
                 if command_handler.rowcount < 1:
                     print("Equipment Not found")
                 else:
@@ -493,7 +495,7 @@ def staff_session():
                 # for row in result: 
                 #     print(row)
                 #     print("\n")
-                db.commit()
+                conn.commit()
 
                 if command_handler.rowcount < 1:
                     print("Equipments not found!")
@@ -509,7 +511,7 @@ def staff_session():
                     query_vals = (idactivity,idequipment)
                     command_handler.execute("Update equipment SET idactivity=%s where idequipment=%s",query_vals)
             
-                    db.commit()
+                    conn.commit()
                     print(idequipment + " Updated Successfully!")
                     
                     # todo add condition to handle incorrect value
@@ -547,7 +549,7 @@ def staff_session():
                 query_vals = (name,room_no)
                 # command_handler.execute("Insert into marino.activity (name,room_no) values (%s,%s)",query_vals)
                 command_handler.execute("call activity_reg(%s,%s)",query_vals)
-                db.commit()
+                conn.commit()
 
                 print("New Activity has been created!")
             elif a_option == "2":
@@ -558,7 +560,7 @@ def staff_session():
                 query_vals = (idactivity,)
                 # command_handler.execute("Delete from activity where idactivity = %s", query_vals)
                 command_handler.execute("call activity_del(%s)",query_vals)
-                db.commit()
+                conn.commit()
 
                 if command_handler.rowcount < 1:
                     print("Activity doesn't exist")
@@ -581,7 +583,7 @@ def staff_session():
 
                 # for row in result:
                 #     print (row)
-                db.commit()
+                conn.commit()
 
                 if command_handler.rowcount <1:
                     print("No details found")
@@ -598,7 +600,7 @@ def staff_session():
                     query_vals = (room_no,name,idactivity)
                     command_handler.execute("Update activity SET room_no=%s,name=%s where idactivity=%s",query_vals)
             
-                    db.commit()
+                    conn.commit()
                     print(name + " Updated Successfully!")
                     
                     # todo add condition to handle incorrect value
@@ -649,7 +651,7 @@ def user_session():
             phone_number = input(str("user Phone Number: "))
             query_vals = (first_name,last_name,age,phone_number,emailid,password)
             command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
-            db.commit()
+            conn.commit()
             print(first_name + " has been registered as a User")
         
        
@@ -661,7 +663,7 @@ def user_session():
             password = input(str("Password: "))
             query_vals = (emailid,password)
             command_handler.execute("DELETE FROM user WHERE emailid = %s AND password = %s",query_vals)
-            db.commit()
+            conn.commit()
             if command_handler.rowcount < 1: 
                 print("User not found")
             else:
@@ -685,7 +687,7 @@ def user_session():
             # for row in result:
             #     print(row)
                 # print("\n")
-            db.commit()
+            conn.commit()
             if command_handler.rowcount < 1: 
                 print("No Locker found")
 
@@ -711,7 +713,7 @@ def user_session():
                         query_vals = (first_name,last_name,user_age,phone_number,emailid,password,update_iduser)
                         command_handler.execute("Update user SET first_name = %s,last_name=%s,age=%s,phone_number=%s,emailid=%s,password=%s where userid=%s",query_vals)
 
-                        db.commit()
+                        conn.commit()
 
                         if command_handler.rowcount < 1: 
                             print("")
@@ -821,7 +823,7 @@ def auth_new_user():
         phone_number = input(str("user Phone Number: "))
         query_vals = (first_name,last_name,age,phone_number,emailid,password)
         command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
-        db.commit()
+        conn.commit()
         print(first_name + " has been registered as a User")
 
         print("")
