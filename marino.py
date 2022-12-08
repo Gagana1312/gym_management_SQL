@@ -474,17 +474,24 @@ def staff_session():
                 print(f"{fg(73)}Add a new Equipment")
     
                 name = input(str("Name of the equipment: "))
-                idstaff = input(str("Enter the staff ID : "))
-                idactivity = input(str("Enter the activity ID : "))
+                idstaff = id
+                idactivity = 0
+                # idstaff = input(str("Enter the staff ID : "))
+                # idactivity = input(str("Enter the activity ID : "))
                 query_vals = (name,idstaff,idactivity)
                 # command_handler.execute("Insert into marino.equipment(name,idstaff,idactivity) values(%s,%s,%s)",query_vals)
                 command_handler.execute("call equipment_reg(%s,%s,%s)",query_vals)
                 db.commit()
-                print("New equipment has been added!")
+                print(name + " has been added!")
 
             elif e_option == "2":
                 print("")
                 print(f"{fg(73)}Remove an equipment")
+                command_handler.execute ("Select idequipment,name from equipment")
+                result = command_handler.fetchall()
+                columns = ['Equipment ID', 'Name of Equipment']
+                print(f"{fg(109)}")
+                print(tabulate(result,headers=columns,tablefmt="grid"))
 
                 idequipment = input(str("Enter the Equipment ID : "))
                 query_vals = (idequipment,)
@@ -519,6 +526,16 @@ def staff_session():
                     print("")
                     print(f"{fg(148)}Assign Equipment to a User")
                     print("")
+                    command_handler.execute ("Select idequipment,name from equipment")
+                    result_eqp = command_handler.fetchall()
+                    columns = ['Equipment ID', 'Name of Equipment']
+                    print(f"{fg(109)}")
+                    print(tabulate(result_eqp,headers=columns,tablefmt="grid"))
+                    command_handler.execute ("Select * from activity")
+                    result_act = command_handler.fetchall()
+                    columns = ['Activity ID', 'Name of Activity','Alloted Room']
+                    print(f"{fg(109)}")
+                    print(tabulate(result_act,headers=columns,tablefmt="grid"))
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
                     idactivity = input(str("Activity ID: "))
