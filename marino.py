@@ -704,6 +704,13 @@ def user_session():
         elif user_option == "2":
             print("")
             print(f"{fg(148)}Delete existing activity")
+            command_handler.execute("Select * from locker where userid = %s",query_vals)
+            # fetch all the matching rows 
+            result = command_handler.fetchall()
+            columns = ['Locker ID', 'Type of Locker','Staff ID', 'User ID']
+            print(f"{fg(109)}")
+            print(tabulate(result,headers=columns,tablefmt="grid"))
+            print("")
             emailid = input(str("Email ID: "))
             password = input(str("Password: "))
             query_vals = (emailid,password)
@@ -719,7 +726,8 @@ def user_session():
             print(f"{fg(148)}View your locker")
             # emailid = input(str("Email ID: "))
             # query_vals = (emailid)
-            userid = input(str("Enter user ID: "))
+            # userid = input(str("Enter user ID: "))
+            userid = id
             query_vals = (userid,)
             command_handler.execute("Select * from locker where userid = %s",query_vals)
             # fetch all the matching rows 
@@ -747,14 +755,16 @@ def user_session():
                     print("")
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
+                    update_iduser = id
+                    print(" User id : " + id)
                     emailid = input(str("Email ID: "))
                     if(re.fullmatch(regex, emailid)):
-                        update_iduser = input(str("User ID to be updated: "))
+                        password = input(str("Password: "))
+                        # update_iduser = input(str("User ID to be updated: "))
                         first_name = input(str("User First Name: "))
                         last_name = input(str("User Last Name: "))
                         user_age = input(str("User Age: "))
                         phone_number = input(str("Staff Phone Number: "))
-                        password = input(str("Password: "))
                         query_vals = (first_name,last_name,user_age,phone_number,emailid,password,update_iduser)
                         command_handler.execute("Update user SET first_name = %s,last_name=%s,age=%s,phone_number=%s,emailid=%s,password=%s where userid=%s",query_vals)
 
