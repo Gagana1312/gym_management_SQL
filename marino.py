@@ -327,15 +327,20 @@ def staff_session():
 
                 elif u_option == "4":
                     print("")
-                    print(f"{fg(148)}Update Existing User Details")
+                    print(f"{fg(73)}Update Existing User Details")
                     print("")
+                    command_handler.execute ("Select userid, first_name,last_name,age,phone_number from user")
+                    result = command_handler.fetchall()
+                    columns = ['User ID', 'First Name', 'Last Name','Age','Phone Number']
+                    print(f"{fg(109)}")
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
                     update_iduser = input(str("User ID to be updated: "))
                     first_name = input(str("User First Name: "))
                     last_name = input(str("User Last Name: "))
                     user_age = input(str("User Age: "))
-                    phone_number = input(str("Staff Phone Number: "))
+                    phone_number = input(str("User Phone Number: "))
                     query_vals = (first_name,last_name,user_age,phone_number,update_iduser)
                     command_handler.execute("Update user SET first_name = %s,last_name=%s,age=%s,phone_number=%s where userid=%s",query_vals)
             
@@ -343,7 +348,7 @@ def staff_session():
                 
                     if command_handler.rowcount < 1: 
                         print("")
-                        print("No User found")
+                        print(f"{fg(1)}No User found")
                     else:
                           print(f"{fg(2)}")
                           print(first_name + " Updated Successfully!")
