@@ -131,8 +131,7 @@ CREATE TABLE Admin (
 );
 
 CREATE TABLE payment (
-  idpayment varchar(45) NOT NULL,
-  price varchar(45),
+  idpayment int NOT NULL auto_increment,
   idactivity INT NOT NULL,
   userid INT NOT NULL,
   PRIMARY KEY (idpayment)
@@ -164,6 +163,7 @@ DELETE FROM staff WHERE emailid = 'testing@gmail.com';
 -- Error Code: 1175. You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column.  To disable safe mode, toggle the option in Preferences -> SQL Editor and reconnect.
 
 
+ select * from payment;
 select * from staff;
 select * from user;
 select * from admin;
@@ -178,115 +178,128 @@ INSERT INTO marino.equipment VALUES ('1101', 'soccer ball.', '603', '17001'),
 ,('1104', 'Nets', '601', '17003'),('1105', 'Sticks', '602', '17006'),
 ('1106', 'Bats', '601', '17002');
 
-INSERT INTO marino.activity VALUES ('17001', 'Soccer', '41',200),
-('17002', 'Cricket', '42',400),
-('17003', 'Tennis', '43',300),
-('17004', 'Squash', '44',250),
- ('17005', 'disc golf', '46',430);
+-- INSERT INTO marino.activity VALUES ('17001', 'Soccer', '41',200),
+-- ('17002', 'Cricket', '42',400),
+-- ('17003', 'Tennis', '43',300),
+-- ('17004', 'Squash', '44',250),
+--  ('17005', 'disc golf', '46',430);
 
--- Error Code: 1452. Cannot add or update a chxild row: a foreign key constraint fails (`marino`.`equiment`, CONSTRAINT `idactivity_fk_equipment` FOREIGN KEY (`idactivity`) REFERENCES `activity` (`idactivity`) ON DELETE CASCADE ON UPDATE RESTRICT)
-  SET FOREIGN_KEY_CHECKS=0;
-  SELECT @@GLOBAL.foreign_key_checks, @@SESSION.foreign_key_checks;
-  -- SET VARIABLES LIKE 'FOREIGN_KEY_CHECKS';
-  
-  SELECT * FROM activity;
-  SELECT * from equipment;
-  
-  SELECT * from activity as a , equipment as e where a.idactivity=e.idactivity;
-  
-  SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;
+-- -- Error Code: 1452. Cannot add or update a chxild row: a foreign key constraint fails (`marino`.`equiment`, CONSTRAINT `idactivity_fk_equipment` FOREIGN KEY (`idactivity`) REFERENCES `activity` (`idactivity`) ON DELETE CASCADE ON UPDATE RESTRICT)
+--   SET FOREIGN_KEY_CHECKS=0;
+--   SELECT @@GLOBAL.foreign_key_checks, @@SESSION.foreign_key_checks;
+--   -- SET VARIABLES LIKE 'FOREIGN_KEY_CHECKS';
+--   
+--   SELECT * FROM activity;
+--   SELECT * from equipment;
+--   
+--   SELECT * from activity as a , equipment as e where a.idactivity=e.idactivity;
+--   
+--   SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;
 
-INSERT INTO marino.trainer VALUES ('301', 'Chris', '25', '784637380', 'chris@gmail.com', 'chris'),
-('302', 'Felix', '24', '23432546', 'felix@gmail.com', 'felix'),
-('303', 'Alex', '25', '33452878', 'alex@gmail.com', 'alex');
+-- INSERT INTO marino.trainer VALUES ('301', 'Chris', '25', '784637380', 'chris@gmail.com', 'chris'),
+-- ('302', 'Felix', '24', '23432546', 'felix@gmail.com', 'felix'),
+-- ('303', 'Alex', '25', '33452878', 'alex@gmail.com', 'alex');
 
-delimiter //
-create procedure staff_reg(IN staff_name varchar(40),IN staff_age int, 
-IN phone_number VARCHAR(10),IN emailid varchar(46), IN password varchar(40) )
-begin
-insert into marino.staff(staff_name,staff_age,phone_number,emailid,password) 
-values(staff_name,staff_age,phone_number,emailid,password);
-end
-//
-   
-call staff_reg('Chris',24,675672876,'chris@gmail.com','chris');
 
-delimiter $$
-create procedure user_reg(IN first_name varchar(40),IN last_name varchar(40),IN age int, 
-IN phone_number VARCHAR(10),IN emailid varchar(46), IN password varchar(40) )
-begin
-insert into marino.user(first_name,last_name,age,phone_number,emailid,password) 
- values(first_name,last_name,age,phone_number,emailid,password);
-end
-$$
-   
-call user_reg('Chris','Jane',24,675672876,'chris@gmail.com','chris');
+-- INSERT INTO marino.payment  VALUES ('101001', '17003', '3'), ('101002', '17003', '2')
+--  ,('101003', '17002', '3'),('101004', '17001', '1'), ('101005', '17002', '3'), ('101006', '17004', '4');
+--  
+-- select p.idpayment,a.price,a.idactivity,a.name,u.userid,u.first_name from payment as p JOIN activity as a ON p.idactivity=a.idactivity JOIN user as u ON p.userid=u.userid;
 
-delimiter $$
-create procedure staff_del(IN email_id varchar(46), IN pwd varchar(40) )
-begin
-delete from staff WHERE emailid = email_id AND password = pwd;
-end
-$$
 
--- SET SQL_SAFE_UPDATES = 0;
-
-call staff_del('chris@gmail.com','chris');
-
-delimiter $$
-create procedure user_del(IN email_id varchar(46), IN pwd varchar(40) )
-begin
-delete from user WHERE emailid = email_id AND password = pwd;
-end
-$$
-
-delimiter $$
-create procedure locker_reg(IN type_of_locker varchar(40),IN idstaff int, IN userid int )
-begin
-insert into marino.locker(type_of_locker,idstaff,userid) 
-values(type_of_locker,idstaff,0);
-end
-$$
+-- delimiter //
+-- create procedure staff_reg(IN staff_name varchar(40),IN staff_age int, 
+-- IN phone_number VARCHAR(10),IN emailid varchar(46), IN password varchar(40) )
+-- begin
+-- insert into marino.staff(staff_name,staff_age,phone_number,emailid,password) 
+-- values(staff_name,staff_age,phone_number,emailid,password);
+-- end
+-- //
 --    
-call locker_reg('standard',608,4);
+-- call staff_reg('Chris',24,675672876,'chris@gmail.com','chris');
 
-delimiter $$
-create procedure locker_del(IN id_locker INT )
-begin
-Delete from locker where idlocker = id_locker;
-end
-$$
+-- delimiter $$
+-- create procedure user_reg(IN first_name varchar(40),IN last_name varchar(40),IN age int, 
+-- IN phone_number VARCHAR(10),IN emailid varchar(46), IN password varchar(40) )
+-- begin
+-- insert into marino.user(first_name,last_name,age,phone_number,emailid,password) 
+--  values(first_name,last_name,age,phone_number,emailid,password);
+-- end
+-- $$
+--    
+-- call user_reg('Chris','Jane',24,675672876,'chris@gmail.com','chris');
+
+-- delimiter $$
+-- create procedure staff_del(IN email_id varchar(46), IN pwd varchar(40) )
+-- begin
+-- delete from staff WHERE emailid = email_id AND password = pwd;
+-- end
+-- $$
+
+-- -- SET SQL_SAFE_UPDATES = 0;
+
+-- call staff_del('chris@gmail.com','chris');
+
+-- delimiter $$
+-- create procedure user_del(IN email_id varchar(46), IN pwd varchar(40) )
+-- begin
+-- delete from user WHERE emailid = email_id AND password = pwd;
+-- end
+-- $$
+
+-- delimiter $$
+-- create procedure locker_reg(IN type_of_locker varchar(40),IN idstaff int, IN userid int )
+-- begin
+-- insert into marino.locker(type_of_locker,idstaff,userid) 
+-- values(type_of_locker,idstaff,0);
+-- end
+-- $$
+-- --    
+-- call locker_reg('standard',608,4);
+
+-- delimiter $$
+-- create procedure locker_del(IN id_locker INT )
+-- begin
+-- Delete from locker where idlocker = id_locker;
+-- end
+-- $$
 
 call locker_del(908);
 
-delimiter $$
- create procedure equipment_reg(IN name varchar(40),IN idstaff int,IN idactivity INT )
-   begin
-   Insert into marino.equipment(name,idstaff,idactivity) values(name,idstaff,idactivity);
-   end
-   $$
+-- delimiter $$
+--  create procedure equipment_reg(IN name varchar(40),IN idstaff int,IN idactivity INT )
+--    begin
+--    Insert into marino.equipment(name,idstaff,idactivity) values(name,idstaff,idactivity);
+--    end
+--    $$
    
 call equipment_reg('hockey stick',604,17006);
 
-delimiter $$
-create procedure equipment_del(IN id_equipment INT )
-begin
-Delete from equipment where idequipment = id_equipment;
-end
-$$
+-- delimiter $$
+-- create procedure equipment_del(IN id_equipment INT )
+-- begin
+-- Delete from equipment where idequipment = id_equipment;
+-- end
+-- $$
 
-call equipment_del(904);
+-- call equipment_del(904);
  
 -- DROp procedure is exists activity_reg(name_,room_no,price_);
 
-delimiter $$
-create procedure activity_reg(IN name_ varchar(40),IN room_no_ int,IN price_ int )
-begin
-Insert into marino.activity (name,room_no,price) values (name_,room_no_,price_);
-end
-$$
+-- delimiter $$
+-- create procedure activity_reg(IN name_ varchar(40),IN room_no_ int,IN price_ int )
+-- begin
+-- Insert into marino.activity (name,room_no,price) values (name_,room_no_,price_);
+-- end
+-- $$
    
-call activity_reg('hockey',65);
+call activity_reg('foosball',92,10);
+
+
+select p.idpayment,a.price,a.idactivity,a.name,u.userid,u.first_name 
+from payment as p JOIN activity as a ON p.idactivity=a.idactivity JOIN user as u ON p.userid=u.userid where u.userid=3
+GROUP BY p.idpayment ;
+
 
 delimiter $$
 create procedure activity_del(IN id_activity INT )
@@ -294,7 +307,6 @@ begin
 Delete from activity where idactivity = id_activity;
 end
 $$
-
 call activity_del(17006);
 
 -- delimiter $$
@@ -306,4 +318,23 @@ call activity_del(17006);
 -- $$
    
 -- call activity_Equip_table()
+
+-- delimiter $$
+-- create procedure payment_del(in idactivity_ int)
+-- begin
+-- DELETE FROM payment where idactivity=idactivity_;
+-- end
+-- $$
+
+DROP PROCEDURE IF EXISTS user_activity;
+
+delimiter $$
+create procedure user_activity(IN idactivity_ int, IN userid_ INT)
+begin
+Insert into marino.payment(idactivity,userid) values (idactivity_,userid_);
+end
+$$
+
+call user_activity('17002','3');
+
 

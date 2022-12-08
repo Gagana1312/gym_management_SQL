@@ -34,11 +34,12 @@ def admin_session():
     # print("Login successfully, Welcome Admin!")
  while 1:
         print("")
-        print(f"{fg(148)}Welcome to Admin Panel")
+        print(f"{fg(23)}Welcome to Admin Panel")
         print("")
-        print("1.Staff Panel")
-        print("2.Student Panel")
-        print("3.Back")
+        print(f"{fg(148)}1.Staff Panel")
+        print(f"{fg(148)}2.Student Panel")
+        print(f"{fg(148)}3.Back")
+        print("")
 
         user_option = input(str(f"{fg(99)}Option : "))
         if user_option == "1":
@@ -55,7 +56,7 @@ def admin_session():
 
                 if admin_user_option == "1":
                     print("")
-                    print(f"{fg(148)}Register New Staff")
+                    print(f"{fg(73)}Register New Staff")
                     print("")
                      # idstaff = input(str("ID: "))
                     emailid = input(str("Staff emailid: "))
@@ -250,7 +251,7 @@ def admin_session():
             break
        
 #Staff Session
-def staff_session():
+def staff_session(id):
     while 1:
         print("")
         print(f"{fg(148)}Welcome to Staff Panel")
@@ -298,10 +299,15 @@ def staff_session():
                 elif u_option == "2":
                     print("")
                     print(f"{fg(73)}Delete Existing User Account")
-                    emailid = input(str("Email ID: "))
-                    password = input(str("Password: "))
-                    query_vals = (emailid,password)
-                    command_handler.execute("DELETE FROM user WHERE emailid = %s AND password = %s",query_vals)
+                    print("")
+                    command_handler.execute ("Select userid, first_name,last_name,age,phone_number from user")
+                    result = command_handler.fetchall()
+                    columns = ['USER ID', 'First Name', 'Last Name','Age','Phone Number']
+                    print(f"{fg(109)}")
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
+                    userid = input(str("User ID: "))
+                    query_vals = (userid,)
+                    command_handler.execute("DELETE FROM user WHERE userid = %s",query_vals)
                     conn.commit()
                     if command_handler.rowcount < 1: 
                         print("User not found")
@@ -319,10 +325,6 @@ def staff_session():
                     print(f"{fg(109)}")
                     print(tabulate(result,headers=columns,tablefmt="grid"))
         
-                    # loop through the rows
-                    # for row in result:
-                    #     print(row)
-                    #     print("\n")
                     conn.commit()
                     if command_handler.rowcount < 1: 
                         print("No User found")
@@ -331,13 +333,18 @@ def staff_session():
                     print("")
                     print(f"{fg(148)}Update Existing User Details")
                     print("")
+                    command_handler.execute ("Select userid, first_name,last_name,age,phone_number from user")
+                    result = command_handler.fetchall()
+                    columns = ['User ID', 'First Name', 'Last Name','Age','Phone Number']
+                    print(f"{fg(109)}")
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
                     update_iduser = input(str("User ID to be updated: "))
                     first_name = input(str("User First Name: "))
                     last_name = input(str("User Last Name: "))
                     user_age = input(str("User Age: "))
-                    phone_number = input(str("Staff Phone Number: "))
+                    phone_number = input(str("User Phone Number: "))
                     query_vals = (first_name,last_name,user_age,phone_number,update_iduser)
                     command_handler.execute("Update user SET first_name = %s,last_name=%s,age=%s,phone_number=%s where userid=%s",query_vals)
             
@@ -373,9 +380,10 @@ def staff_session():
             if l_option == "1":
                 print("")
                 print(f"{fg(73)}Create a new locker")
+
     
                 type_of_locker = input(str("Enter the type of Locker (Personal/Standard): "))
-                idstaff = input(str("Enter the staff ID : "))
+                idstaff = id
                 # userid = input(str("Enter the user ID : "))
                 query_vals = (type_of_locker,idstaff)
                 # command_handler.execute("Insert into marino.locker(type_of_locker,idstaff,userid) values(%s,%s,0)",query_vals)
@@ -386,6 +394,11 @@ def staff_session():
             elif l_option == "2":
                 print("")
                 print(f"{fg(73)}Delete a locker")
+                command_handler.execute ("Select idlocker,type_of_locker from locker")
+                result = command_handler.fetchall()
+                columns = ['Locker ID', 'Type of Locker']
+                print(f"{fg(109)}")
+                print(tabulate(result,headers=columns,tablefmt="grid"))
 
                 idlocker = input(str("Enter the locker ID : "))
                 query_vals = (idlocker,)
@@ -401,6 +414,12 @@ def staff_session():
                     print("")
                     print(f"{fg(148)}Assign locker to a User")
                     print("")
+                    print("Available Lockers")
+                    command_handler.execute ("Select idlocker,type_of_locker,userid from locker where userid=0 ")
+                    result = command_handler.fetchall()
+                    columns = ['Locker ID', 'Type of Locker','user_id']
+                    print(f"{fg(109)}")
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
                     update_iduser = input(str("User ID to be updated: "))
@@ -422,9 +441,9 @@ def staff_session():
             elif l_option == "4":
                 print("")
                 print(f"{fg(73)}Viewing a Locker")
-                command_handler.execute ("Select * from locker")
+                command_handler.execute ("Select idlocker, type_of_locker,userid from locker")
                 result = command_handler.fetchall()
-                columns = ['Locker ID', 'Type of Locker','Staff ID', 'User ID']
+                columns = ['Locker ID', 'Type of Locker', 'User ID']
                 print(f"{fg(109)}")
                 print(tabulate(result,headers=columns,tablefmt="grid"))
                 # for row in result: 
@@ -459,8 +478,8 @@ def staff_session():
                 print(f"{fg(73)}Add a new Equipment")
     
                 name = input(str("Name of the equipment: "))
-                idstaff = input(str("Enter the staff ID : "))
-                idactivity = input(str("Enter the activity ID : "))
+                idstaff = id
+                idactivity = 0
                 query_vals = (name,idstaff,idactivity)
                 # command_handler.execute("Insert into marino.equipment(name,idstaff,idactivity) values(%s,%s,%s)",query_vals)
                 command_handler.execute("call equipment_reg(%s,%s,%s)",query_vals)
@@ -470,6 +489,11 @@ def staff_session():
             elif e_option == "2":
                 print("")
                 print(f"{fg(73)}Remove an equipment")
+                command_handler.execute ("Select idequipment,name from equipment")
+                result = command_handler.fetchall()
+                columns = ['Equipment ID', 'Name of Equipment']
+                print(f"{fg(109)}")
+                print(tabulate(result,headers=columns,tablefmt="grid"))
 
                 idequipment = input(str("Enter the Equipment ID : "))
                 query_vals = (idequipment,)
@@ -486,9 +510,9 @@ def staff_session():
                 print("")
                 print(f"{fg(73)}Viewing all Equipments")
 
-                command_handler.execute ("Select * from equipment")
+                command_handler.execute ("Select idequipment,name,idactivity from equipment")
                 result = command_handler.fetchall()
-                columns = ['Equipment ID', 'Name of Equipment','Staff ID', 'Activity ID']
+                columns = ['Equipment ID', 'Name of Equipment', 'Activity ID']
                 print(f"{fg(109)}")
                 print(tabulate(result,headers=columns,tablefmt="grid"))
 
@@ -502,8 +526,18 @@ def staff_session():
 
             elif e_option == "4":
                     print("")
-                    print(f"{fg(148)}Assign Equipment to a User")
+                    print(f"{fg(148)}Assign Equipment to a Activity")
                     print("")
+                    command_handler.execute ("Select idequipment,name from equipment")
+                    result_eqp = command_handler.fetchall()
+                    columns = ['Equipment ID', 'Name of Equipment']
+                    print(f"{fg(109)}")
+                    print(tabulate(result_eqp,headers=columns,tablefmt="grid"))
+                    command_handler.execute ("Select * from activity")
+                    result_act = command_handler.fetchall()
+                    columns = ['Activity ID', 'Name of Activity','Alloted Room']
+                    print(f"{fg(109)}")
+                    print(tabulate(result_act,headers=columns,tablefmt="grid"))
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
                     idactivity = input(str("Activity ID: "))
@@ -545,16 +579,22 @@ def staff_session():
 
                 name = input(str("Enter the name of the activity: "))
                 room_no = input(str("Enter the room number for the activity: "))
+                price = input(str('Enter activity rate: '))
 
                 query_vals = (name,room_no)
                 # command_handler.execute("Insert into marino.activity (name,room_no) values (%s,%s)",query_vals)
-                command_handler.execute("call activity_reg(%s,%s)",query_vals)
+                command_handler.execute("call activity_reg(%s,%s,%s)",query_vals)
                 conn.commit()
 
                 print("New Activity has been created!")
             elif a_option == "2":
                 print("")
-                print(f"{fg(73)}Delete an activity")
+                print(f"{fg(55)}Delete an activity")
+                command_handler.execute ("Select * from activity")
+                result_act = command_handler.fetchall()
+                columns = ['Activity ID', 'Name of Activity','Alloted Room','Rate']
+                print(f"{fg(109)}")
+                print(tabulate(result_act,headers=columns,tablefmt="grid"))
 
                 idactivity = input(str("Enter the acitvity ID: "))
                 query_vals = (idactivity,)
@@ -576,7 +616,7 @@ def staff_session():
                 # query_vals = ()
                 # command_handler.execute("call activity_Equip_table()",query_vals)
                 result = command_handler.fetchall()
-                columns = ['Activity ID', 'Activity Name','Room Number']
+                columns = ['Activity ID', 'Activity Name','Room Number',"Rate"]
                 print(f"{fg(109)}")
                 print(tabulate(result,headers=columns,tablefmt="grid"))
 
@@ -592,6 +632,11 @@ def staff_session():
                     print("")
                     print(f"{fg(148)}Assign Activity to a User")
                     print("")
+                    command_handler.execute ("Select * from activity")
+                    result_act = command_handler.fetchall()
+                    columns = ['Activity ID', 'Name of Activity','Alloted Room',"Rate"]
+                    print(f"{fg(109)}")
+                    print(tabulate(result_act,headers=columns,tablefmt="grid"))
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
                     idactivity = input(str("Activity ID: "))
@@ -625,7 +670,7 @@ def staff_session():
        
 
 #User session
-def user_session():
+def user_session(id):
     while 1:
         print(" ")
         print(f"{fg(73)}Welcome to User Panel")
@@ -643,38 +688,48 @@ def user_session():
             print("")
             print(f"{fg(148)}Register New Activity")
             # idstaff = input(str("ID: "))
-            emailid = input(str("user emailid: "))
-            password = input(str("user password: "))
-            first_name = input(str("First Name: "))
-            last_name = input(str("Last Name: "))
-            age = input(str("user Age: "))
-            phone_number = input(str("user Phone Number: "))
-            query_vals = (first_name,last_name,age,phone_number,emailid,password)
-            command_handler.execute("INSERT INTO marino.user(first_name,last_name,age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s,%s)",query_vals)
+            command_handler.execute ("Select * from activity")
+            result_act = command_handler.fetchall()
+            columns = ['Activity ID', 'Name of Activity','Alloted Room',"Rate"]
+            print(f"{fg(109)}")
+            print(tabulate(result_act,headers=columns,tablefmt="grid"))
+            # activityId = 17006
+            activityId = input("Enter Activity ID: ")
+            user_id = 10
+            query_vals = (activityId,user_id)
+            command_handler.execute("call user_activity(%s,%s)",query_vals)
             conn.commit()
-            print(first_name + " has been registered as a User")
+            print(activityId + " has been registered to you!")
         
        
         
         elif user_option == "2":
             print("")
             print(f"{fg(148)}Delete existing activity")
-            emailid = input(str("Email ID: "))
-            password = input(str("Password: "))
-            query_vals = (emailid,password)
-            command_handler.execute("DELETE FROM user WHERE emailid = %s AND password = %s",query_vals)
+            # emailid = input(str("Email ID: "))
+            # password = input(str("Password: "))
+            user_id = id
+            query_val = (user_id,)
+            command_handler.execute ("select p.idpayment,a.price,a.idactivity,a.name from payment as p JOIN activity as a ON p.idactivity=a.idactivity JOIN user as u ON p.userid=u.userid where u.userid= %s GROUP BY p.idpayment",query_val)
+            result_act = command_handler.fetchall()
+            columns = ['Payment ID',"Rate", 'Activity ID','Activity Name','First Name',]
+            print(f"{fg(109)}")
+            print(tabulate(result_act,headers=columns,tablefmt="grid"))
+            activityId = input(str("Activity ID: "))
+            query_vals = (activityId)
+            command_handler.execute("call payment_del(%s)",query_vals)
             conn.commit()
             if command_handler.rowcount < 1: 
-                print("User not found")
+                print("Activity not found")
             else:
-                print(emailid + " has been deleted!")
+                print(activityId + " has been deleted!")
 
         elif user_option == "3":
             print("")
             print(f"{fg(148)}View your locker")
             # emailid = input(str("Email ID: "))
             # query_vals = (emailid)
-            userid = input(str("Enter user ID: "))
+            userid =  id
             query_vals = (userid,)
             command_handler.execute("Select * from locker where userid = %s",query_vals)
             # fetch all the matching rows 
@@ -695,32 +750,18 @@ def user_session():
         elif user_option == "4":
             print("")
             print(f"{fg(148)}Viewing Bill")
-            print("")
-            command_handler.execute("SELECT * from payment")
-                # command_handler.execute("SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;")
-                # query_vals = ()
-                # command_handler.execute("call activity_Equip_table()",query_vals)
-            result = command_handler.fetchall()
-            columns = ['Activity ID','Rate' ,'Activity Name','Room Number']
-            print(f"{fg(109)}")
-            print(tabulate(result,headers=columns,tablefmt="grid"))
-            # for row in result:
-            #     print (row)
-            conn.commit()
-            if command_handler.rowcount <1:
-                print("No details found")
-
-
 
         elif user_option == "5":
                     print("")
                     print(f"{fg(148)}Update Existing User Details")
                     print("")
+                    update_iduser = id
+                    print(" User id : " + id)
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
                     emailid = input(str("Email ID: "))
                     if(re.fullmatch(regex, emailid)):
-                        update_iduser = input(str("User ID to be updated: "))
+                        # update_iduser = input(str("User ID to be updated: "))
                         first_name = input(str("User First Name: "))
                         last_name = input(str("User Last Name: "))
                         user_age = input(str("User Age: "))
@@ -744,7 +785,9 @@ def user_session():
         elif user_option == "9":
             break
         else:
-            print("Invalid Selection!")
+            print("Invaliid Selection!")
+
+
 
 #Admin Authorization
 def auth_admin():
@@ -756,7 +799,7 @@ def auth_admin():
     if(re.fullmatch(regex, emailid)):
         print("Valid Email")
         # password = input(str("Password: "))
-        password = maskpass.askpass(mask="*") 
+        password = maskpass.askpass(mask="*")
         query_vals = (emailid,password)
         command_handler.execute("Select * from marino.admin where emailid = %s AND password = %s",query_vals)
 
@@ -787,16 +830,22 @@ def auth_staff():
     if(re.fullmatch(regex, emailid)):
         print("Valid Email")
         # password = input(str("Password: "))
-        password = maskpass.askpass(mask="*") 
+        password = maskpass.askpass(mask="*")
         query_vals = (emailid,password)
         command_handler.execute("Select * from marino.staff where emailid = %s AND password = %s",query_vals)
+        result = command_handler.fetchall()
+        columns = ['Staff_id ID']
+        print(f"{fg(109)}")
+        print(tabulate(result,headers=columns,tablefmt="grid"))
+        res=", ".join(map(str,result))
+        id= res[1:-2]
 
         if command_handler.rowcount<=0:
          print (f"{fg(1)}Login not recognized")
         else:
             print("")
-            print(f"{fg(2)}Welcome " + emailid)
-            staff_session()
+            print(f"{fg(2)}Welcome " + emailid + " " +id)
+            staff_session(id)
     else:
         print("Invalid Email format, Try again")
         auth_staff()
@@ -810,16 +859,23 @@ def auth_user():
     emailid = input(str("Email ID: "))
     if(re.fullmatch(regex, emailid)):
         # password = input(str("Password: "))
-        password = maskpass.askpass(mask="*") 
+        password = maskpass.askpass(mask="*")
         query_vals = (emailid,password)
         command_handler.execute("Select * from marino.user where emailid = %s AND password = %s",query_vals)
+        result = command_handler.fetchall()
+        columns = ['User ID']
+        print(f"{fg(109)}")
+        print(tabulate(result,headers=columns,tablefmt="grid"))
+        res=", ".join(map(str,result))
+        id= res[1:-2]
+        print(id)
 
         if command_handler.rowcount<=0:
             print (f"{fg(1)}Login not recognized")
         else:
             print("")
-            print(f"{fg(2)}Welcome " + emailid)
-            user_session()
+            print(f"{fg(2)}Welcome " + emailid+ " "+id)
+            user_session(id)
     else:
         print("Invalid Email format, Try again")
         auth_user()
