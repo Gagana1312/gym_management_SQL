@@ -587,6 +587,11 @@ def staff_session():
             elif a_option == "2":
                 print("")
                 print(f"{fg(73)}Delete an activity")
+                command_handler.execute ("Select * from activity")
+                result_act = command_handler.fetchall()
+                columns = ['Activity ID', 'Name of Activity','Alloted Room']
+                print(f"{fg(109)}")
+                print(tabulate(result_act,headers=columns,tablefmt="grid"))
 
                 idactivity = input(str("Enter the acitvity ID: "))
                 query_vals = (idactivity,)
@@ -595,9 +600,11 @@ def staff_session():
                 db.commit()
 
                 if command_handler.rowcount < 1:
-                    print("Activity doesn't exist")
+                    print("")
+                    print(f"{fg(1)}Activity doesn't exist")
                 else:
-                    print("Activity has been deleted successfully!")
+                    print("")
+                    print(f"{fg(2)}Activity has been deleted successfully!")
 
             elif a_option == "3":
                 print("")
@@ -624,6 +631,11 @@ def staff_session():
                     print("")
                     print(f"{fg(148)}Assign Activity to a User")
                     print("")
+                    command_handler.execute ("Select * from activity")
+                    result_act = command_handler.fetchall()
+                    columns = ['Activity ID', 'Name of Activity','Alloted Room']
+                    print(f"{fg(109)}")
+                    print(tabulate(result_act,headers=columns,tablefmt="grid"))
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
                     idactivity = input(str("Activity ID: "))
@@ -633,7 +645,8 @@ def staff_session():
                     command_handler.execute("Update activity SET room_no=%s,name=%s where idactivity=%s",query_vals)
             
                     db.commit()
-                    print(name + " Updated Successfully!")
+                    print("")
+                    print(name + f"{fg(2)} Updated Successfully!")
                     
                     # todo add condition to handle incorrect value
                     # if command_handler.rowcount < 1: 
