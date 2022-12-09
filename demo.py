@@ -101,6 +101,14 @@ def admin_session():
                     print("")
                     print(f"{fg(148)}Delete Existing Staff Account")
                     print("")
+                    print("")
+                    # emailid = input(str("Email ID: "))
+                    # query_vals = (emailid)
+                    command_handler.execute("Select * from staff")
+                    # fetch all the matching rows 
+                    result = command_handler.fetchall()
+                    columns = ['Staff ID', 'Staff name', 'Staff Age', 'Phone Number', "Email ID","Password"]
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
                     emailid = input(str("Email ID: "))
                     password = input(str("Password: "))
                     query_vals = (emailid,password)
@@ -149,6 +157,11 @@ def admin_session():
                     print("")
                     print(f"{fg(148)}Update Existing Staff Details")
                     print("")
+                    command_handler.execute("Select * from staff")
+                    # fetch all the matching rows 
+                    result = command_handler.fetchall()
+                    columns = ['Staff ID', 'Staff name', 'Staff Age', 'Phone Number', "Email ID","Password"]
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
                     update_idstaff = input(str("Staff ID to be updated: "))
