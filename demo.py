@@ -29,7 +29,7 @@ command_handler = conn.cursor()
 # command_handler = db.cursor(buffered=True)
 
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-Pattern = re.compile("(0|91)?[6-9][0-9]{9}")
+Pattern = re.compile(r"(?:\+\d{3})?\d{3}\D?\d{4}")
    
 #Admin Session 
 def admin_session():
@@ -69,7 +69,7 @@ def admin_session():
                         phone_number = input(str("Staff Phone Number: "))
                         
                         if Pattern.match(phone_number):
-                                 print("Valid")
+                                #  print("Valid")
                                  query_vals = (staff_name,staff_age,phone_number,emailid,password)
                                  command_handler.execute("call staff_reg(%s,%s,%s,%s,%s)",query_vals)
                                  conn.commit()
@@ -1131,7 +1131,7 @@ def auth_admin():
     emailid = input(str("Email ID: "))
   
     if(re.fullmatch(regex, emailid)):
-        print("Valid Email")
+        # print("Valid Email")
         # password = input(str("Password: "))
         password = maskpass.askpass(mask="*")
         query_vals = (emailid,password)
@@ -1162,7 +1162,7 @@ def auth_staff():
     print("")
     emailid = input(str("Email ID: "))
     if(re.fullmatch(regex, emailid)):
-        print("Valid Email")
+        # print("Valid Email")
         # password = input(str("Password: "))
         password = maskpass.askpass(mask="*")
         query_vals = (emailid,password)
@@ -1222,7 +1222,7 @@ def auth_new_user():
     print("")
     emailid = input(str("user emailid: "))
     if(re.fullmatch(regex, emailid)):
-        print("Valid Email")
+        # print("Valid Email")
         password = input(str("user password: "))
         first_name = input(str("First Name: "))
         last_name = input(str("Last Name: "))
