@@ -594,6 +594,13 @@ def staff_session(id):
                 columns = ['Locker ID', 'Type of Locker', 'User ID']
                 print(f"{fg(109)}")
                 print(tabulate(result,headers=columns,tablefmt="grid"))
+
+                print(f"{fg(73)}Viewing Locker without users")
+                command_handler.execute("select locker_without_users() from activity LIMIT 1")
+                result = command_handler.fetchall()
+                columns = ['Locker without users']
+                print(f"{fg(109)}")
+                print(tabulate(result,headers=columns,tablefmt="grid"))
                 # for row in result: 
                 #     print(row)
                 #     print("\n")
@@ -601,8 +608,7 @@ def staff_session(id):
 
                 if command_handler.rowcount < 1:
                     print("Lockers not found!")
-                else:
-                        print("Invalid option!")
+                
                 
             
             elif l_option == "5":
@@ -675,6 +681,13 @@ def staff_session(id):
                 command_handler.execute ("Select idequipment,name,idactivity from equipment")
                 result = command_handler.fetchall()
                 columns = ['Equipment ID', 'Name of Equipment', 'Activity ID']
+                print(f"{fg(109)}")
+                print(tabulate(result,headers=columns,tablefmt="grid"))
+
+                print(f"{fg(73)}Viewing Equipment without Activity")
+                command_handler.execute("select equipment_without_activity() from activity LIMIT 1")
+                result = command_handler.fetchall()
+                columns = ['Equipment without Activity']
                 print(f"{fg(109)}")
                 print(tabulate(result,headers=columns,tablefmt="grid"))
 
@@ -811,6 +824,12 @@ def staff_session(id):
                 print(f"{fg(109)}")
                 print(tabulate(result,headers=columns,tablefmt="grid"))
 
+                print(f"{fg(73)}Viewing Activity without Trainer")
+                command_handler.execute("select Activity_without_trainers() from activity LIMIT 1")
+                result = command_handler.fetchall()
+                columns = ['Activity without Trainers']
+                print(f"{fg(109)}")
+                print(tabulate(result,headers=columns,tablefmt="grid"))
 
                 # for row in result:
                 #     print (row)
@@ -957,17 +976,21 @@ def staff_session(id):
                         columns = ['Trainer ID', 'Trainer Name',"Trainer Age", 'Trainer Phone Number']
                         print(f"{fg(109)}")
                         print(tabulate(result,headers=columns,tablefmt="grid"))
-                        # for row in result: 
-                        #     print(row)
-                        #     print("\n")
                         conn.commit()
+                        print("")
+     
 
+
+                        print(f"{fg(73)}Viewing Activity without Trainer")
+                        command_handler.execute("select Activity_without_trainers() from activity LIMIT 1")
+                        result = command_handler.fetchall()
+                        columns = ['Activity without Trainers']
+                        print(f"{fg(109)}")
+                        print(tabulate(result,headers=columns,tablefmt="grid"))
+        
                         if command_handler.rowcount < 1:
                             print("Trainer not found!")
-                        else:
-                                print("Invalid option!")
-
-            
+                       
                     elif l_option == "5":
                         break
                     else:
@@ -1063,13 +1086,13 @@ def user_session(id):
         elif user_option == "4":
             print("")
             print(f"{fg(148)}Viewing Bill")
-            user_id = id
-            query_val = (user_id,)
             command_handler.execute ("select p.idpayment,a.price,a.idactivity,a.name from payment as p JOIN activity as a ON p.idactivity=a.idactivity JOIN user as u ON p.userid=u.userid where u.userid= %s GROUP BY p.idpayment",query_val)
             result_act = command_handler.fetchall()
             columns = ['Payment ID',"Rate", 'Activity ID','Activity Name','First Name',]
             print(f"{fg(109)}")
             print(tabulate(result_act,headers=columns,tablefmt="grid"))
+            user_id = id
+            query_val = (user_id,)
             command_handler.execute("select totalPayment(%s) from payment Limit 1",query_val)
             result = command_handler.fetchall()
             columns = ["Total Bill"]
