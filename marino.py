@@ -38,9 +38,9 @@ def admin_session():
         print("")
         print(f"{fg(23)}Welcome to Admin Panel")
         print("")
-        print(f"{fg(148)}1.Staff Panel")
-        print(f"{fg(148)}2.Student Panel")
-        print(f"{fg(148)}3.Back")
+        print(f"{fg(209)}1.Staff Panel")
+        print(f"{fg(209)}2.Student Panel")
+        print(f"{fg(209)}3.Back")
         print("")
 
         user_option = input(str(f"{fg(99)}Option : "))
@@ -49,10 +49,10 @@ def admin_session():
                 print("")
                 print(f"{fg(111)}Staff Panel")
                 print("")
-                print(f"{fg(205)}1. Register new staff")
-                print(f"{fg(205)}2. Delete existing staff")
-                print(f"{fg(205)}3. Read existing staff")
-                print(f"{fg(205)}4. Update existing staff")
+                print(f"{fg(209)}1. Register new staff")
+                print(f"{fg(209)}2. Delete existing staff")
+                print(f"{fg(209)}3. Read existing staff")
+                print(f"{fg(209)}4. Update existing staff")
                 print("5. Back")
                 admin_user_option = input(str(f"{fg(99)}Option : "))
 
@@ -79,6 +79,7 @@ def admin_session():
                                  print("")
                                  # emailid = input(str("Email ID: "))
                                  # query_vals = (emailid)
+                                 print(f"{fg(229)}")
                                  command_handler.execute("Select * from staff")
                                  # fetch all the matching rows 
                                  result = command_handler.fetchall()
@@ -104,6 +105,7 @@ def admin_session():
                     print("")
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
+                    print(f"{fg(229)}")
                     command_handler.execute("Select * from staff")
                     # fetch all the matching rows 
                     result = command_handler.fetchall()
@@ -125,6 +127,7 @@ def admin_session():
                         print("")
                         # emailid = input(str("Email ID: "))
                         # query_vals = (emailid)
+                        print(f"{fg(229)}")
                         command_handler.execute("Select * from staff")
                         # fetch all the matching rows 
                         result = command_handler.fetchall()
@@ -137,6 +140,7 @@ def admin_session():
                     print("")
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
+                    print(f"{fg(229)}")
                     command_handler.execute("Select * from staff")
                     # fetch all the matching rows 
                     result = command_handler.fetchall()
@@ -157,6 +161,7 @@ def admin_session():
                     print("")
                     print(f"{fg(111)}Update Existing Staff Details")
                     print("")
+                    print(f"{fg(229)}")
                     command_handler.execute("Select * from staff")
                     # fetch all the matching rows 
                     result = command_handler.fetchall()
@@ -168,6 +173,7 @@ def admin_session():
                     staff_name = input(str(f"{fg(148)}Staff Name: "))
                     staff_age = input(str(f"{fg(148)}Staff Age: "))
                     phone_number = input(str(f"{fg(148)}Staff Phone Number: "))
+            
                     query_vals = (staff_name,staff_age,phone_number,update_idstaff)
                     command_handler.execute("Update staff SET staff_name = %s,staff_age=%s,phone_number=%s where idstaff=%s",query_vals)
             
@@ -178,6 +184,7 @@ def admin_session():
                     print("")
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
+                    print(f"{fg(229)}")
                     command_handler.execute("Select * from staff")
                     # fetch all the matching rows 
                     result = command_handler.fetchall()
@@ -200,13 +207,13 @@ def admin_session():
                 print("")
                 print(f"{fg(203)}User Panel")
                 print("")
-                print(f"{fg(203)}1. Register new user")
+                print(f"{fg(209)}1. Register new user")
 
-                print(f"{fg(203)}2. Delete existing user")
+                print(f"{fg(209)}2. Delete existing user")
 
-                print(f"{fg(203)}3. Read existing user")
+                print(f"{fg(209)}3. Read existing user")
 
-                print(f"{fg(203)}4. Update existing user")
+                print(f"{fg(209)}4. Update existing user")
 
                 print("5. Back")
         
@@ -234,6 +241,7 @@ def admin_session():
                         print("")
                         # emailid = input(str("Email ID: "))
                         # query_vals = (emailid)
+                        print(f"{fg(229)}")
                         command_handler.execute("Select * from user")
                         # fetch all the matching rows 
                         result = command_handler.fetchall()
@@ -267,6 +275,7 @@ def admin_session():
                         print("")
                         # emailid = input(str("Email ID: "))
                         # query_vals = (emailid)
+                        print(f"{fg(229)}")
                         command_handler.execute("Select * from user")
                         # fetch all the matching rows 
                         result = command_handler.fetchall()
@@ -282,6 +291,7 @@ def admin_session():
                     print("")
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
+                    print(f"{fg(229)}")
                     command_handler.execute("Select * from user")
                     # fetch all the matching rows 
                     result = command_handler.fetchall()
@@ -305,6 +315,7 @@ def admin_session():
                     print("")
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
+                    print(f"{fg(229)}")
                     command_handler.execute("Select * from user")
                     # fetch all the matching rows 
                     result = command_handler.fetchall()
@@ -328,6 +339,7 @@ def admin_session():
                     print("")
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
+                    print(f"{fg(229)}")
                     command_handler.execute("Select * from user")
                     # fetch all the matching rows 
                     result = command_handler.fetchall()
@@ -353,12 +365,12 @@ def staff_session(id):
         print("")
         print(f"{fg(111)}Welcome to Staff Panel")
         print("")
-        print(f"{fg(203)}1.User Panel")
-        print(f"{fg(203)}2.Locker Panel")
-        print(f"{fg(203)}3.Equipment Panel")
-        print(f"{fg(203)}4.Activity Panel")
-        print(f"{fg(203)}5.Trainer Panel")
-        print(f"{fg(203)}6.Back")
+        print(f"{fg(209)}1.User Panel")
+        print(f"{fg(209)}2.Locker Panel")
+        print(f"{fg(209)}3.Equipment Panel")
+        print(f"{fg(209)}4.Activity Panel")
+        print(f"{fg(209)}5.Trainer Panel")
+        print(f"{fg(209)}6.Back")
 
         user_option = input(str(f"{fg(99)}Option : "))
 
@@ -492,17 +504,18 @@ def staff_session(id):
          while 1:
             print(" ")
             print(f"{fg(111)}Welcome to Locker Panel")
-            print(f"{fg(203)}1. Create new locker")
-            print(f"{fg(203)}2. Delete locker")
-            print(f"{fg(203)}3. Assign a locker")
-            print(f"{fg(203)}4. View all lockers")
-            print(f"{fg(203)}5. Back")
+            print(f"{fg(209)}1. Create new locker")
+            print(f"{fg(209)}2. Delete locker")
+            print(f"{fg(209)}3. Assign a locker")
+            print(f"{fg(209)}4. View all lockers")
+            print(f"{fg(209)}5. Back")
             l_option = input(str(f"{fg(99)}Option :"))
             if l_option == "1":
                 print("")
                 print(f"{fg(73)}Create a new locker")
 
                 print(f"{fg(111)}Viewing a Locker")
+                print(f"{fg(229)}")
                 command_handler.execute ("Select idlocker, type_of_locker,userid from locker")
                 result = command_handler.fetchall()
                 columns = ['Locker ID', 'Type of Locker', 'User ID']
@@ -518,6 +531,7 @@ def staff_session(id):
                 conn.commit()
                 print("New locker has been created!")
                 print(f"{fg(73)}Updated Locker")
+                print(f"{fg(229)}")
                 command_handler.execute ("Select idlocker, type_of_locker,userid from locker")
                 result = command_handler.fetchall()
                 columns = ['Locker ID', 'Type of Locker', 'User ID']
@@ -527,6 +541,7 @@ def staff_session(id):
             elif l_option == "2":
                 print("")
                 print(f"{fg(111)}Delete a locker")
+                print(f"{fg(229)}")
                 command_handler.execute ("Select idlocker,type_of_locker from locker")
                 result = command_handler.fetchall()
                 columns = ['Locker ID', 'Type of Locker']
@@ -543,6 +558,7 @@ def staff_session(id):
                 else:
                     print(idlocker + " locker has been deleted successfully")
                     print(f"{fg(2)}Viewing a Locker")
+                    print(f"{fg(229)}")
                     command_handler.execute ("Select idlocker, type_of_locker,userid from locker")
                     result = command_handler.fetchall()
                     columns = ['Locker ID', 'Type of Locker', 'User ID']
@@ -554,6 +570,7 @@ def staff_session(id):
                     print(f"{fg(111)}Assign locker to a User")
                     print("")
                     print(f"{fg(78)}Available Lockers")
+                    print(f"{fg(229)}")
                     command_handler.execute ("Select idlocker,type_of_locker,userid from locker where userid=0 ")
                     result = command_handler.fetchall()
                     columns = ['Locker ID', 'Type of Locker','user_id']
@@ -569,6 +586,7 @@ def staff_session(id):
                     conn.commit()
                     print(idlocker + " Updated Successfully!")
                     print(f"{fg(111)}Viewing a Locker")
+                    print(f"{fg(229)}")
                     command_handler.execute ("Select idlocker, type_of_locker,userid from locker")
                     result = command_handler.fetchall()
                     columns = ['Locker ID', 'Type of Locker', 'User ID']
@@ -586,13 +604,14 @@ def staff_session(id):
             elif l_option == "4":
                 print("")
                 print(f"{fg(111)}Viewing a Locker")
+                print(f"{fg(229)}")
                 command_handler.execute ("Select idlocker, type_of_locker,userid from locker")
                 result = command_handler.fetchall()
                 columns = ['Locker ID', 'Type of Locker', 'User ID']
                 print(f"{fg(109)}")
                 print(tabulate(result,headers=columns,tablefmt="grid"))
-
                 print(f"{fg(111)}Viewing Locker without users")
+                print(f"{fg(229)}")
                 command_handler.execute("select locker_without_users() from activity LIMIT 1")
                 result = command_handler.fetchall()
                 columns = ['Locker without users']
@@ -617,11 +636,11 @@ def staff_session(id):
          while 1:
             print(" ")
             print(f"{fg(111)}Welcome to Equipment Panel")
-            print(f"{fg(205)}1. Add an equipment")
-            print(f"{fg(205)}2. Delete an equipment")
-            print(f"{fg(205)}3. View all equipments")
-            print(f"{fg(205)}4. Assign an equipment")
-            print(f"{fg(205)}5. Back")
+            print(f"{fg(209)}1. Add an equipment")
+            print(f"{fg(209)}2. Delete an equipment")
+            print(f"{fg(209)}3. View all equipments")
+            print(f"{fg(209)}4. Assign an equipment")
+            print(f"{fg(209)}5. Back")
 
             e_option = input(str(f"{fg(99)}Option : "))
             if e_option == "1":
@@ -632,12 +651,14 @@ def staff_session(id):
                 idstaff = id
                 idactivity = 0
                 query_vals = (name,idstaff,idactivity)
+                print(f"{fg(229)}")
                 # command_handler.execute("Insert into marino.equipment(name,idstaff,idactivity) values(%s,%s,%s)",query_vals)
                 command_handler.execute("call equipment_reg(%s,%s,%s)",query_vals)
                 conn.commit()
-                print("New equipment has been added!")
+                print(f"{fg(2)}New equipment has been added!")
                 print("")
                 print(f"{fg(111)}Viewing all Equipments")
+                print(f"{fg(229)}")
                 command_handler.execute ("Select idequipment,name,idactivity from equipment")
                 result = command_handler.fetchall()
                 columns = ['Equipment ID', 'Name of Equipment', 'Activity ID']
@@ -647,15 +668,16 @@ def staff_session(id):
             elif e_option == "2":
                 print("")
                 print(f"{fg(111)}Remove an equipment")
+                print(f"{fg(229)}")
                 command_handler.execute ("Select idequipment,name from equipment")
                 result = command_handler.fetchall()
                 columns = ['Equipment ID', 'Name of Equipment']
                 print(f"{fg(109)}")
                 print(tabulate(result,headers=columns,tablefmt="grid"))
-
                 idequipment = input(str(f"{fg(148)}Enter the Equipment ID : "))
                 query_vals = (idequipment,)
                 # command_handler.execute("Delete from equipment where idequipment = %s",query_vals)
+                print(f"{fg(229)}")
                 command_handler.execute("call equipment_del(%s)",query_vals)
                 conn.commit()
                 if command_handler.rowcount < 1:
@@ -663,7 +685,7 @@ def staff_session(id):
                 else:
                     print(idequipment + " equipment has been deleted successfully")
                     print(f"{fg(73)}Updated all Equipments")
-
+                    print(f"{fg(229)}")
                     command_handler.execute ("Select idequipment,name,idactivity from equipment")
                     result = command_handler.fetchall()
                     columns = ['Equipment ID', 'Name of Equipment', 'Activity ID']
@@ -674,14 +696,14 @@ def staff_session(id):
             elif e_option == "3":
                 print("")
                 print(f"{fg(111)}Viewing all Equipments")
-
+                print(f"{fg(229)}")
                 command_handler.execute ("Select idequipment,name,idactivity from equipment")
                 result = command_handler.fetchall()
                 columns = ['Equipment ID', 'Name of Equipment', 'Activity ID']
                 print(f"{fg(109)}")
                 print(tabulate(result,headers=columns,tablefmt="grid"))
-
                 print(f"{fg(73)}Viewing Equipment without Activity")
+                print(f"{fg(229)}")
                 command_handler.execute("select equipment_without_activity() from activity LIMIT 1")
                 result = command_handler.fetchall()
                 columns = ['Equipment without Activity']
@@ -700,6 +722,7 @@ def staff_session(id):
                     print("")
                     print(f"{fg(111)}Assign Equipment to a Activity")
                     print("")
+                    print(f"{fg(229)}")
                     command_handler.execute ("Select idequipment,name from equipment")
                     result_eqp = command_handler.fetchall()
                     columns = ['Equipment ID', 'Name of Equipment']
@@ -720,7 +743,7 @@ def staff_session(id):
                     conn.commit()
                     print(idequipment + " Updated Successfully!")
                     print(f"{fg(111)}Viewing all Equipments")
-
+                    print(f"{fg(229)}")
                     command_handler.execute ("Select idequipment,name,idactivity from equipment")
                     result = command_handler.fetchall()
                     columns = ['Equipment ID', 'Name of Equipment', 'Activity ID']
@@ -745,11 +768,11 @@ def staff_session(id):
          while 1:
             print(" ")
             print(f"{fg(111)}Welcome to Activity Panel")
-            print(f"{fg(148)}1. Create an activity")
-            print(f"{fg(148)}2. Delete an activity")
-            print(f"{fg(148)}3. View all activity")
-            print(f"{fg(148)}4. Update an activity")
-            print(f"{fg(148)}5. Back")
+            print(f"{fg(209)}1. Create an activity")
+            print(f"{fg(209)}2. Delete an activity")
+            print(f"{fg(209)}3. View all activity")
+            print(f"{fg(209)}4. Update an activity")
+            print(f"{fg(209)}5. Back")
 
             a_option = input(str(f"{fg(99)}Option : "))
             if a_option == "1":
@@ -765,7 +788,7 @@ def staff_session(id):
                 command_handler.execute("call activity_reg(%s,%s,%s)",query_vals)
                 conn.commit()
 
-                print("New Activity has been created!")
+                print(f"{fg(2)}New Activity has been created!")
 
                 print(f"{fg(73)}Updated all activity")
 
@@ -786,7 +809,6 @@ def staff_session(id):
                 columns = ['Activity ID', 'Name of Activity','Alloted Room','Rate']
                 print(f"{fg(109)}")
                 print(tabulate(result_act,headers=columns,tablefmt="grid"))
-
                 idactivity = input(str(f"{fg(148)}Enter the acitvity ID: "))
                 query_vals = (idactivity,)
                 # command_handler.execute("Delete from activity where idactivity = %s", query_vals)
@@ -887,11 +909,11 @@ def staff_session(id):
             while 1:
                     print(" ")
                     print(f"{fg(111)}Welcome to Trainer Panel")
-                    print(f"{fg(205)}1. Create new trainer")
-                    print(f"{fg(205)}2. Remove trainer")
-                    print(f"{fg(205)}3. Assign a trainer")
-                    print(f"{fg(205)}4. View all trainers")
-                    print(f"{fg(205)}5. Back")
+                    print(f"{fg(209)}1. Create new trainer")
+                    print(f"{fg(209)}2. Remove trainer")
+                    print(f"{fg(209)}3. Assign a trainer")
+                    print(f"{fg(209)}4. View all trainers")
+                    print(f"{fg(209)}5. Back")
                     l_option = input(str(f"{fg(99)}Option :"))
                     if l_option == "1":
                         print("")
@@ -1020,14 +1042,14 @@ def user_session(id):
         print(" ")
         print(f"{fg(111)}Welcome to User Panel")
         print(" ")
-        print(f"{fg(208)}1. Register new Activity")     
-        print(f"{fg(208)}2. Delete existing activity")
-        print(f"{fg(208)}3. View your locker")
-        print(f"{fg(208)}4. View Bill")
-        print(f"{fg(208)}5. Update User details")
-        print(f"{fg(208)}6. Logout")
+        print(f"{fg(209)}1. Register new Activity")     
+        print(f"{fg(209)}2. Delete existing activity")
+        print(f"{fg(209)}3. View your locker")
+        print(f"{fg(209)}4. View Bill")
+        print(f"{fg(209)}5. Update User details")
+        print(f"{fg(209)}6. Logout")
 
-        user_option = input(str("Option : "))
+        user_option = input(str(f"{fg(55)}Option : "))
        
         if user_option == "1":
             print("")
@@ -1065,9 +1087,9 @@ def user_session(id):
             command_handler.execute("call payment_del(%s)",query_vals)
             conn.commit()
             if command_handler.rowcount < 1: 
-                print("Activity not found")
+                print(f"{fg(2)}Activity not found")
             else:
-                print(activityId + " has been deleted!")
+                print(f"{fg(1)}"+activityId + " has been deleted!")
 
         elif user_option == "3":
             print("")
@@ -1285,11 +1307,11 @@ def main():
         f = Figlet(font='slant')
         print (f.renderText('MARINO DBMS'))
         print(" ")
-        print(f"{fg(148)}1. Login as admin")
-        print(f"{fg(148)}2. Login as user")
-        print(f"{fg(148)}3. Login as staff")
-        print(f"{fg(148)}4. Register as user")
-        print(f"{fg(148)}5. Quit")
+        print(f"{fg(209)}1. Login as admin")
+        print(f"{fg(209)}2. Login as user")
+        print(f"{fg(209)}3. Login as staff")
+        print(f"{fg(209)}4. Register as user")
+        print(f"{fg(209)}5. Quit")
         # print("2. Login as user")
 
         user_option = input(str(f"{fg(99)}Option : "))
