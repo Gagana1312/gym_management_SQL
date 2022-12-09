@@ -29,6 +29,8 @@ command_handler = conn.cursor()
 # command_handler = db.cursor(buffered=True)
 
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+Pattern = re.compile("(0|91)?[6-9][0-9]{9}")
+   
 #Admin Session 
 def admin_session():
     # print("Login successfully, Welcome Admin!")
@@ -65,11 +67,21 @@ def admin_session():
                         staff_name = input(str("Staff Name: "))
                         staff_age = input(str("Staff Age: "))
                         phone_number = input(str("Staff Phone Number: "))
-                        query_vals = (staff_name,staff_age,phone_number,emailid,password)
+                        
+                        if Pattern.match(phone_number):
+                                 print("Valid")
+                                 query_vals = (staff_name,staff_age,phone_number,emailid,password)
+                                 command_handler.execute("call staff_reg(%s,%s,%s,%s,%s)",query_vals)
+                                 conn.commit()
+                                 print(emailid + f"{fg(2)} has been registered as a staff")
+                        else:
+                                print("Invalid Phone Number, Try again!")
+                                break
+                            
+
+                        
                         # command_handler.execute("INSERT INTO marino.staff (staff_name,staff_age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s)",query_vals)
-                        command_handler.execute("call staff_reg(%s,%s,%s,%s,%s)",query_vals)
-                        conn.commit()
-                        print(emailid + f"{fg(2)} has been registered as a staff")
+                        
                     else:
                         print("Invalid Email format, Try again")
                         break
@@ -750,6 +762,27 @@ def user_session(id):
         elif user_option == "4":
             print("")
             print(f"{fg(148)}Viewing Bill")
+            user_id = id
+            query_val = (user_id,)
+            command_handler.execute ("select p.idpayment,a.price,a.idactivity,a.name from payment as p JOIN activity as a ON p.idactivity=a.idactivity JOIN user as u ON p.userid=u.userid where u.userid= %s GROUP BY p.idpayment",query_val)
+            result_act = command_handler.fetchall()
+            columns = ['Payment ID',"Rate", 'Activity ID','Activity Name','First Name',]
+            print(f"{fg(109)}")
+            print(tabulate(result_act,headers=columns,tablefmt="grid"))
+            command_handler.execute("select totalPayment(%s) from payment Limit 1",query_val)
+            result = command_handler.fetchall()
+            columns = ["Total Bill"]
+            print(f"{fg(109)}")
+            print(tabulate(result,headers=columns,tablefmt="grid"))
+            conn.commit()
+
+            if command_handler.rowcount < 1: 
+                            print("")
+                            print("No Bill found")
+            else:
+                              print(f"{fg(2)}")
+                              print(user_id + " Bill Amount!")
+
 
         elif user_option == "5":
                     print("")
@@ -861,7 +894,7 @@ def auth_user():
         # password = input(str("Password: "))
         password = maskpass.askpass(mask="*")
         query_vals = (emailid,password)
-        command_handler.execute("Select * from marino.user where emailid = %s AND password = %s",query_vals)
+        command_handler.execute("Select userid from marino.user where emailid = %s AND password = %s",query_vals)
         result = command_handler.fetchall()
         columns = ['User ID']
         print(f"{fg(109)}")

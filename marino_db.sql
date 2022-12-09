@@ -331,10 +331,29 @@ DROP PROCEDURE IF EXISTS user_activity;
 delimiter $$
 create procedure user_activity(IN idactivity_ int, IN userid_ INT)
 begin
-Insert into marino.payment(idactivity,userid) values (idactivity_,userid_);
+Insert into payment(idactivity,userid) values (idactivity_,userid_);
 end
 $$
 
-call user_activity('17002','3');
+call user_activity(17001,1);
+select* from payment;
+
+DROP FUNCTION IF EXISTS marino.totalPayment;
+
+ DELIMITER //
+ CREATE FUNCTION totalPayment(id INT)
+ RETURNS INT
+DETERMINISTIC READS SQL DATA 
+BEGIN
+  DECLARE total_payment INT;
+select SUM(a.price)
+into total_payment
+from payment as p JOIN activity as a ON p.idactivity=a.idactivity 
+JOIN user as u ON p.userid=u.userid where u.userid = id;
+  RETURN(total_payment);
+END//
+
+
+SELECT  totalPayment(3) from payment LIMIT 1;
 
 
