@@ -1016,7 +1016,7 @@ def user_session(id):
         print(f"{fg(208)}3. View your locker")
         print(f"{fg(208)}4. View Bill")
         print(f"{fg(208)}5. Update User details")
-        print(f"{fg(208)}9. Logout")
+        print(f"{fg(208)}6. Logout")
 
         user_option = input(str("Option : "))
        
@@ -1139,7 +1139,7 @@ def user_session(id):
                         print("Invalid Email format, Try again")
                         break
                 
-        elif user_option == "9":
+        elif user_option == "6":
             break
         else:
             print("Invaliid Selection!")
@@ -1193,7 +1193,7 @@ def auth_staff():
         result = command_handler.fetchall()
         columns = ['Staff_id ID']
         print(f"{fg(109)}")
-        print(tabulate(result,headers=columns,tablefmt="grid"))
+        # print(tabulate(result,headers=columns,tablefmt="grid"))
         res=", ".join(map(str,result))
         id= res[1:-2]
 
@@ -1201,7 +1201,7 @@ def auth_staff():
          print (f"{fg(1)}Login not recognized")
         else:
             print("")
-            print(f"{fg(2)}Welcome " + emailid + " " +id)
+            print(f"{fg(2)}Welcome " + emailid + " " )
             staff_session(id)
     else:
         print("Invalid Email format, Try again")
@@ -1222,16 +1222,16 @@ def auth_user():
         result = command_handler.fetchall()
         columns = ['User ID']
         print(f"{fg(109)}")
-        print(tabulate(result,headers=columns,tablefmt="grid"))
+        # print(tabulate(result,headers=columns,tablefmt="grid"))
         res=", ".join(map(str,result))
         id= res[1:-2]
-        print(id)
+        # print(id)
 
         if command_handler.rowcount<=0:
             print (f"{fg(1)}Login not recognized")
         else:
             print("")
-            print(f"{fg(2)}Welcome " + emailid+ " "+id)
+            print(f"{fg(2)}Welcome " +emailid+ " ")
             user_session(id)
     else:
         print("Invalid Email format, Try again")
