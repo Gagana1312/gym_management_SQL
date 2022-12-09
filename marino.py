@@ -86,7 +86,7 @@ def admin_session():
                                  print(tabulate(result,headers=columns,tablefmt="grid"))
              
                         else:
-                                print("Invalid Phone Number, Try again!")
+                                print(f"{fg(1)}Invalid Phone Number, Try again!")
                                 break
                             
 
@@ -94,7 +94,7 @@ def admin_session():
                         # command_handler.execute("INSERT INTO marino.staff (staff_name,staff_age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s)",query_vals)
                         
                     else:
-                        print("Invalid Email format, Try again")
+                        print(f"{fg(1)}Invalid Email format, Try again")
                         break
 
                 elif admin_user_option == "2":
@@ -840,32 +840,35 @@ def staff_session(id):
 
             elif a_option == "4":
                     print("")
-                    print(f"{fg(148)}Assign Activity to a User")
+                    print(f"{fg(148)}Update Activity ")
                     print("")
-                    command_handler.execute ("Select  idactivity,name,room_no,price from activity")
+                    command_handler.execute ("Select  idactivity,name,room_no,price,idtrainer from activity")
                     result_act = command_handler.fetchall()
-                    columns = ['Activity ID', 'Name of Activity','Alloted Room',"Rate"]
+                    columns = ['Activity ID', 'Name of Activity','Alloted Room',"Rate","Trainer ID"]
                     print(f"{fg(109)}")
                     print(tabulate(result_act,headers=columns,tablefmt="grid"))
+
                     # emailid = input(str("Email ID: "))
                     # query_vals = (emailid)
                     idactivity = input(str("Activity ID: "))
                     name = input(str("activity Name: "))
                     room_no = input(str("Enter Room ID : "))
-                    query_vals = (room_no,name,idactivity)
-                    command_handler.execute("Update activity SET room_no=%s,name=%s where idactivity=%s",query_vals)
-            
+                    rate = input(str("Enter the rate of the activity: "))
+                    trainer_id = input(str("Enter Trainer ID: "))
+                    query_vals = (name,room_no,rate,trainer_id,idactivity)
+                    command_handler.execute("Update activity SET name=%s,room_no=%s,price=%s,idtrainer=%s where idactivity=%s",query_vals)
                     conn.commit()
+
                     print(name + " Updated Successfully!")
                     print("")
                     print(f"{fg(73)}Updated all activity")
 
-                    command_handler.execute("SELECT  idactivity,name,room_no,price from activity")
+                    command_handler.execute("SELECT  idactivity,name,room_no,price,idtrainer from activity")
                     # command_handler.execute("SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;")
                     # query_vals = ()
                     # command_handler.execute("call activity_Equip_table()",query_vals)
                     result = command_handler.fetchall()
-                    columns = ['Activity ID', 'Activity Name','Room Number',"Rate"]
+                    columns = ['Activity ID', 'Activity Name','Room Number',"Rate","Trainer ID"]
                     print(f"{fg(109)}")
                     print(tabulate(result,headers=columns,tablefmt="grid"))
 
@@ -1086,6 +1089,8 @@ def user_session(id):
         elif user_option == "4":
             print("")
             print(f"{fg(148)}Viewing Bill")
+            user_id=id
+            query_val = (id,)
             command_handler.execute ("select p.idpayment,a.price,a.idactivity,a.name from payment as p JOIN activity as a ON p.idactivity=a.idactivity JOIN user as u ON p.userid=u.userid where u.userid= %s GROUP BY p.idpayment",query_val)
             result_act = command_handler.fetchall()
             columns = ['Payment ID',"Rate", 'Activity ID','Activity Name','First Name',]
@@ -1204,7 +1209,8 @@ def auth_staff():
             print(f"{fg(2)}Welcome " + emailid + " " )
             staff_session(id)
     else:
-        print("Invalid Email format, Try again")
+        print("")
+        print(f"{fg(1)}Invalid Email format, Try again")
         auth_staff()
 
 
@@ -1234,7 +1240,8 @@ def auth_user():
             print(f"{fg(2)}Welcome " +emailid+ " ")
             user_session(id)
     else:
-        print("Invalid Email format, Try again")
+        print("")
+        print(f"{fg(1)}Invalid Email format, Try again")
         auth_user()
 
 
@@ -1258,7 +1265,8 @@ def auth_new_user():
 
         print("")
     else:
-        print("Invalid Email format, Try again")
+        print("")
+        print(f"{fg(1)}Invalid Email format, Try again")
         auth_new_user()    
    
 
