@@ -947,19 +947,28 @@ def staff_session(id):
                         columns = ['Trainer ID', 'Trainer Name',"Trainer Age", 'Trainer Phone Number']
                         print(f"{fg(109)}")
                         print(tabulate(result,headers=columns,tablefmt="grid"))
+
+
+                        command_handler.execute ("Select * from activity where idtrainer=0")
+                        result = command_handler.fetchall()
+                        columns = ['Activity ID', 'Activity Name',"Room No.",'Rate', 'Trainer ID']
+                        print(f"{fg(109)}")
+                        print(tabulate(result,headers=columns,tablefmt="grid"))
                         # query_vals = (emailid)
-                        update_iduser = input(str("Activity ID to be updated: "))
-                        trainer_id = input(str("Enter Trainer ID : "))
-                        query_vals = (update_iduser,trainer_id)
-                        command_handler.execute("Update trainer SET idtrainer=%s where idactivity=%s",query_vals)
+                        # activity_id = input(str("Activity ID to be updated: "))
+                        # trainer_id = input(str("Enter Trainer ID : "))
+                        activity_id = input("Activity ID to be updated: ")
+                        trainer_id = input("Enter Trainer ID : ")
+                        query_vals = (trainer_id,activity_id)
+                        command_handler.execute("Update activity SET idtrainer=%s where idactivity=%s",query_vals)
 
                         conn.commit()
-                        print(update_iduser + " Updated Successfully!")
+                        print(  " Updated Successfully!")
                         print("")
                         print(f"{fg(73)}Viewing Updated Trainer Data")
-                        command_handler.execute ("Select * from trainer")
+                        command_handler.execute ("Select * from activity")
                         result = command_handler.fetchall()
-                        columns = ['Trainer ID', 'Trainer Name',"Trainer Age", 'Trainer Phone Number']
+                        columns = ['Activity ID', 'Activity Name',"Room No.",'Rate', 'Trainer ID']
                         print(f"{fg(109)}")
                         print(tabulate(result,headers=columns,tablefmt="grid"))
 
@@ -1034,7 +1043,7 @@ def user_session(id):
             print(tabulate(result_act,headers=columns,tablefmt="grid"))
             # activityId = 17006
             activityId = input("Enter Activity ID: ")
-            user_id = 10
+            user_id = id
             query_vals = (activityId,user_id)
             command_handler.execute("call user_activity(%s,%s)",query_vals)
             conn.commit()
@@ -1049,7 +1058,7 @@ def user_session(id):
             # password = input(str("Password: "))
             user_id = id
             query_val = (user_id,)
-            command_handler.execute ("select p.idpayment,a.price,a.idactivity,a.name from payment as p JOIN activity as a ON p.idactivity=a.idactivity JOIN user as u ON p.userid=u.userid where u.userid= %s GROUP BY p.idpayment",query_val)
+            command_handler.execute ("select p.idpayment,a.price,a.idactivity,a.name from payment as p JOIN activity as a ON p.idactivity=a.idactivity JOIN user as u ON p.userid=u.userid where u.userid=%s GROUP BY p.idpayment",query_val)
             result_act = command_handler.fetchall()
             columns = ['Payment ID',"Rate", 'Activity ID','Activity Name','First Name',]
             print(f"{fg(109)}")
@@ -1091,7 +1100,7 @@ def user_session(id):
             print(f"{fg(148)}Viewing Bill")
             user_id=id
             query_val = (id,)
-            command_handler.execute ("select p.idpayment,a.price,a.idactivity,a.name from payment as p JOIN activity as a ON p.idactivity=a.idactivity JOIN user as u ON p.userid=u.userid where u.userid= %s GROUP BY p.idpayment",query_val)
+            command_handler.execute ("select p.idpayment,a.price,a.idactivity,a.name from payment as p JOIN activity as a ON p.idactivity=a.idactivity JOIN user as u ON p.userid=u.userid where u.userid=%s GROUP BY p.idpayment",query_val)
             result_act = command_handler.fetchall()
             columns = ['Payment ID',"Rate", 'Activity ID','Activity Name','First Name',]
             print(f"{fg(109)}")

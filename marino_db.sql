@@ -79,6 +79,16 @@ CREATE TABLE locker (
   on update restrict on delete cascade
 );
 
+
+DROP TABLE IF EXISTS trainer;
+CREATE TABLE trainer (
+  idtrainer int NOT NULL auto_increment,
+  Name varchar(45) NOT NULL,
+  age int NOT NULL,
+  phone_number int NOT NULL,
+  PRIMARY KEY (idtrainer)
+);
+
 DROP TABLE IF EXISTS activity;
 
 CREATE TABLE activity (
@@ -88,13 +98,13 @@ CREATE TABLE activity (
   price INT NOT NULL,
   -- duration time NOT NULL,
 --   date date NOT NULL,
-  -- idtrainer int NOT NULL,
+idtrainer int NOT NULL,
  --  user_id int NOT NULL,
-  PRIMARY KEY (idactivity)
-  -- CONSTRAINT idtrainer
-  -- FOREIGN KEY (idtrainer)
-  -- References trainer (idtrainer)
-  -- on update restrict on delete cascade,
+PRIMARY KEY (idactivity),
+CONSTRAINT idtrainer
+FOREIGN KEY (idtrainer)
+References trainer (idtrainer)
+on update restrict on delete cascade
  --  CONSTRAINT userid_fk_activity 
 --   FOREIGN KEY (user_id)
 --   REFERENCES user (userid)
@@ -136,6 +146,10 @@ CREATE TABLE payment (
   userid INT NOT NULL,
   PRIMARY KEY (idpayment)
 );
+
+
+
+
 
 
 INSERT INTO Admin VALUES 
@@ -189,7 +203,10 @@ INSERT INTO marino.equipment VALUES ('1101', 'soccer ball.', '603', '17001'),
 --   SELECT @@GLOBAL.foreign_key_checks, @@SESSION.foreign_key_checks;
 --   -- SET VARIABLES LIKE 'FOREIGN_KEY_CHECKS';
 --   
---   SELECT * FROM activity;
+  SELECT * FROM activity;
+  SELECT * FROM trainer;
+  SELECT  idactivity,name,room_no,price,idtrainer from activity;
+  Update activity SET name='table tennis',room_no=89,price=30,idtrainer=2 where idactivity=17007;
 --   SELECT * from equipment;
 --   
 --   SELECT * from activity as a , equipment as e where a.idactivity=e.idactivity;
@@ -199,6 +216,12 @@ INSERT INTO marino.equipment VALUES ('1101', 'soccer ball.', '603', '17001'),
 -- INSERT INTO marino.trainer VALUES ('301', 'Chris', '25', '784637380', 'chris@gmail.com', 'chris'),
 -- ('302', 'Felix', '24', '23432546', 'felix@gmail.com', 'felix'),
 -- ('303', 'Alex', '25', '33452878', 'alex@gmail.com', 'alex');
+
+INSERT INTO marino.activity VALUES ('17001', 'Soccer', '41',2000,'301'),
+('17002', 'Cricket', '42',1500,'303'),
+('17003', 'Tennis', '43',850,0),
+('17004', 'Squash', '44',900,0),
+ ('17005', 'disc golf', '46',1875,0);
 
 
 -- INSERT INTO marino.payment  VALUES ('101001', '17003', '3'), ('101002', '17003', '2')
@@ -287,13 +310,13 @@ call equipment_reg('hockey stick',604,17006);
 -- DROp procedure is exists activity_reg(name_,room_no,price_);
 
 -- delimiter $$
--- create procedure activity_reg(IN name_ varchar(40),IN room_no_ int,IN price_ int )
--- begin
--- Insert into marino.activity (name,room_no,price) values (name_,room_no_,price_);
+-- create procedure activity_reg(IN name_ varchar(40),IN room_no_ int,IN price_ int)
+-- begin 
+-- Insert into marino.activity (name,room_no,price,idtrainer) values (name_,room_no_,price_,0);
 -- end
 -- $$
-   
-call activity_reg('foosball',92,10);
+--    
+call activity_reg('foosball',97,10);
 
 
 select p.idpayment,a.price,a.idactivity,a.name,u.userid,u.first_name 
@@ -326,34 +349,106 @@ call activity_del(17006);
 -- end
 -- $$
 
-DROP PROCEDURE IF EXISTS user_activity;
+
+
+-- DROP PROCEDURE IF EXISTS user_activity;
+
+-- delimiter $$
+-- create procedure user_activity(IN idactivity_ int, IN userid_ INT)
+-- begin
+-- Insert into payment(idactivity,userid) values (idactivity_,userid_);
+-- end
+-- $$
+
+-- call user_activity(17001,1);
+-- select* from payment;
+
+-- DROP FUNCTION IF EXISTS marino.totalPayment;
+
+--  DELIMITER //
+--  CREATE FUNCTION totalPayment(id INT)
+--  RETURNS INT
+-- DETERMINISTIC READS SQL DATA 
+-- BEGIN
+--   DECLARE total_payment INT;
+-- select SUM(a.price)
+-- into total_payment
+-- from payment as p JOIN activity as a ON p.idactivity=a.idactivity 
+-- JOIN user as u ON p.userid=u.userid where u.userid = id;
+--   RETURN(total_payment);
+-- END//
+
+
+-- SELECT  totalPayment(3) from payment LIMIT 1;
+
+
 
 delimiter $$
-create procedure user_activity(IN idactivity_ int, IN userid_ INT)
+create procedure trainer_reg(IN name_ varchar(100), IN age_ INT, IN phone_number_ int)
 begin
-Insert into payment(idactivity,userid) values (idactivity_,userid_);
+Insert into marino.trainer(Name,age,phone_number) values (name_,age_,phone_number_);
 end
 $$
 
-call user_activity(17001,1);
-select* from payment;
 
-DROP FUNCTION IF EXISTS marino.totalPayment;
+call trainer_reg('Jack',26,1825437);
 
- DELIMITER //
- CREATE FUNCTION totalPayment(id INT)
- RETURNS INT
+select * from trainer;
+
+SELECT COUNT(idtrainer) from activity where idtrainer=0;
+
+DELIMITER //
+CREATE FUNCTION Activity_without_trainers()
+RETURNS INT
 DETERMINISTIC READS SQL DATA 
 BEGIN
-  DECLARE total_payment INT;
-select SUM(a.price)
-into total_payment
-from payment as p JOIN activity as a ON p.idactivity=a.idactivity 
-JOIN user as u ON p.userid=u.userid where u.userid = id;
-  RETURN(total_payment);
+DECLARE No_activity_without_trainers INT;
+SELECT COUNT(idtrainer)
+into No_activity_without_trainers
+from activity where idtrainer=0;
+RETURN(No_activity_without_trainers);
 END//
 
+SElect Activity_without_trainers() from activity;
 
-SELECT  totalPayment(3) from payment LIMIT 1;
+SELECT COUNT(userid) from locker where userid=0;
+
+
+DELIMITER //
+CREATE FUNCTION locker_without_users()
+RETURNS INT
+DETERMINISTIC READS SQL DATA 
+BEGIN
+DECLARE No_locker_without_users INT;
+SELECT COUNT(userid)
+into No_locker_without_users
+from locker where userid=0 limit 1;
+RETURN(No_locker_without_users);
+END//
+
+SElect locker_without_users() from activity limit 1;
+
+SELECT COUNT(idactivity) from equipment where idactivity=0;
+
+
+DELIMITER //
+CREATE FUNCTION equipment_without_activity()
+RETURNS INT
+DETERMINISTIC READS SQL DATA 
+BEGIN
+DECLARE No_equipment_without_activity INT;
+SELECT COUNT(idactivity)
+into No_equipment_without_activity
+from equipment where idactivity=0;
+RETURN(No_equipment_without_activity);
+END//
+
+SElect equipment_without_activity() from activity limit 1;
+
+
+Select * FROM payment where userid = 10 ;
+select * from payment;
+
+select p.idpayment,a.price,a.idactivity,a.name from payment as p JOIN activity as a ON p.idactivity=a.idactivity JOIN user as u ON p.userid=u.userid where u.userid= 10 GROUP BY p.idpayment
 
 
