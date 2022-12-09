@@ -29,6 +29,8 @@ command_handler = conn.cursor()
 # command_handler = db.cursor(buffered=True)
 
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+Pattern = re.compile("(0|91)?[6-9][0-9]{9}")
+   
 #Admin Session 
 def admin_session():
     # print("Login successfully, Welcome Admin!")
@@ -65,11 +67,32 @@ def admin_session():
                         staff_name = input(str("Staff Name: "))
                         staff_age = input(str("Staff Age: "))
                         phone_number = input(str("Staff Phone Number: "))
-                        query_vals = (staff_name,staff_age,phone_number,emailid,password)
+                        
+                        if Pattern.match(phone_number):
+                                 print("Valid")
+                                 query_vals = (staff_name,staff_age,phone_number,emailid,password)
+                                 command_handler.execute("call staff_reg(%s,%s,%s,%s,%s)",query_vals)
+                                 conn.commit()
+                                 print(emailid + f"{fg(2)} has been registered as a staff")
+                                 print("")
+                                 print(f"{fg(148)}Updated Staff Details")
+                                 print("")
+                                 # emailid = input(str("Email ID: "))
+                                 # query_vals = (emailid)
+                                 command_handler.execute("Select * from staff")
+                                 # fetch all the matching rows 
+                                 result = command_handler.fetchall()
+                                 columns = ['Staff ID', 'Staff name', 'Staff Age', 'Phone Number', "Email ID","Password"]
+                                 print(tabulate(result,headers=columns,tablefmt="grid"))
+             
+                        else:
+                                print("Invalid Phone Number, Try again!")
+                                break
+                            
+
+                        
                         # command_handler.execute("INSERT INTO marino.staff (staff_name,staff_age,phone_number,emailid,password) VALUES (%s,%s,%s,%s,%s)",query_vals)
-                        command_handler.execute("call staff_reg(%s,%s,%s,%s,%s)",query_vals)
-                        conn.commit()
-                        print(emailid + f"{fg(2)} has been registered as a staff")
+                        
                     else:
                         print("Invalid Email format, Try again")
                         break
@@ -89,6 +112,16 @@ def admin_session():
                     else:
                         print("")
                         print(emailid + f"{fg(1)} has been deleted!")
+                        print("")
+                        print(f"{fg(148)}Updated Staff Details")
+                        print("")
+                        # emailid = input(str("Email ID: "))
+                        # query_vals = (emailid)
+                        command_handler.execute("Select * from staff")
+                        # fetch all the matching rows 
+                        result = command_handler.fetchall()
+                        columns = ['Staff ID', 'Staff name', 'Staff Age', 'Phone Number', "Email ID","Password"]
+                        print(tabulate(result,headers=columns,tablefmt="grid"))
 
                 elif admin_user_option == "3":
                     print("")
@@ -127,6 +160,16 @@ def admin_session():
             
                     conn.commit()
                     print("Updated Successfully!")
+                    print("")
+                    print(f"{fg(148)}Updated Staff Details")
+                    print("")
+                    # emailid = input(str("Email ID: "))
+                    # query_vals = (emailid)
+                    command_handler.execute("Select * from staff")
+                    # fetch all the matching rows 
+                    result = command_handler.fetchall()
+                    columns = ['Staff ID', 'Staff name', 'Staff Age', 'Phone Number', "Email ID","Password"]
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
                     if command_handler.rowcount < 1: 
                         print("")
                         print("No Staff found")
@@ -173,6 +216,18 @@ def admin_session():
                         command_handler.execute("call user_reg(%s,%s,%s,%s,%s,%s)",query_vals)
                         conn.commit()
                         print(first_name + f"{fg(2)} has been registered as a User")
+                        print("")
+                        print(f"{fg(148)}Updated User Details")
+                        print("")
+                        # emailid = input(str("Email ID: "))
+                        # query_vals = (emailid)
+                        command_handler.execute("Select * from user")
+                        # fetch all the matching rows 
+                        result = command_handler.fetchall()
+                        columns = ['User ID', 'First Name','Last Name', 'User Age', 'Phone Number', "Email ID","Password"]
+                        print(f"{fg(109)}")
+                        print(tabulate(result,headers=columns,tablefmt="grid"))
+
                     else:
                         print("Invalid Email format, Try again")
                         break
@@ -194,6 +249,17 @@ def admin_session():
                         print("User not found")
                     else:
                         print(emailid + f"{fg(1)} has been deleted!")
+                        print("")
+                        print(f"{fg(148)}Updated User Details")
+                        print("")
+                        # emailid = input(str("Email ID: "))
+                        # query_vals = (emailid)
+                        command_handler.execute("Select * from user")
+                        # fetch all the matching rows 
+                        result = command_handler.fetchall()
+                        columns = ['User ID', 'First Name','Last Name', 'User Age', 'Phone Number', "Email ID","Password"]
+                        print(f"{fg(109)}")
+                        print(tabulate(result,headers=columns,tablefmt="grid"))
 
        
 
@@ -237,6 +303,17 @@ def admin_session():
                     conn.commit()
                     print(f"{fg(2)}")
                     print(first_name + " Updated Successfully!")
+                    print("")
+                    print(f"{fg(148)}Updated User Details")
+                    print("")
+                    # emailid = input(str("Email ID: "))
+                    # query_vals = (emailid)
+                    command_handler.execute("Select * from user")
+                    # fetch all the matching rows 
+                    result = command_handler.fetchall()
+                    columns = ['User ID', 'First Name','Last Name', 'User Age', 'Phone Number', "Email ID","Password"]
+                    print(f"{fg(109)}")
+                    print(tabulate(result,headers=columns,tablefmt="grid"))
                     if command_handler.rowcount < 1: 
                         print("")
                         print("No User found")
@@ -260,7 +337,8 @@ def staff_session(id):
         print("2.Locker Panel")
         print("3.Equipment Panel")
         print("4.Activity Panel")
-        print("5.Back")
+        print("5.Trainer Panel")
+        print("6.Back")
 
         user_option = input(str(f"{fg(99)}Option : "))
 
@@ -581,16 +659,16 @@ def staff_session(id):
                 room_no = input(str("Enter the room number for the activity: "))
                 price = input(str('Enter activity rate: '))
 
-                query_vals = (name,room_no)
+                query_vals = (name,room_no,price)
                 # command_handler.execute("Insert into marino.activity (name,room_no) values (%s,%s)",query_vals)
                 command_handler.execute("call activity_reg(%s,%s,%s)",query_vals)
                 conn.commit()
 
-                print("New Activity has been created!")
+                print("New Trainer has been created!")
             elif a_option == "2":
                 print("")
                 print(f"{fg(55)}Delete an activity")
-                command_handler.execute ("Select * from activity")
+                command_handler.execute ("Select idactivity,name,room_no,price from activity")
                 result_act = command_handler.fetchall()
                 columns = ['Activity ID', 'Name of Activity','Alloted Room','Rate']
                 print(f"{fg(109)}")
@@ -611,7 +689,7 @@ def staff_session(id):
                 print("")
                 print(f"{fg(73)}View all activity")
 
-                command_handler.execute("SELECT * from activity")
+                command_handler.execute("SELECT  idactivity,name,room_no,price from activity")
                 # command_handler.execute("SELECT a.idactivity,a.name,a.room_no,e.idequipment,e.name from activity as a JOIN equipment as e ON a.idactivity=e.idactivity;")
                 # query_vals = ()
                 # command_handler.execute("call activity_Equip_table()",query_vals)
@@ -632,7 +710,7 @@ def staff_session(id):
                     print("")
                     print(f"{fg(148)}Assign Activity to a User")
                     print("")
-                    command_handler.execute ("Select * from activity")
+                    command_handler.execute ("Select  idactivity,name,room_no,price from activity")
                     result_act = command_handler.fetchall()
                     columns = ['Activity ID', 'Name of Activity','Alloted Room',"Rate"]
                     print(f"{fg(109)}")
@@ -663,10 +741,108 @@ def staff_session(id):
                 print(f"{fg(1)}Invaliid Selection!")
    
         elif user_option == "5":
+            while 1:
+                    print(" ")
+                    print(f"{fg(73)}Welcome to Trainer Panel")
+                    print("1. Create new trainer")
+                    print("2. Remove trainer")
+                    print("3. Assign a trainer")
+                    print("4. View all trainers")
+                    print("5. Back")
+                    l_option = input(str(f"{fg(99)}Option :"))
+                    if l_option == "1":
+                        print("")
+                        print(f"{fg(73)}Create a new trainer")
+
+
+                        trainer_name = input(str("Enter Trainer name: "))
+                        trainer_age = input(str("Enter Trainer age: "))
+                        trainer_phoneNumber = input(str("Enter Trainer phone Number: "))
+                        # userid = input(str("Enter the user ID : "))
+                        query_vals = (trainer_name,trainer_age,trainer_phoneNumber)
+                        # command_handler.execute("Insert into marino.locker(type_of_locker,idstaff,userid) values(%s,%s,0)",query_vals)
+                        command_handler.execute("call trainer_reg(%s,%s,%s)",query_vals)
+                        conn.commit()
+                        print("New Trainer has been created!")
+
+                    elif l_option == "2":
+                        print("")
+                        print(f"{fg(73)}Remove a Trainer")
+                        # command_handler.execute ("Select idlocker,type_of_locker from locker")
+                        # result = command_handler.fetchall()
+                        # columns = ['Locker ID', 'Type of Locker']
+                        # print(f"{fg(109)}")
+                        # print(tabulate(result,headers=columns,tablefmt="grid"))
+
+                        trainer_id = input(str("Enter the Trainer ID : "))
+                        query_vals = (trainer_id,)
+                        # command_handler.execute("Delete from locker where trainer_id = %s",query_vals)
+                        command_handler.execute("Delete from trainer where idtrainer = %s;",query_vals)
+                        conn.commit()
+                        if command_handler.rowcount < 1:
+                            print("Trainer Not found")
+                        else:
+                            print(trainer_id + " trainer has been deleted successfully")
+
+                    elif l_option == "3":
+                        print("")
+                        print(f"{fg(148)}Assign Trainer to a Activity")
+                        print("")
+                        print("Available Trainers")
+                        # command_handler.execute ("Select idlocker,type_of_locker,userid from locker where userid=0 ")
+                        # result = command_handler.fetchall()
+                        # columns = ['Locker ID', 'Type of Locker','user_id']
+                        # print(f"{fg(109)}")
+                        # print(tabulate(result,headers=columns,tablefmt="grid"))
+                        # emailid = input(str("Email ID: "))
+                        # query_vals = (emailid)
+                        update_iduser = input(str("Activity ID to be updated: "))
+                        trainer_id = input(str("Enter Trainer ID : "))
+                        query_vals = (update_iduser,trainer_id)
+                        command_handler.execute("Update trainer SET idtrainer=%s where idactivity=%s",query_vals)
+
+                        conn.commit()
+                        print(update_iduser + " Updated Successfully!")
+
+                        # todo add condition to handle incorrect value
+                        # if command_handler.rowcount < 1: 
+                        #     print("")
+                        #     print("No User found")
+                        # else:
+                        #       print(f"{fg(2)}")
+                        #       print(idlocker + " Updated Successfully!")
+
+                    elif l_option == "4":
+                        print("")
+                        print(f"{fg(73)}Viewing all Trainer")
+                        command_handler.execute ("Select * from trainer")
+                        result = command_handler.fetchall()
+                        columns = ['Trainer ID', 'Trainer Name',"Trainer Age", 'Trainer Phone Number']
+                        print(f"{fg(109)}")
+                        print(tabulate(result,headers=columns,tablefmt="grid"))
+                        # for row in result: 
+                        #     print(row)
+                        #     print("\n")
+                        conn.commit()
+
+                        if command_handler.rowcount < 1:
+                            print("Trainer not found!")
+                        else:
+                                print("Invalid option!")
+
+            
+                    elif l_option == "5":
+                        break
+                    else:
+                         print(f"{fg(1)}Invalid Selection!")
+
+
+        
+        elif user_option == "6":
             break
         
         else:
-            print(f"{fg(1)}Invaliid Selection!")
+            print(f"{fg(1)}Invalid Selection!")
        
 
 #User session
@@ -750,6 +926,27 @@ def user_session(id):
         elif user_option == "4":
             print("")
             print(f"{fg(148)}Viewing Bill")
+            user_id = id
+            query_val = (user_id,)
+            command_handler.execute ("select p.idpayment,a.price,a.idactivity,a.name from payment as p JOIN activity as a ON p.idactivity=a.idactivity JOIN user as u ON p.userid=u.userid where u.userid= %s GROUP BY p.idpayment",query_val)
+            result_act = command_handler.fetchall()
+            columns = ['Payment ID',"Rate", 'Activity ID','Activity Name','First Name',]
+            print(f"{fg(109)}")
+            print(tabulate(result_act,headers=columns,tablefmt="grid"))
+            command_handler.execute("select totalPayment(%s) from payment Limit 1",query_val)
+            result = command_handler.fetchall()
+            columns = ["Total Bill"]
+            print(f"{fg(109)}")
+            print(tabulate(result,headers=columns,tablefmt="grid"))
+            conn.commit()
+
+            if command_handler.rowcount < 1: 
+                            print("")
+                            print("No Bill found")
+            else:
+                              print(f"{fg(2)}")
+                              print(user_id + " Bill Amount!")
+
 
         elif user_option == "5":
                     print("")
@@ -861,7 +1058,7 @@ def auth_user():
         # password = input(str("Password: "))
         password = maskpass.askpass(mask="*")
         query_vals = (emailid,password)
-        command_handler.execute("Select * from marino.user where emailid = %s AND password = %s",query_vals)
+        command_handler.execute("Select userid from marino.user where emailid = %s AND password = %s",query_vals)
         result = command_handler.fetchall()
         columns = ['User ID']
         print(f"{fg(109)}")
