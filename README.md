@@ -3,7 +3,6 @@
 
 The project is a DBMS demonstration script that showcases the power of structured data management. With Python as its programming language, this project explores essential DBMS concepts, including triggers, functions, and various database operations. Users can interact with a simulated database environment, gaining hands-on experience in creating tables, inserting data, querying records, updating information, and deleting data. The project serves as a valuable resource for learning and understanding DBMS principles, empowering users to harness the capabilities of modern database systems effectively.
 
-This project, available at [arps18/dbms_project](https://github.com/arps18/dbms_project/blob/main/demo.py), implements a demo script `demo.py` for a database management system (DBMS) project.
 
 ### Usage Instructions:
 
