@@ -1,1 +1,1 @@
-# Marino Center Database Management System
+# Marino Center GYM Database Management System
